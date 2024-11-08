@@ -28,7 +28,7 @@
 	<link rel="stylesheet" href="${URL}template/css/venobox.min.css">
 	<link rel="stylesheet" href="${URL}template/css/style.css">
 	<link rel="stylesheet" href="${URL}template/css/responsive.css">
-	<!-- <link rel="stylesheet" href="${URL}template/css/rtl.css"> -->
+	<%-- <link rel="stylesheet" href="${URL}template/css/rtl.css">  --%>
 </head>
 <!-- Head END -->
 
