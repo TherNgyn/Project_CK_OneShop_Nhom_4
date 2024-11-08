@@ -11,7 +11,7 @@
 		<div class="col-xl-2 col-7 col-md-8 col-lg-2">
 			<div class="wsus_logo_area">
 				<a class="wsus__header_logo" href="index.jsp"> <img
-					src="${URL}template/images/logo_2.png" alt="logo" class="img-fluid w-100">
+					src="/template/images/logo_2.png" alt="logo" class="img-fluid w-100">
 				</a>
 			</div>
 		</div>
@@ -80,7 +80,7 @@
 		</li>
 		<li>
 			<div class="wsus__cart_img">
-				<a href="#"><img src="${URL}teamplate/images/pro2.jpg" alt="product"
+				<a href="#"><img src="${URL}template/images/pro2.jpg" alt="product"
 					class="img-fluid w-100"></a> <a class="wsis__del_icon" href="#"><i
 					class="fas fa-minus-circle"></i></a>
 			</div>

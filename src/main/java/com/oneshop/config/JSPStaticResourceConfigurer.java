@@ -91,6 +91,3 @@ public class JSPStaticResourceConfigurer implements LifecycleListener {
 	}
 
 }
-
-
-

@@ -3,6 +3,7 @@
 <!--============================
          BREADCRUMB START
     ==============================-->
+<body>
 <section id="wsus__breadcrumb">
 	<div class="wsus_breadcrumb_overlay">
 		<div class="container">
@@ -117,6 +118,7 @@
 		</div>
 	</div>
 </section>
+</body>
 <!--============================
        LOGIN/REGISTER PAGE END
     ==============================-->
