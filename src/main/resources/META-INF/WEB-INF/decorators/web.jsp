@@ -46,4 +46,40 @@
     <%@ include file = "/commons/web/footer.jsp" %>
     <!-- END FOOTER -->
     
-   
+ <!--jquery library js-->
+    <script src="${URL}template/js/jquery-3.6.0.min.js"></script>
+    <!--bootstrap js-->
+    <script src="${URL}template/js/bootstrap.bundle.min.js"></script>
+    <!--font-awesome js-->
+    <script src="${URL}template/js/Font-Awesome.js"></script>
+    <!--select2 js-->
+    <script src="${URL}template/js/select2.min.js"></script>
+    <!--slick slider js-->
+    <script src="${URL}template/js/slick.min.js"></script>
+    <!--simplyCountdown js-->
+    <script src="${URL}template/js/simplyCountdown.js"></script>
+    <!--product zoomer js-->
+    <script src="${URL}template/js/jquery.exzoom.js"></script>
+    <!--nice-number js-->
+    <script src="${URL}template/js/jquery.nice-number.min.js"></script>
+    <!--counter js-->
+    <script src="${URL}template/js/jquery.waypoints.min.js"></script>
+    <script src="${URL}template/js/jquery.countup.min.js"></script>
+    <!--add row js-->
+    <script src="${URL}template/js/add_row_custon.js"></script>
+    <!--multiple-image-video js-->
+    <script src="${URL}template/js/multiple-image-video.js"></script>
+    <!--sticky sidebar js-->
+    <script src="${URL}template/js/sticky_sidebar.js"></script>
+    <!--price ranger js-->
+    <script src="${URL}template/js/ranger_jquery-ui.min.js"></script>
+    <script src="${URL}template/js/ranger_slider.js"></script>
+    <!--isotope js-->
+    <script src="${URL}template/js/isotope.pkgd.min.js"></script>
+    <!--venobox js-->
+    <script src="${URL}template/js/venobox.min.js"></script>
+    <!--classycountdown js-->
+    <script src="${URL}template/js/jquery.classycountdown.js"></script>
+
+    <!--main/custom js-->
+    <script src="${URL}template/js/main.js"></script>
