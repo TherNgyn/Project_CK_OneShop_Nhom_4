@@ -439,7 +439,6 @@
                         </ul>
                         <ul class="wsus__menu_item wsus__menu_item_right">
                             <li><a href="contact.html">contact</a></li>
-                            <li><a href="dsahboard.html">my account</a></li>
                             <li><a href="/login">Login</a></li>
                         </ul>
                     </div>

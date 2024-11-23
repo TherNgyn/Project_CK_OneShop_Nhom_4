@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 
 <body>
-<h1>Home user</h1>
+<h1>Home vendor</h1>
 <!--==========================
       PRODUCT MODAL VIEW START
     ===========================-->

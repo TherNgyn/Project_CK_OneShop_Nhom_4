@@ -57,57 +57,89 @@ public class LoginController {
 	}
 
 	@RequestMapping("")
-	public String load(ModelMap model) {
-		model.addAttribute("user", session.getAttribute("user"));
-		List<Product> listNew = productService.findTop8ByOrderByIdDesc();
-		model.addAttribute("products", listNew);
+	public String loadHomePage(ModelMap model) {
+	    // Lấy thông tin role từ session
+	    String role = (String) session.getAttribute("userRole");
 
-		List<Product> listRate = productService.findTop8ByOrderByRatingDesc();
-		model.addAttribute("productr", listRate);
+	    // Gán mặc định là "GUEST" nếu chưa đăng nhập
+	    if (role == null || role.trim().isEmpty()) {
+	        session.setAttribute("userRole", "GUEST");
+	        role = "GUEST";
+	    }
 
-		List<Product> listAll = productService.findAll();
-		model.addAttribute("productAll", listAll);
+	    // Thêm dữ liệu cần thiết cho trang
+	    List<Product> listNew = productService.findTop8ByOrderByIdDesc();
+	    model.addAttribute("products", listNew);
 
-		List<Category> listCate = categoryService.findAll();
-		model.addAttribute("listcate", listCate);
+	    List<Product> listRate = productService.findTop8ByOrderByRatingDesc();
+	    model.addAttribute("productr", listRate);
 
-		return "user/home";
+	    List<Product> listAll = productService.findAll();
+	    model.addAttribute("productAll", listAll);
+
+	    List<Category> listCate = categoryService.findAll();
+	    model.addAttribute("listcate", listCate);
+
+	    // Điều hướng theo role
+	    switch (role) {
+	        case "ROLE_ADMIN":
+	            return "/admin/home";
+	        case "ROLE_VENDOR":
+	            return "/vendor/home";
+	        case "ROLE_USER":
+	            return "/user/home";
+	        default: // GUEST
+	            return "web/home";
+	    }
 	}
 
 	@PostMapping("login")
-	public ModelAndView login(ModelMap model, @RequestParam(name = "username", required = false) String username,
-			@RequestParam(name = "password", required = false) String password) {
-		/*
-		 * if (result.hasErrors()) { model.addAttribute("message","loi"); return new
-		 * ModelAndView("common/demologin", model); }
-		 */
-		session.removeAttribute("message");
-		User user = userService.login(username, password);
-		if (user == null) {
-			model.addAttribute("message", "Tài khoản hoặc mật khẩu không chính xác");
-			return new ModelAndView("common/login", model);
-		}
-		session.setAttribute("user", user);
-		session.setAttribute("store",storeService.findOneByUser(user) );
-		model.addAttribute("user", user);
-		if (user.getRole().equals("ROLE_ADMIN")) {
-			return new ModelAndView("redirect:/admin/home", model);
-		}
-		if (user.getRole().equals("ROLE_SELLER")) {
-			return new ModelAndView("redirect:/seller", model);
-		}
-		if (user.getRole().equals("ROLE_USER")) {
-		    return new ModelAndView("user/home", model);
-		}
-		return null;
+	public ModelAndView login(ModelMap model, 
+	                           @RequestParam(name = "username", required = false) String username,
+	                           @RequestParam(name = "password", required = false) String password) {
+	    session.removeAttribute("message");
+
+	    if (username == null || username.trim().isEmpty() || password == null || password.trim().isEmpty()) {
+	        model.addAttribute("message", "Vui lòng nhập đầy đủ tên đăng nhập và mật khẩu.");
+	        return new ModelAndView("common/login", model);
+	    }
+
+	    // Xác thực người dùng
+	    User user = userService.login(username.trim(), password.trim());
+	    if (user == null) {
+	        model.addAttribute("message", "Tài khoản hoặc mật khẩu không chính xác.");
+	        return new ModelAndView("common/login", model);
+	    }
+
+	    // Lưu thông tin người dùng và vai trò vào session
+	    session.setAttribute("user", user);
+	    session.setAttribute("userRole", user.getRole());
+
+	    // Điều hướng theo vai trò
+	    switch (user.getRole()) {
+	        case "ROLE_ADMIN":
+	            return new ModelAndView("/admin/home", model);
+	        case "ROLE_VENDOR":
+	            return new ModelAndView("/vendor/home", model);
+	        case "ROLE_USER":
+	            return new ModelAndView("/user/home", model);
+	        default:
+	            model.addAttribute("message", "Vai trò không hợp lệ.");
+	            session.invalidate();
+	            return new ModelAndView("common/login", model);
+	    }
 	}
 
+
+
+
 	@RequestMapping("logout")
-	public String logout(HttpSession sesson) {
-		sesson.removeAttribute("user");
-		session.removeAttribute("message");
-		return "redirect:/login";
+	public String logout(HttpSession session) {
+	    session.invalidate(); // Xóa toàn bộ session
+	    return "redirect:/login"; // Trở về trang đăng nhập
 	}
+
+
 
 	@GetMapping("/register")
 	public String showregister(ModelMap model) {
