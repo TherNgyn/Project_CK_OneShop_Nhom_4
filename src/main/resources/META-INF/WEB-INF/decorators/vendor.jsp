@@ -7,8 +7,8 @@
 <!-- Head BEGIN -->
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
-
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, target-densityDpi=device-dpi" />
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap"
         rel="stylesheet">
     <title>One Shop || e-Commerce HTML Template</title>
@@ -31,30 +31,9 @@
 	<%-- <link rel="stylesheet" href="${URL}template/css/rtl.css">  --%>
 </head>
 <!-- Head END -->
-<%
-    if (session.getAttribute("userRole") == null) {
-        session.setAttribute("userRole", "GUEST");
-    }
-%>
-<!-- BEGIN HEADER -->
 
-    <c:choose>
-        <c:when test="${sessionScope.userRole == 'ROLE_USER'}">
-            <%@ include file = "/commons/user/header.jsp" %>
-        </c:when>
-        <c:when test="${sessionScope.userRole == 'ROLE_VENDOR'}">
-            <%@ include file = "/commons/vendor/header.jsp" %>
-        </c:when>
-        <c:when test="${sessionScope.userRole == 'ROLE_ADMIN'}">
-            <%@ include file = "/commons/admin/header.jsp" %>
-        </c:when>
-        <c:otherwise>
-            <%@ include file = "/commons/web/header.jsp" %>
-        </c:otherwise>
-    </c:choose>
-
-<!-- END HEADER -->
-
+    <!-- BEGIN HEADER -->
+    <%@ include file = "/commons/vendor/header.jsp" %>
     <!-- END HEADER -->
     
     <div class="main"> 
