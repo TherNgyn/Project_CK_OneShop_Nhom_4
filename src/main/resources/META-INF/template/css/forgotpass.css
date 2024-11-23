@@ -1,0 +1,86 @@
+@charset "UTF-8";
+/* General Styling */
+.wsus__login_reg_area {
+    background: #fff;
+    padding: 30px 40px;
+    border-radius: 20px;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+    margin: auto;
+}
+
+/* Input Fields */
+.wsus__login_input {
+    display: flex;
+    align-items: center;
+    border: 1px solid #007bff;
+    border-radius: 20px;
+    padding: 10px;
+    margin-bottom: 20px;
+}
+
+.wsus__login_input i {
+    color: #007bff;
+    margin-right: 10px;
+}
+
+.wsus__login_input input {
+    border: none;
+    outline: none;
+    flex: 1;
+    font-size: 14px;
+    padding: 5px;
+    border-radius: 20px;
+}
+
+/* Button Styling */
+.common_btn {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    padding: 12px;
+    font-size: 16px;
+    font-weight: bold;
+    width: 100%;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.common_btn:hover {
+    background-color: #0056b3;
+}
+
+/* Link Styling */
+.text-center a {
+    font-size: 14px;
+    text-decoration: none;
+    color: #007bff;
+    transition: color 0.3s ease;
+}
+
+.text-center a:hover {
+    color: #0056b3;
+}
+
+/* Alert Messages */
+.alert {
+    border-radius: 10px;
+    font-size: 14px;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+/* Centering Content */
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+/* Remove Background Colors for Alert */
+.alert-danger, .alert-warning {
+    background-color: transparent;
+    color: #dc3545; /* Default red for errors */
+}

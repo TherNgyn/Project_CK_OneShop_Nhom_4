@@ -552,6 +552,19 @@ header {
   border: none;
   box-shadow: rgb(0 0 0 / 16%) 0px 1px 4px;
 }
+.alert-danger {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+    border-radius: 5px;
+}
+
+.alert-warning {
+    background-color: #fff3cd;
+    color: #856404;
+    border: 1px solid #ffeeba;
+    border-radius: 5px;
+}
 
 .wsus__mini_cart .wsus__cart_img img {
   height: 100%;
