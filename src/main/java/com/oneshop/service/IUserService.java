@@ -34,4 +34,5 @@ public interface IUserService {
 	void updatePassword(User customer, String newPassword);
 	User getByResetPasswordToken(String token);
 	void updateResetPasswordToken(String token, String email) throws UserNotFoundException;
+	User findByEmail(String email);
 }

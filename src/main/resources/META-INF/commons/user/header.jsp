@@ -439,7 +439,7 @@
                         </ul>
                         <ul class="wsus__menu_item wsus__menu_item_right">
                             <li><a href="contact.html">contact</a></li>
-                            <li><a href="dsahboard.html">my account</a></li>
+                            <li><a href="/user/profile">Profile</a></li>
                             <c:choose>
                             <c:when test="${not empty sessionScope.userRole && sessionScope.userRole != 'GUEST'}">
                                 <li><a href="/logout">Logout</a></li>

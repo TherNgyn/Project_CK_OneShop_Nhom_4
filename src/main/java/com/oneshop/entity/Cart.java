@@ -24,7 +24,7 @@ public class Cart {
     private User user;
 
     @ManyToOne
-    @JoinColumn(name = "storeid", nullable = false)
+    @JoinColumn(name = "storeid", nullable = true)
     private Store store;
 
     private Date createat;
@@ -32,4 +32,10 @@ public class Cart {
 
     @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL)
     private List<CartItem> cartItems;
+    @PrePersist
+    public void prePersist() {
+        if (store == null) {
+            store = null; // Hoặc sử dụng store mặc định nếu cần
+        }
+    }
 }

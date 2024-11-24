@@ -84,11 +84,11 @@ public class UserServiceImpl implements IUserService {
 		UserRepository.delete(entity);
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public User getById(Integer id) {
-	    return UserRepository.getReferenceById(id);
+		return UserRepository.getById(id);
 	}
-
 
 	@Override
 	public List <User> findByUsername(String username) {
@@ -100,6 +100,7 @@ public class UserServiceImpl implements IUserService {
 		UserRepository.deleteAll();
 	}
 	
+	// Viết thêm
 	@Override
 	public User login(String username, String password) {
 		List<User> user = UserRepository.findByUsername(username);
@@ -117,6 +118,7 @@ public class UserServiceImpl implements IUserService {
 	}
 	
 	
+	// Khang thêm vào
 	@Override
 	public void updateResetPasswordToken(String token, String email) throws UserNotFoundException {
 		User customer = UserRepository.findByEmail(email);
@@ -138,8 +140,16 @@ public class UserServiceImpl implements IUserService {
 		// BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 		// String encodedPassword = passwordEncoder.encode(newPassword);
 		customer.setPassword(newPassword);
+
 		customer.setResetpasswordtoken(null);
 		UserRepository.save(customer);
 	}
 
+	@Override
+	public User findByEmail(String email) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
+

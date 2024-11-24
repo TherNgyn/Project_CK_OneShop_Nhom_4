@@ -19,4 +19,5 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 	@Query("SELECT c FROM User c WHERE c.email = ?1")
 	public User findByEmail(String email);
 	public User findByResetpasswordtoken(String token);
+	
 }

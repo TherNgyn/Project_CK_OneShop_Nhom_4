@@ -24,11 +24,11 @@ public class Order {
     private User user;
 
     @ManyToOne
-    @JoinColumn(name = "storeid", nullable = false)
+    @JoinColumn(name = "storeid", nullable = true)
     private Store store;
 
     @ManyToOne
-    @JoinColumn(name = "deliveryid", nullable = false)
+    @JoinColumn(name = "deliveryid", nullable = true)
     private Delivery delivery;
 
     @Column(length = 255)
