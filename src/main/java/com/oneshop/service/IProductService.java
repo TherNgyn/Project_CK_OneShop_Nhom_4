@@ -19,7 +19,7 @@ public interface IProductService {
 	Product getOne(Integer id);
 	void deleteById(Integer id);
 	Page<Product> findByCategoryOrderByRatingDesc(Category category, Pageable pageable);
-	long count();
+	
 	<S extends Product> boolean exists(Example<S> example);
 	<S extends Product> long count(Example<S> example);
 	Optional<Product> findById(Integer id);
@@ -45,4 +45,10 @@ public interface IProductService {
 	List<Product> findTop5ByStoreOrderByIdDesc(Store store);
 	List<Product> findTop5ByStoreOrderByRatingDesc(Store store);
 	long totalproductByStore(List<Product> products, Store store);
+	
+	// Hiển thị tất cả sản phẩm
+	Page<Product> findAll(Pageable pageable);
+	// Tìm kiếm theo tên và phân trang
+	Page<Product> findByNameContainingIgnoreCase(String name, Pageable pageable);
+	long count();
 }

@@ -11,6 +11,4 @@ public class MySiteMeshFilter extends ConfigurableSiteMeshFilter {
 	           .addDecoratorPath("/user/*", "user.jsp")
 	           .addDecoratorPath("/*", "web.jsp");
 	}
-
-
 }
