@@ -423,7 +423,7 @@
                                     <li><a href="faqs.html">faq</a></li>
                                     <li><a href="invoice.html">invoice</a></li>
                                     <li><a href="about_us.html">about</a></li>
-                                    <li><a href="product_grid_view.html">product</a></li>
+                                    <li><a href="/common/products">product</a></li>
                                     <li><a href="check_out.html">check out</a></li>
                                     <li><a href="team.html">team</a></li>
                                     <li><a href="change_password.html">change password</a></li>

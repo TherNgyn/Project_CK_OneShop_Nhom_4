@@ -196,5 +196,16 @@ public class ProductServiceImpl implements IProductService {
 		}
 		return countproduct;
 	}
+	
+	// Hiển thị tất cả sản phẩm có phân trang
+	@Override
+	public Page<Product> findAll(Pageable pageable) {
+		return productRepository.findAll(pageable);
+	}
+	// Tìm kiếm sản phẩm theo tên, có phân trang
+	@Override
+	public Page<Product> findByNameContainingIgnoreCase(String name, Pageable pageable) {
+		return productRepository.findByNameContainingIgnoreCase(name, pageable);
+	}
 
 }
