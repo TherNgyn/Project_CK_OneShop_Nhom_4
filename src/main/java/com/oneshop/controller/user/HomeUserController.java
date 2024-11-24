@@ -1,6 +1,7 @@
 package com.oneshop.controller.user;
 
 
+import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Path;
 import java.sql.Date;
@@ -39,6 +40,7 @@ import jakarta.servlet.ServletContext;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
+import net.coobird.thumbnailator.Thumbnails;
 
 @Controller
 @RequestMapping("/user")
@@ -134,40 +136,37 @@ public class HomeUserController {
 
 	@PostMapping("saveOrUpdate")
 	public ModelAndView saveOrUpdate(ModelMap model, @Valid @ModelAttribute("user") UserModel user,
-	                                 BindingResult result) {
-	    // Lấy thông tin người dùng hiện tại từ database
+	                                 BindingResult result, HttpSession session) {
 	    User existingUser = userService.getById(user.getId());
 	    if (existingUser == null) {
 	        model.addAttribute("error", "Không tìm thấy thông tin người dùng.");
 	        return new ModelAndView("redirect:/user/profile", model);
 	    }
-
-	    // Avatar: Nếu người dùng không upload avatar mới, giữ nguyên avatar cũ
 	    if (!user.getAvatarFile().isEmpty()) {
-	        String path = application.getRealPath("/");
 	        try {
 	            String avatarFileName = user.getAvatarFile().getOriginalFilename();
-	            String filePath = path + "/view/images/user/" + avatarFileName;
-	            user.getAvatarFile().transferTo(Path.of(filePath));
-	            existingUser.setAvatar(avatarFileName); // Cập nhật avatar
+	            String filePath = "D:/Nam 3/Project_CK_OneShop_Nhom_4/src/main/webapp/images/user/" + avatarFileName;
+	            Thumbnails.of(user.getAvatarFile().getInputStream())
+	                      .size(150, 150)
+	                      .toFile(new File(filePath));
+
+	            existingUser.setAvatar("images/user/" + avatarFileName);
 	        } catch (Exception e) {
 	            e.printStackTrace();
+	            model.addAttribute("error", "Không thể xử lý ảnh.");
+	            return new ModelAndView("redirect:/user/profile", model);
 	        }
 	    }
-
-	    // Cập nhật các trường từ form (chỉ cập nhật các trường có trong form)
 	    existingUser.setFirstName(user.getFirstName());
 	    existingUser.setLastName(user.getLastName());
 	    existingUser.setEmail(user.getEmail());
 	    existingUser.setPhone(user.getPhone());
 	    existingUser.setAddress(user.getAddress());
-
-	    // Cập nhật thời gian chỉnh sửa
 	    existingUser.setUpdateat(new Date(System.currentTimeMillis()));
-
-	    // Lưu thông tin người dùng
 	    try {
 	        userService.save(existingUser);
+	        session.setAttribute("user", existingUser);
+
 	        model.addAttribute("message", "Cập nhật hồ sơ thành công!");
 	    } catch (Exception e) {
 	        model.addAttribute("error", "Có lỗi xảy ra trong quá trình cập nhật.");
@@ -176,9 +175,6 @@ public class HomeUserController {
 
 	    return new ModelAndView("redirect:/user/profile", model);
 	}
-
-
-
 
 
 	@PostMapping("changepassword/{id}")

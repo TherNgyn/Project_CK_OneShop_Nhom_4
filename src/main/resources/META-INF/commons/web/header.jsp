@@ -438,7 +438,7 @@
                             <li><a href="daily_deals.html">daily deals</a></li>
                         </ul>
                         <ul class="wsus__menu_item wsus__menu_item_right">
-                            <li><a href="contact.html">contact</a></li>
+                            <li><a href="/contract">contact</a></li>
                             <li><a href="/login">Login</a></li>
                         </ul>
                     </div>
