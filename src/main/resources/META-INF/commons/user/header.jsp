@@ -438,7 +438,7 @@
                             <li><a href="daily_deals.html">daily deals</a></li>
                         </ul>
                         <ul class="wsus__menu_item wsus__menu_item_right">
-                            <li><a href="contact.html">contact</a></li>
+                            <li><a href="/contract">Contact</a></li>
                             <li><a href="/user/profile">Profile</a></li>
                             <c:choose>
                             <c:when test="${not empty sessionScope.userRole && sessionScope.userRole != 'GUEST'}">
