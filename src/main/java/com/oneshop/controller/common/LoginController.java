@@ -152,96 +152,78 @@ public class LoginController {
 	                              @RequestParam(name = "confirmPassword", required = false) String confirmPassword,
 	                              @RequestParam(name = "agreePolicy", required = false) String agreePolicy) {
 
-	    // Log thông tin đầu vào
 	    System.out.println("Đăng ký với thông tin:");
 	    System.out.println("Username: " + username);
 	    System.out.println("Email: " + email);
 	    System.out.println("Phone: " + phone);
-	    System.out.println("Password: " + password);
-	    System.out.println("Confirm Password: " + confirmPassword);
-	    System.out.println("Agree Policy: " + agreePolicy);
 
-	    // Kiểm tra thông tin đầu vào
 	    if (username == null || username.trim().isEmpty() ||
 	        email == null || email.trim().isEmpty() ||
 	        phone == null || phone.trim().isEmpty() ||
 	        password == null || password.trim().isEmpty() ||
 	        confirmPassword == null || confirmPassword.trim().isEmpty()) {
 	        model.addAttribute("message", "Vui lòng điền đầy đủ thông tin.");
-	        System.out.println("Lỗi: Thông tin đầu vào không đầy đủ.");
 	        return new ModelAndView("common/register", model);
 	    }
 
 	    if (!password.equals(confirmPassword)) {
 	        model.addAttribute("message", "Mật khẩu và Nhập lại mật khẩu không khớp.");
-	        System.out.println("Lỗi: Mật khẩu và Nhập lại mật khẩu không khớp.");
 	        return new ModelAndView("common/register", model);
 	    }
 
 	    if (agreePolicy == null) {
 	        model.addAttribute("message", "Bạn cần đồng ý với Chính Sách Bảo Mật để tiếp tục.");
-	        System.out.println("Lỗi: Người dùng không đồng ý với Chính Sách Bảo Mật.");
 	        return new ModelAndView("common/register", model);
 	    }
-
-	    // Kiểm tra username đã tồn tại
+	    if (!email.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$")) {
+	        model.addAttribute("message", "Email không hợp lệ.");
+	        return new ModelAndView("common/register", model);
+	    }
+	    if (!phone.matches("^[0-9]{10}$")) {
+	        model.addAttribute("message", "Số điện thoại không hợp lệ.");
+	        return new ModelAndView("common/register", model);
+	    }
 	    if (userService.findByUsername(username.trim()) != null) {
 	        model.addAttribute("message", "Tên đăng nhập đã tồn tại.");
-	        System.out.println("Lỗi: Tên đăng nhập đã tồn tại.");
 	        return new ModelAndView("common/register", model);
 	    }
-
-	    // Kiểm tra email đã tồn tại
-	    if (userService.findByEmail(email.trim()) != null) {
-	        model.addAttribute("message", "Email đã được sử dụng.");
-	        System.out.println("Lỗi: Email đã được sử dụng.");
-	        return new ModelAndView("common/register", model);
-	    }
-
-	    // Tạo User mới
+	    User existingUserByEmail = userService.findByEmail(email.trim());
 	    User user = new User();
 	    user.setUsername(username.trim());
 	    user.setEmail(email.trim());
 	    user.setPhone(phone.trim());
-	    user.setPassword(password.trim()); // Nên mã hóa mật khẩu
-	    user.setRole("ROLE_USER"); // Vai trò mặc định
+	    user.setPassword(password.trim()); 
+	    user.setRole("ROLE_USER"); 
 	    Date currentDate = new Date(System.currentTimeMillis());
 	    user.setCreateat(currentDate);
 	    user.setUpdateat(currentDate);
 
 	    try {
-	        // Lưu user vào cơ sở dữ liệu
 	        userService.save(user);
-	        System.out.println("Đã lưu thông tin người dùng.");
-
-	        // Tạo cart cho user
 	        Cart cart = new Cart();
 	        cart.setUser(user);
 	        cart.setCreateat(currentDate);
 	        cart.setUpdateat(currentDate);
 	        cartService.save(cart);
-	        System.out.println("Đã tạo giỏ hàng cho người dùng.");
-
-	        // Tạo order cho user
+	        
 	        Order order = new Order();
 	        order.setUser(user);
 	        order.setCreateat(currentDate);
 	        order.setUpdateat(currentDate);
 	        order.setPrice(0.0f);
 	        orderSerivce.save(order);
-	        System.out.println("Đã tạo đơn hàng trống cho người dùng.");
 
 	        model.addAttribute("message", "Tạo tài khoản thành công! Hãy đăng nhập.");
 	        return new ModelAndView("common/login", model);
 
 	    } catch (Exception e) {
-	        // Log lỗi chi tiết
-	        System.out.println("Lỗi: Không thể lưu người dùng hoặc các dữ liệu liên quan.");
+	        System.out.println("Lỗi: Không thể lưu thông tin người dùng hoặc các dữ liệu liên quan.");
 	        e.printStackTrace();
 	        model.addAttribute("message", "Đã xảy ra lỗi trong quá trình đăng ký. Vui lòng thử lại.");
 	        return new ModelAndView("common/register", model);
 	    }
 	}
+
 
 
 	@GetMapping("/forgot_password")

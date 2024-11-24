@@ -34,25 +34,30 @@
 							<form action="/register" method="post">
 								<div class="wsus__login_input">
 									<i class="fa fa-user"></i> <input type="text" name="username"
-										placeholder="Tên đăng nhập" required>
+										placeholder="Tên đăng nhập" required autocomplete="username">
 								</div>
 								<div class="wsus__login_input">
 									<i class="fa fa-envelope"></i> <input type="email" name="email"
-										placeholder="Email" required>
+										placeholder="Email (ví dụ: abc@gmail.com)" required
+										autocomplete="email">
 								</div>
 								<div class="wsus__login_input">
 									<i class="fa fa-phone"></i> <input type="text" name="phone"
-										placeholder="Số điện thoại" required>
+										placeholder="Số điện thoại (10 chữ số)" required
+										autocomplete="tel">
 								</div>
 								<div class="wsus__login_input">
 									<i class="fa fa-lock"></i> <input type="password"
-										name="password" placeholder="Mật khẩu" required>
+										name="password" placeholder="Mật khẩu" required
+										autocomplete="new-password">
 								</div>
 								<div class="wsus__login_input">
 									<i class="fa fa-lock"></i> <input type="password"
 										name="confirmPassword" placeholder="Nhập lại mật khẩu"
-										required>
+										required autocomplete="new-password">
 								</div>
+
+
 								<div class="wsus__login_save">
 									<div class="form-check">
 										<input class="form-check-input" type="checkbox"
