@@ -152,10 +152,6 @@ public class LoginController {
 	                              @RequestParam(name = "confirmPassword", required = false) String confirmPassword,
 	                              @RequestParam(name = "agreePolicy", required = false) String agreePolicy) {
 
-	    System.out.println("Đăng ký với thông tin:");
-	    System.out.println("Username: " + username);
-	    System.out.println("Email: " + email);
-	    System.out.println("Phone: " + phone);
 
 	    if (username == null || username.trim().isEmpty() ||
 	        email == null || email.trim().isEmpty() ||
@@ -217,7 +213,6 @@ public class LoginController {
 	        return new ModelAndView("common/login", model);
 
 	    } catch (Exception e) {
-	        System.out.println("Lỗi: Không thể lưu thông tin người dùng hoặc các dữ liệu liên quan.");
 	        e.printStackTrace();
 	        model.addAttribute("message", "Đã xảy ra lỗi trong quá trình đăng ký. Vui lòng thử lại.");
 	        return new ModelAndView("common/register", model);

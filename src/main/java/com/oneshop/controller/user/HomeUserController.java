@@ -147,7 +147,7 @@ public class HomeUserController {
 	        String path = application.getRealPath("/");
 	        try {
 	            String avatarFileName = user.getAvatarFile().getOriginalFilename();
-	            String filePath = path + "/resources/images/user/" + avatarFileName;
+	            String filePath = path + "/view/images/user/" + avatarFileName;
 	            user.getAvatarFile().transferTo(Path.of(filePath));
 	            existingUser.setAvatar(avatarFileName); // Cập nhật avatar
 	        } catch (Exception e) {
