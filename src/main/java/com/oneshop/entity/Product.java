@@ -25,14 +25,23 @@ public class Product {
     @Column(length = 255)
     private String description;
 
+    // Giá gốc
     private Double price;
+    
+    // Giá khuyến mãi
     private Double promotionalPrice;
-    private Integer quantity;
+  
     private Integer sold;
+    
+    // Có đang bán hay không
     private Boolean isSelling;
+    
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ProductImage> images;
 
-    @Column(length = 255)
-    private String listimage;
+    //không cần lưu trữ vào cơ sở dữ liệu
+  	@Transient
+  	private List<String> imageUrls;// URL to be generated
 
     @ManyToOne
     @JoinColumn(name = "categoryid", nullable = false)
