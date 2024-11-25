@@ -201,7 +201,7 @@ public class HomeUserController {
 		return "user/product/productlist";
 	}
 
-	@GetMapping("productdetail/{id}")
+	@GetMapping("user/productdetail/{id}")
 	public ModelAndView detail(ModelMap model, @PathVariable("id") Integer id) {
 		Product product = productService.getById(id);
 		

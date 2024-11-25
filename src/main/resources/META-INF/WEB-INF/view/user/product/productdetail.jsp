@@ -31,23 +31,22 @@
 					<div class="product__details__pic">
 						<div class="product__details__pic__item">
 							<img class="product__details__pic__item--large"
-								src="../../../common/user/img/product/${product.listimage }"
-								alt="">
+								src="/path/to/image/${product.listimage[0]}" alt="">
+
 						</div>
 						<div class="product__details__pic__slider owl-carousel">
 							<img
 								data-imgbigurl="../../../common/user/img/banner/banner-1.jpg"
-								src="../../../common/user/img/banner/banner-5.jpg"
-								alt=""> <img
+								src="../../../common/user/img/banner/banner-5.jpg" alt="">
+							<img
 								data-imgbigurl="../../../common/user/img/banner/banner-1.jpg"
-								src="../../../common/user/img/banner/banner-6.jpg"
-								alt=""> <img
+								src="../../../common/user/img/banner/banner-6.jpg" alt="">
+							<img
 								data-imgbigurl="../../../common/user/img/banner/banner-1.jpg"
-								src="../../../common/user/img/banner/banner-7.jpg"
-								alt=""> <img
+								src="../../../common/user/img/banner/banner-7.jpg" alt="">
+							<img
 								data-imgbigurl="../../../common/user/img/banner/banner-1.jpg"
-								src="../../../common/user/img/banner/banner-11.jpg"
-								alt="">
+								src="../../../common/user/img/banner/banner-11.jpg" alt="">
 						</div>
 					</div>
 				</div>
@@ -61,8 +60,8 @@
 								lượt)</span>
 						</div>
 						<div class="product__details__price">${product.price }</div>
-						<p>${(product.desciption).substring((product.desciption).indexOf("<p>"), (product.desciption).indexOf("</p>"))}
-							...</p>
+						<p>${product.desciption != null ? product.desciption : "Không có mô tả"}</p>
+
 						<div class="product__details__quantity">
 							<div class="quantity">
 								<div class="pro-qty">
@@ -76,7 +75,7 @@
 							class="primary-btn">THÊM VÀO GIỎ</a> <a href="#"
 							class="heart-icon"><i class="fa-solid fa-heart"></i></a>
 						<ul>
-							<li><b>Tình trạng</b> <span>${product.isselling?'Còn hàng':'Hết hàng' }</span></li>
+							<li><b>Tình trạng</b> <span>${product.isselling != null && product.isselling ? 'Còn hàng' : 'Hết hàng' }</span></li>
 							<li><b>Giao hàng</b> <span>01 ngày giao hàng <samp>Free
 										pickup today</samp></span></li>
 							<li><b>Đã bán</b> <span>${product.sold}</span></li>
@@ -210,7 +209,7 @@
 					<div class="col-lg-3 col-md-4 col-sm-6">
 						<div class="product__item">
 							<div class="product__item__pic set-bg"
-								data-setbg="../../../common/user/img/product/${pro.listimage }">
+								data-setbg="../../../common/user/img/product/${pro.listimage}">
 								<ul class="product__item__pic__hover">
 									<li><a href="#"><i class="fa fa-heart"></i></a></li>
 									<li><a href="#"><i class="fa fa-retweet"></i></a></li>
@@ -219,68 +218,69 @@
 							</div>
 							<div class="product__item__text">
 								<h6>
-									<a href="<c:url value='/user/productdetail?id=${pro.id}'/>">${pro.name }</a>
+									<a href="/user/product/productdetail/${pro.id}">${pro.name}</a>
 								</h6>
-								<h5>${pro.price }</h5>
+								<h5>${pro.price}</h5>
 							</div>
 						</div>
 					</div>
 				</c:forEach>
 
-
-				<c:if test="${listbycate.totalPages > 0}">
-
+				<c:if test="${listbycate != null && listbycate.totalPages > 0}">
 					<nav aria-label="Page navigation"
 						style="display: flex; justify-content: center;">
 						<ul class="pagination">
+							<!-- First Page -->
 							<li
-								class="${1==listbycate.number + 1  ? 'page-item active' : 'page-item' }">
+								class="page-item ${1 == listbycate.number + 1 ? 'active' : ''}">
 								<a class="page-link"
-								href="<c:url value='/user/productdetail/?id=${product.id}&size=${listbycate.size}&page=${1}'/>"
-								tabindex="-1" aria-disabled="true">First</a>
+								href="/user/product/productdetail?id=${product.id}&size=${listbycate.size}&page=1">First</a>
 							</li>
 
-
+							<!-- Middle Pages -->
 							<c:forEach items="${pageNumbers}" var="pageNumber">
-								<c:if test="${listbycate.totalPages >1}">
-									<li
-										class="${pageNumber == listbycate.number +1 ? 'page-item active' : 'page-item'}">
-										<a class="page-link"
-										href="<c:url value='/user/productdetail/?id=${product.id}&size=${listbycate.size}&page=${pageNumber}'/>">${pageNumber}</a>
-									</li>
-								</c:if>
+								<li
+									class="page-item ${pageNumber == listbycate.number + 1 ? 'active' : ''}">
+									<a class="page-link"
+									href="/user/product/productdetail?id=${product.id}&size=${listbycate.size}&page=${pageNumber}">${pageNumber}</a>
+								</li>
 							</c:forEach>
+
+							<!-- Last Page -->
 							<li
-								class="${listbycate.totalPages == listbycate.number + 1 ? 'page-item active' : 'page-item'}">
+								class="page-item ${listbycate.totalPages == listbycate.number + 1 ? 'active' : ''}">
 								<a class="page-link"
-								href="<c:url value='/user/productdetail/?id=${product.id}&size=${listbycate.size}&page=${listbycate.totalPages}'/>">Last</a>
+								href="/user/product/productdetail?id=${product.id}&size=${listbycate.size}&page=${listbycate.totalPages}">Last</a>
 							</li>
 						</ul>
 					</nav>
 				</c:if>
-
-
-
 			</div>
 		</div>
 	</section>
+
 	<script>
-		function submitForm(pro, check) {											
-			var ele;	
-			alert(check);
-			if (check == 0) {
-				alert("BẠN VUI LÒNG ĐĂNG NHẬP ĐỂ TIẾP TỤC MUA HÀNG");
-				/* fetch("http://localhost:8089/login")
-					.then((response) => response.json())
-					.then((data) => console.log(data)); */
-			}
-			else {
-				ele = document.getElementById("count").value;			
-				fetch("http://localhost:9093/user/cart/item/add/" + pro + "/" + ele)
-	/* 				.then((response) => response.json())
-					.then((data) => console.log(data));	 */
-			}
-		}	
-	</script>
+    async function submitForm(pro, check) {
+        if (check == 0) {
+            alert("BẠN VUI LÒNG ĐĂNG NHẬP ĐỂ TIẾP TỤC MUA HÀNG");
+            return;
+        }
+        
+        const ele = document.getElementById("count")?.value || 1; // Lấy giá trị số lượng, mặc định là 1 nếu không có.
+        
+        try {
+            const response = await fetch(`http://localhost:9093/user/cart/item/add/${pro}/${ele}`);
+            if (response.ok) {
+                alert("Sản phẩm đã được thêm vào giỏ hàng!");
+            } else {
+                alert("Không thể thêm vào giỏ hàng. Vui lòng thử lại.");
+            }
+        } catch (error) {
+            console.error("Error:", error);
+            alert("Có lỗi xảy ra khi thêm vào giỏ hàng.");
+        }
+    }
+</script>
+
 </body>
 </html>
