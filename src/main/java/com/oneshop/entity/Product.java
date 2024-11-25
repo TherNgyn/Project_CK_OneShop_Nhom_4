@@ -7,12 +7,14 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Entity
 @Table(name = "product")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+
 public class Product {
 
     @Id
@@ -36,12 +38,18 @@ public class Product {
     // Có đang bán hay không
     private Boolean isSelling;
     
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ProductImage> images;
+	/*
+	 * @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval =
+	 * true) private List<ProductImage> images;
+	 */
 
     //không cần lưu trữ vào cơ sở dữ liệu
   	@Transient
   	private List<String> imageUrls;// URL to be generated
+  	
+  	@OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
+    @ToString.Exclude // Ngăn tham chiếu lặp trong Lombok
+    private List<ProductImage> images;
 
     @ManyToOne
     @JoinColumn(name = "categoryid", nullable = false)

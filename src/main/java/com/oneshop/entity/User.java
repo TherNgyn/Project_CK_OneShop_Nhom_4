@@ -7,6 +7,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Entity
 @Table(name = "users")
@@ -27,8 +28,10 @@ public class User {
 
     @Column(length = 255, unique = true, nullable = false) 
     private String email;
+
     @Column(length = 10, nullable = false)
     private String phone;
+
     private String username;
     private String password;
 
@@ -43,17 +46,23 @@ public class User {
     private Date updateat;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @ToString.Exclude // Ngăn vòng lặp với Order
     private List<Order> orders;
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    @ToString.Exclude // Ngăn vòng lặp với Store
     private Store store;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @ToString.Exclude // Ngăn vòng lặp với Cart
     private List<Cart> carts;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @ToString.Exclude // Ngăn vòng lặp với Review
     private List<Review> reviews;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @ToString.Exclude // Ngăn vòng lặp với Transaction
     private List<Transaction> transactions;
 }
+

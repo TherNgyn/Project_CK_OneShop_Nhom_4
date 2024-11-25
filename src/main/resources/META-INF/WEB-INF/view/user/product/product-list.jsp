@@ -243,20 +243,23 @@
 						</div>
 
 						<div class="tab-content" id="v-pills-tabContent">
+						
 							<!-- Nội dung Tab 1 -->
 							<div class="tab-pane fade show active" id="v-pills-home"
 								role="tabpanel" aria-labelledby="v-pills-home-tab">
 								<div class="row">
 									<c:forEach var="product" items="${productPage.content}">
+									
 										<div class="col-xl-4 col-sm-6">
 											<div class="wsus__product_item">
 												<!-- Link dẫn đến trang chi tiết sản phẩm -->
-												<a class="wsus__pro_link" href="/user/product/productdetail?id=${product.id}"> <!-- Hình ảnh chính của sản phẩm -->
+												<a class="wsus__pro_link" href="/user/products/productdetail?id=${product.id}"> <!-- Hình ảnh chính của sản phẩm -->
 													<img src="${product.imageUrls[0]}" alt="${product.name}"
 													class="img-fluid w-100 img_1" /> <!-- Hình ảnh phụ nếu có -->
 													<c:if test="${product.imageUrls.size() > 1}">
 														<img src="${product.imageUrls[1]}" alt="${product.name}"
 															class="img-fluid w-100 img_2" />
+															
 													</c:if>
 												</a>
 												<!-- Các biểu tượng hành động -->

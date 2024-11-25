@@ -7,6 +7,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Entity
 @Table(name = "category")
@@ -29,6 +30,8 @@ public class Category {
     private Date updateat;
     private Boolean isDeleted;
 
-    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ToString.Exclude // Ngăn vòng lặp khi dùng Lombok
+    
     private List<Product> products;
 }

@@ -13,18 +13,18 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class ProductModel {
 	private Integer id;	
-    private String name="123";
-    private String desciption="123";
-    private Double price=123.0;
-    private Double promotionaprice=123.0;
-    private Integer quantity=123;
+    private String name;
+    private String description;
+    private Double price;
+    private Double promotionaprice;
+    private Integer quantity;
     private Integer sold;
-    private Boolean isselling = true;
+    private Boolean isselling;
     private String listimage;
     private MultipartFile listImageFile;
     private Integer categoryid=null;
     private Integer storeid=null;
-    private float rating =3;
+    private float rating;
     private Date createat;
     private Date updateat;
     
