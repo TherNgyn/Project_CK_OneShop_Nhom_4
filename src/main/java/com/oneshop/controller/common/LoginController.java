@@ -1,6 +1,5 @@
 package com.oneshop.controller.common;
 
-import java.lang.reflect.InvocationTargetException;
 import java.sql.Date;
 import java.util.List;
 
@@ -17,6 +16,7 @@ import com.oneshop.entity.Cart;
 import com.oneshop.entity.Category;
 import com.oneshop.entity.Order;
 import com.oneshop.entity.Product;
+import com.oneshop.entity.Store;
 import com.oneshop.entity.User;
 import com.oneshop.model.UserModel;
 import com.oneshop.service.ICartService;
@@ -29,7 +29,6 @@ import com.oneshop.service.Impl.UserNotFoundException;
 
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.http.HttpSession;
-
 @Controller
 @RequestMapping("")
 public class LoginController {
@@ -49,7 +48,6 @@ public class LoginController {
 	IStoreService storeService;
 	@Autowired
 	ICategoryService categoryService;
-
 	@RequestMapping("login")
 	public String home(ModelMap model) {
 		model.addAttribute("user", new UserModel());
@@ -131,80 +129,112 @@ public class LoginController {
 	}
 
 
-
-
 	@RequestMapping("logout")
 	public String logout(HttpSession session) {
 	    session.invalidate(); // Xóa toàn bộ session
 	    return "redirect:/login"; // Trở về trang đăng nhập
 	}
 
-
-
-	@GetMapping("/register")
-	public String showregister(ModelMap model) {
-		return "/common/login";
+	@GetMapping("register")
+	public String showRegisterPage(ModelMap model) {
+	    model.addAttribute("user", new UserModel());
+	    return "common/register"; 
 	}
+
 
 	@PostMapping("register")
-	public ModelAndView resgiter(ModelMap model, @RequestParam(name = "username", required = false) String username,
-			@RequestParam(name = "password", required = false) String password)
-			throws IllegalAccessException, InvocationTargetException {
-		boolean check = false;
-		UserModel usermodel = new UserModel(username, password);
-		List<User> users = userService.findAll();
-		for (User user : users) {
-			if (user.getUsername().equals(usermodel.getUsername()))
-				check = true;
+	public ModelAndView register(ModelMap model,
+	                              @RequestParam(name = "username", required = false) String username,
+	                              @RequestParam(name = "email", required = false) String email,
+	                              @RequestParam(name = "phone", required = false) String phone,
+	                              @RequestParam(name = "password", required = false) String password,
+	                              @RequestParam(name = "confirmPassword", required = false) String confirmPassword,
+	                              @RequestParam(name = "agreePolicy", required = false) String agreePolicy) {
 
-		}
-		if (check == true) {
-			model.addAttribute("message", "Tên đăng nhập đã tồn tại");
-			return new ModelAndView("common/login", model);
-		} else {
-			// tao user moi
-			User user = new User();
-			user.setUsername(username);
-			user.setPassword(password);
-			user.setRole("ROLE_USER");
-			long millis = System.currentTimeMillis();
-			Date date = new Date(millis);
-			user.setCreateat(date);
-			user.setUpdateat(date);
+		
+		if (username == null || username.trim().isEmpty() ||
+			    email == null || email.trim().isEmpty() ||
+			    phone == null || phone.trim().isEmpty() ||
+			    password == null || password.trim().isEmpty() ||
+			    confirmPassword == null || confirmPassword.trim().isEmpty()) {
+			    model.addAttribute("message", "Vui lòng điền đầy đủ thông tin.");
+			    return new ModelAndView("common/register", model);
+			}
 
-			userService.save(user);
-			// tao cart va order cho user
-			Cart cart = new Cart();
-			Order order = new Order();
-			cart.setUser(user);
-			cart.setCreateat(date);
-			cart.setUpdateat(date);
-			cartService.save(cart);
-			order.setUser(user);
-			order.setCreateat(date);
-			order.setUpdateat(date);
-			order.setPrice((float) 0);
-			orderSerivce.save(order);
-			model.addAttribute("message", "Tạo tài khoản thành công!");
-			return new ModelAndView("common/login", model);
-		}
+		System.out.println("Username: " + username);
+		System.out.println("Email: " + email);
+		System.out.println("Phone: " + phone);
+		System.out.println("Password: " + password);
+		System.out.println("ConfirmPassword: " + confirmPassword);
+		System.out.println("AgreePolicy: " + agreePolicy);
+		System.out.println("UserService.save() called");
+
+	    if (!password.equals(confirmPassword)) {
+	        model.addAttribute("message", "Mật khẩu và Nhập lại mật khẩu không khớp.");
+	        return new ModelAndView("common/register", model);
+	    }
+
+	    if (agreePolicy == null) {
+	        model.addAttribute("message", "Bạn cần đồng ý với Chính Sách Bảo Mật để tiếp tục.");
+	        return new ModelAndView("common/register", model);
+	    }
+	    if (!email.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$")) {
+	        model.addAttribute("message", "Email không hợp lệ.");
+	        return new ModelAndView("common/register", model);
+	    }
+	    if (!phone.matches("^[0-9]{10}$")) {
+	        model.addAttribute("message", "Số điện thoại không hợp lệ.");
+	        return new ModelAndView("common/register", model);
+	    }
+	    if (userService.findByUsername(username.trim()) != null) {
+	        model.addAttribute("message", "Tên đăng nhập đã tồn tại.");
+	        return new ModelAndView("common/register", model);
+	    }
+	    User existingUserByEmail = userService.findByEmail(email.trim());
+	    User user = new User();
+	    user.setUsername(username.trim());
+	    user.setEmail(email.trim());
+	    user.setPhone(phone.trim());
+	    user.setPassword(password.trim()); 
+	    user.setRole("ROLE_USER"); 
+	    Date currentDate = new Date(System.currentTimeMillis());
+	    user.setCreateat(currentDate);
+	    user.setUpdateat(currentDate);
+	    System.out.print("\n" + "-----------------");
+	    System.out.print(user.toString());
+
+	    try {
+	        userService.save(user);
+	        Cart cart = new Cart();
+	        cart.setUser(user);
+	        cart.setCreateat(currentDate);
+	        cart.setUpdateat(currentDate);
+	        cartService.save(cart);
+	        
+//	        Order order = new Order();
+//	        order.setUser(user);
+//	        order.setCreateat(currentDate);
+//	        order.setUpdateat(currentDate);
+//	        order.setPrice(0.0f);
+//	        orderSerivce.save(order);
+
+	        model.addAttribute("message", "Tạo tài khoản thành công! Hãy đăng nhập.");
+	        return new ModelAndView("common/login", model);
+
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        model.addAttribute("message", "Đã xảy ra lỗi trong quá trình đăng ký. Vui lòng thử lại.");
+	        return new ModelAndView("common/register", model);
+	    }
 	}
+
+
+
 	@GetMapping("/forgot_password")
 	public String showForgotPasswordPage() {
 	    return "common/forgot_password"; // Tên view tương ứng
 	}
 
-	@PostMapping("/forgot_password")
-	public ModelAndView handleForgotPassword(@RequestParam("email") String email, ModelMap model) {
-	    // Logic gửi email đặt lại mật khẩu
-	    try {
-	        userService.updateResetPasswordToken("generated-token", email);
-	        model.addAttribute("message", "Một liên kết đặt lại mật khẩu đã được gửi đến email của bạn.");
-	    } catch (UserNotFoundException e) {
-	        model.addAttribute("error", "Không tìm thấy email này trong hệ thống.");
-	    }
-	    return new ModelAndView("common/forgot_password", model);
-	}
 	@GetMapping("/reset_password")
 	public String showResetPasswordPage(@RequestParam("token") String token, ModelMap model) {
 	    model.addAttribute("token", token);

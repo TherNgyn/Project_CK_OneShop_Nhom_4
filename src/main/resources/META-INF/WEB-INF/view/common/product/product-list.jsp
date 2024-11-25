@@ -263,38 +263,6 @@
                         <div class="tab-content" id="v-pills-tabContent">
                             <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel"
                                 aria-labelledby="v-pills-home-tab">
-                                <div class="row">
-                                    <div class="col-xl-4  col-sm-6">
-                                        <div class="wsus__product_item">
-                                            <span class="wsus__new">New</span>
-                                            <span class="wsus__minus">-20%</span>
-                                            <a class="wsus__pro_link" href="product_details.html">
-                                                <img src="images/pro4.jpg" alt="product"
-                                                    class="img-fluid w-100 img_1" />
-                                                <img src="images/pro4_4.jpg" alt="product"
-                                                    class="img-fluid w-100 img_2" />
-                                            </a>
-                                            <ul class="wsus__single_pro_icon">
-                                                <li><a href="#"><i class="fal fa-shopping-bag"></i></a></li>
-                                                <li><a href="#"><i class="far fa-heart"></i></a></li>
-                                                <li><a href="#"><i class="far fa-random"></i></a>
-                                            </ul>
-                                            <div class="wsus__product_details">
-                                                <a class="wsus__category" href="#">fashion </a>
-                                                <p class="wsus__pro_rating">
-                                                    <i class="fas fa-star"></i>
-                                                    <i class="fas fa-star"></i>
-                                                    <i class="fas fa-star"></i>
-                                                    <i class="fas fa-star"></i>
-                                                    <i class="fas fa-star-half-alt"></i>
-                                                    <span>(17 review)</span>
-                                                </p>
-                                                <a class="wsus__pro_name" href="#">men's casual fashion watch</a>
-                                                <p class="wsus__price">$159 <del>$200</del></p>
-                                                <a class="add_cart" href="#">add to cart</a>
-                                            </div>
-                                        </div>
-                                    </div>
 									<div class="row">
 										<c:forEach var="product" items="${productPage.content}">
 											<div class="col-xl-4 col-sm-6">
@@ -371,27 +339,6 @@
                                                 <img src="images/pro4_4.jpg" alt="product"
                                                     class="img-fluid w-100 img_2" />
                                             </a>
-                                            <div class="wsus__product_details">
-                                                <a class="wsus__category" href="#">fashion </a>
-                                                <p class="wsus__pro_rating">
-                                                    <i class="fas fa-star"></i>
-                                                    <i class="fas fa-star"></i>
-                                                    <i class="fas fa-star"></i>
-                                                    <i class="fas fa-star"></i>
-                                                    <i class="fas fa-star-half-alt"></i>
-                                                    <span>(17 review)</span>
-                                                </p>
-                                                <a class="wsus__pro_name" href="#">men's casual fashion watch</a>
-                                                <p class="wsus__price">$159 <del>$200</del></p>
-                                                <p class="list_description">Ultrices eros in cursus turpis massa cursus
-                                                    mattis. Volutpat ac tincidunt vitae semper quis lectus. Aliquam id
-                                                    diam maecenas ultricies… </p>
-                                                <ul class="wsus__single_pro_icon">
-                                                    <li><a class="add_cart" href="#">add to cart</a></li>
-                                                    <li><a href="#"><i class="far fa-heart"></i></a></li>
-                                                    <li><a href="#"><i class="far fa-random"></i></a>
-                                                </ul>
-                                            </div>
                                         </div>
                                     </div>
                                     <div class="col-xl-12">

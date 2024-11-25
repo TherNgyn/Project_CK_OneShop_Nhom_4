@@ -16,6 +16,7 @@ import com.oneshop.entity.User;
 import com.oneshop.repository.UserRepository;
 import com.oneshop.service.IUserService;
 
+
 @Service
 public class UserServiceImpl implements IUserService {
 	@Autowired
@@ -26,8 +27,9 @@ public class UserServiceImpl implements IUserService {
 
 	@Override
 	public <S extends User> S save(S entity) {
-		return UserRepository.save(entity);
+	    return UserRepository.save(entity);
 	}
+
 
 	@Override
 	public <S extends User> Optional<S> findOne(Example<S> example) {
@@ -84,49 +86,24 @@ public class UserServiceImpl implements IUserService {
 		UserRepository.delete(entity);
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public User getById(Integer id) {
-	    return UserRepository.getReferenceById(id);
+		return UserRepository.getById(id);
 	}
 
-
-	@Override
-	public List <User> findByUsername(String username) {
-		return UserRepository.findByUsername(username);
-	}
 
 	@Override
 	public void deleteAll() {
 		UserRepository.deleteAll();
 	}
 	
-	@Override
-	public User login(String username, String password) {
-		List<User> user = UserRepository.findByUsername(username);
-
-		if (user.size() > 0) {
-			if (user.get(0).getPassword().equals(password))
-				return user.get(0);
-		}
-		return null;
-	}
-
-	@Override
-	public Integer countByCreateat(Date date) {
-		return UserRepository.countByCreateat(date);
-	}
-	
 	
 	@Override
-	public void updateResetPasswordToken(String token, String email) throws UserNotFoundException {
-		User customer = UserRepository.findByEmail(email);
-		if (customer != null) {
-			customer.setResetpasswordtoken(token);
-			UserRepository.save(customer);
-		} else {
-			throw new UserNotFoundException("Could not find any user with the email " + email);
-		}
+	public User findByEmail(String email) {
+	    return UserRepository.findByEmail(email);
 	}
+
 
 	@Override
 	public User getByResetPasswordToken(String token) {
@@ -138,8 +115,32 @@ public class UserServiceImpl implements IUserService {
 		// BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 		// String encodedPassword = passwordEncoder.encode(newPassword);
 		customer.setPassword(newPassword);
+
 		customer.setResetpasswordtoken(null);
 		UserRepository.save(customer);
 	}
+	@Override
+	public User findByUsername(String username) {
+	    return UserRepository.findByUsername(username);
+	}
+	@Override
+	public User login(String username, String password) {
+	    User user = UserRepository.findByUsername(username);
+	    if (user != null && user.getPassword().equals(password)) {
+	        return user;
+	    }
+	    return null;
+	}
+
+
+	@Override
+	public Integer countByCreateat(Date date) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	
+
 
 }
+
