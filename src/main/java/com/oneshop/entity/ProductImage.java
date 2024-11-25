@@ -22,5 +22,7 @@ public class ProductImage {
 
     @ManyToOne
     @JoinColumn(name = "product_id", nullable = false)
+    @ToString.Exclude // Ngăn tham chiếu lặp trong Lombok
+    @EqualsAndHashCode.Exclude
     private Product product;
 }

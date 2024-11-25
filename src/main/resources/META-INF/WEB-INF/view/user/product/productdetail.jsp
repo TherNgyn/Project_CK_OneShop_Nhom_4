@@ -1,13 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <head>
 <meta charset="UTF-8">
 <title>Trang chủ</title>
 </head>
 <body>
-	<!-- Breadcrumb Section Begin -->
+	<!-- <!-- Breadcrumb Section Begin -->
 	<section class="breadcrumb-section set-bg"
 		data-setbg="../../../common/user/img/breadcrumb.jpg">
 		<div class="container">
@@ -21,7 +20,7 @@
 			</div>
 		</div>
 	</section>
-	<!-- Breadcrumb Section End -->
+	<!-- Breadcrumb Section End --> -->
 
 	<!-- Product Details Section Begin -->
 	<section class="product-details spad">
@@ -31,8 +30,7 @@
 					<div class="product__details__pic">
 						<div class="product__details__pic__item">
 							<img class="product__details__pic__item--large"
-								src="/path/to/image/${product.listimage[0]}" alt="">
-
+								src="${product.imageUrls[0]}" alt="">
 						</div>
 						<div class="product__details__pic__slider owl-carousel">
 							<img
@@ -60,7 +58,7 @@
 								lượt)</span>
 						</div>
 						<div class="product__details__price">${product.price }</div>
-						<p>${product.desciption != null ? product.desciption : "Không có mô tả"}</p>
+						<p>${product.description != null ? product.description : "Không có mô tả"}</p>
 
 						<div class="product__details__quantity">
 							<div class="quantity">
@@ -75,7 +73,7 @@
 							class="primary-btn">THÊM VÀO GIỎ</a> <a href="#"
 							class="heart-icon"><i class="fa-solid fa-heart"></i></a>
 						<ul>
-							<li><b>Tình trạng</b> <span>${product.isselling != null && product.isselling ? 'Còn hàng' : 'Hết hàng' }</span></li>
+							<li><b>Tình trạng</b> <span>${product.isSelling != null && product.isSelling ? 'Còn hàng' : 'Hết hàng' }</span></li>
 							<li><b>Giao hàng</b> <span>01 ngày giao hàng <samp>Free
 										pickup today</samp></span></li>
 							<li><b>Đã bán</b> <span>${product.sold}</span></li>
@@ -106,13 +104,13 @@
 							<div class="tab-pane active" id="tabs-1" role="tabpanel">
 								<div class="product__details__tab__desc">
 									<h6>MÔ TẢ SẢN PHẨM</h6>
-									<p>${product.desciption}</p>
+									<p>${product.description}</p>
 								</div>
 							</div>
 							<div class="tab-pane" id="tabs-2" role="tabpanel">
 								<div class="product__details__tab__desc">
 									<h6>THÔNG TIN SẢN PHẨM</h6>
-									<p>${product.desciption}</p>
+									<p>${product.description}</p>
 								</div>
 							</div>
 							<div class="tab-pane" id="tabs-3" role="tabpanel">
@@ -174,11 +172,11 @@
 															<button type="submit" class="site-btn">GỬI</button>
 														</div>
 													</div>
-													<div style="width: 650px; margin-left: 170px">
+													<%-- <div style="width: 650px; margin-left: 170px">
 														<img class="product__details__pic__item--large"
-															src="../../../common/user/img/product/${product.listimage }"
+															src="${product.listimage }"
 															alt="">
-													</div>
+													</div> --%> <!-- Chỗ này xử lý hình ảnh đánh giá ở Entity Review -->
 												</div>
 											</form>
 										</div>
@@ -283,4 +281,3 @@
 </script>
 
 </body>
-</html>
