@@ -2,6 +2,7 @@ package com.oneshop.controller.user;
 
 
 import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Path;
 import java.sql.Date;
@@ -11,6 +12,8 @@ import java.util.List;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -20,8 +23,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.cloudinary.Cloudinary;
+import com.oneshop.config.CloudinaryService;
 import com.oneshop.entity.Cart;
 import com.oneshop.entity.CartItem;
 import com.oneshop.entity.Category;
@@ -60,7 +66,17 @@ public class HomeUserController {
 	ICartService cartService;
 	@Autowired
 	ICategoryService categoryService;
-	
+	@Autowired
+	private CloudinaryService cloudinaryService;
+	@PostMapping("/upload-avatar")
+	public ResponseEntity<String> uploadAvatar(@RequestParam("file") MultipartFile file) {
+	    try {
+	        String imageUrl = cloudinaryService.uploadFile(file);
+	        return ResponseEntity.ok(imageUrl);
+	    } catch (IOException e) {
+	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Upload failed: " + e.getMessage());
+	    }
+	}
 	@GetMapping("home")
 	public String home(ModelMap model, HttpServletRequest request) {
 
@@ -82,28 +98,6 @@ public class HomeUserController {
 
 	public User getSessionUser(HttpServletRequest request) {
 		return (User) request.getSession().getAttribute("loggedInUser");
-	}
-
-	@GetMapping("product")
-	public String list(ModelMap model) {
-		List<Product> page = productService.findAll();
-		model.addAttribute("product", page);
-		return "user/product/list";
-	}
-
-	@GetMapping("productdetail/{id}")
-	public ModelAndView detail(ModelMap model, @PathVariable("id") Integer id) {
-		Product product = productService.getById(id);
-		
-
-		List<Product> listbycate = productService.findByCategoryId(product.getCategory().getId());
-
-		ProductModel productModel = new ProductModel();
-		BeanUtils.copyProperties(product, productModel);
-		
-		model.addAttribute("product", productModel);
-		model.addAttribute("listbycate", listbycate);
-		return new ModelAndView("user/productdetail", model);
 	}
 
 	@GetMapping("profile")
@@ -142,34 +136,33 @@ public class HomeUserController {
 	        model.addAttribute("error", "Không tìm thấy thông tin người dùng.");
 	        return new ModelAndView("redirect:/user/profile", model);
 	    }
+
+	    // Xử lý upload ảnh lên Cloudinary
 	    if (!user.getAvatarFile().isEmpty()) {
 	        try {
-	            String avatarFileName = user.getAvatarFile().getOriginalFilename();
-	            String filePath = "D:/Nam 3/Project_CK_OneShop_Nhom_4/src/main/webapp/images/user/" + avatarFileName;
-	            Thumbnails.of(user.getAvatarFile().getInputStream())
-	                      .size(150, 150)
-	                      .toFile(new File(filePath));
-
-	            existingUser.setAvatar("images/user/" + avatarFileName);
+	            String uploadedUrl = cloudinaryService.uploadFile(user.getAvatarFile());
+	            existingUser.setAvatar(uploadedUrl); // Lưu URL ảnh vào database
 	        } catch (Exception e) {
 	            e.printStackTrace();
-	            model.addAttribute("error", "Không thể xử lý ảnh.");
+	            model.addAttribute("error", "Không thể xử lý ảnh: " + e.getMessage());
 	            return new ModelAndView("redirect:/user/profile", model);
 	        }
 	    }
+
+	    // Cập nhật các thông tin khác
 	    existingUser.setFirstName(user.getFirstName());
 	    existingUser.setLastName(user.getLastName());
 	    existingUser.setEmail(user.getEmail());
 	    existingUser.setPhone(user.getPhone());
 	    existingUser.setAddress(user.getAddress());
 	    existingUser.setUpdateat(new Date(System.currentTimeMillis()));
+
 	    try {
 	        userService.save(existingUser);
 	        session.setAttribute("user", existingUser);
-
 	        model.addAttribute("message", "Cập nhật hồ sơ thành công!");
 	    } catch (Exception e) {
-	        model.addAttribute("error", "Có lỗi xảy ra trong quá trình cập nhật.");
+	        model.addAttribute("error", "Có lỗi xảy ra trong quá trình cập nhật: " + e.getMessage());
 	        return new ModelAndView("redirect:/user/profile", model);
 	    }
 
@@ -199,5 +192,27 @@ public class HomeUserController {
 
 			}
 		}
+	}
+	
+	@GetMapping("product/productlist")
+	public String list(ModelMap model) {
+		List<Product> page = productService.findAll();
+		model.addAttribute("product", page);
+		return "user/product/productlist";
+	}
+
+	@GetMapping("productdetail/{id}")
+	public ModelAndView detail(ModelMap model, @PathVariable("id") Integer id) {
+		Product product = productService.getById(id);
+		
+
+		List<Product> listbycate = productService.findByCategoryId(product.getCategory().getId());
+
+		ProductModel productModel = new ProductModel();
+		BeanUtils.copyProperties(product, productModel);
+		
+		model.addAttribute("product", productModel);
+		model.addAttribute("listbycate", listbycate);
+		return new ModelAndView("user/product/productdetail", model);
 	}
 }

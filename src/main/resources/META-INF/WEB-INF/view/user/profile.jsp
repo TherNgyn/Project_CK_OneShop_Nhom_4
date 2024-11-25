@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <!DOCTYPE html>
 <html>
@@ -9,135 +9,135 @@
 <title>Profile</title>
 <style>
 body {
-    font-family: 'Poppins', sans-serif;
-    background-color: #f8f9fa;
-    margin: 0;
-    padding: 0;
+	font-family: 'Poppins', sans-serif;
+	background-color: #f8f9fa;
+	margin: 0;
+	padding: 0;
 }
 
 /* Title styling */
 .section-title h2 {
-    text-align: center;
-    color: #333;
-    margin-bottom: 30px;
-    font-size: 24px;
-    font-weight: bold;
+	text-align: center;
+	color: #333;
+	margin-bottom: 30px;
+	font-size: 24px;
+	font-weight: bold;
 }
 
 /* Main container styling */
 .main {
-    max-width: 1200px;
-    margin: auto;
-    background-color: white;
-    border-radius: 8px;
-    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
-    padding: 20px;
+	max-width: 1200px;
+	margin: auto;
+	background-color: white;
+	border-radius: 8px;
+	box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+	padding: 20px;
 }
 
 /* Card styling */
 .card {
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    border: 1px solid #ddd;
-    margin-bottom: 20px;
-    padding: 20px;
+	background-color: #fff;
+	border-radius: 8px;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+	border: 1px solid #ddd;
+	margin-bottom: 20px;
+	padding: 20px;
 }
 
 .card-body {
-    padding: 15px;
+	padding: 15px;
 }
 
 /* Profile image styling */
 /* Avatar image styling */
 .profile-card img {
-     max-width: 150px !important;
-    max-height: 150px !important;
-    object-fit: cover !important;
-    width: auto; 
-    height: auto; 
-    object-fit: cover; 
-    border-radius: 50%; 
-    border: 2px solid #ddd; /* Viền ảnh */
-    display: block; /* Đảm bảo ảnh là block để căn giữa */
-    margin: auto; /* Căn giữa ảnh */
+	max-width: 150px !important;
+	max-height: 150px !important;
+	object-fit: cover !important;
+	width: auto;
+	height: auto;
+	object-fit: cover;
+	border-radius: 50%;
+	border: 2px solid #ddd; /* Viền ảnh */
+	display: block; /* Đảm bảo ảnh là block để căn giữa */
+	margin: auto; /* Căn giữa ảnh */
 }
 
 .profile-card {
-    max-width: 200px;
-    margin: auto; 
-    text-align: center; 
+	max-width: 200px;
+	margin: auto;
+	text-align: center;
 }
 
-
 /* Responsive adjustments for smaller screens */
-@media (max-width: 768px) {
-    .profile-card img {
-        width: 100px; /* Thu nhỏ trên màn hình nhỏ */
-        height: 100px;
-    }
-    .main {
-        margin: 10px;
-        padding: 15px;
-    }
+@media ( max-width : 768px) {
+	.profile-card img {
+		width: 100px; /* Thu nhỏ trên màn hình nhỏ */
+		height: 100px;
+	}
+	.main {
+		margin: 10px;
+		padding: 15px;
+	}
 }
 
 /* Tabs styling */
 .nav-tabs .nav-link {
-    border: 1px solid #ddd;
-    margin: 0 5px;
-    color: #555;
-    font-weight: bold;
-    border-radius: 5px;
-    padding: 10px 15px;
-    text-align: center;
+	border: 1px solid #ddd;
+	margin: 0 5px;
+	color: #555;
+	font-weight: bold;
+	border-radius: 5px;
+	padding: 10px 15px;
+	text-align: center;
 }
 
 .nav-tabs .nav-link.active {
-    background-color: #007bff;
-    color: white;
-    border-color: #007bff;
+	background-color: #007bff;
+	color: white;
+	border-color: #007bff;
 }
 
 .tab-content {
-    margin-top: 20px;
+	margin-top: 20px;
 }
 
 /* Label and input fields styling */
 .label {
-    font-weight: bold;
-    color: #555;
-    margin-bottom: 5px;
+	font-weight: bold;
+	color: #555;
+	margin-bottom: 5px;
 }
 
-input[type="text"], input[type="email"], input[type="password"], input[type="file"] {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    margin-bottom: 10px;
+input[type="text"], input[type="email"], input[type="password"], input[type="file"]
+	{
+	width: 100%;
+	padding: 10px;
+	border: 1px solid #ddd;
+	border-radius: 5px;
+	margin-bottom: 10px;
 }
 
 input[type="text"]:focus, input[type="email"]:focus, input[type="password"]:focus,
-input[type="file"]:focus {
-    border-color: #007bff;
-    outline: none;
+	input[type="file"]:focus {
+	border-color: #007bff;
+	outline: none;
 }
 
 /* Button styling */
 .btn-primary {
-    background-color: #007bff;
-    border: none;
-    color: white;
-    font-size: 16px;
-    font-weight: bold;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
+	background-color: #007bff;
+	border: none;
+	color: white;
+	font-size: 16px;
+	font-weight: bold;
+	padding: 10px 20px;
+	border-radius: 5px;
+	cursor: pointer;
 }
 
 .btn-primary:hover {
-    background-color: #0056b3;
+	background-color: #0056b3;
 }
 /* Responsive styling */
 @media ( max-width : 768px) {
@@ -178,10 +178,11 @@ input[type="file"]:focus {
 						<div
 							class="card-body profile-card pt-4 d-flex flex-column align-items-center">
 
-							<img src="${user.avatar}" alt="Profile"
-								class="rounded-circle">
-							<h2>${user.username}</h2>
-							<h3>USER</h3>
+							<img src="${user.avatar}" alt="Profile" class="rounded-circle"
+								style="width: 150px; height: 150px; object-fit: cover;">
+
+							<h3>${user.username}</h3>
+							<h5>USER</h5>
 							<div class="social-links mt-2">
 								<a href="#" class="twitter"><i class="bi bi-twitter"></i></a> <a
 									href="#" class="facebook"><i class="bi bi-facebook"></i></a> <a
