@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <!DOCTYPE html>
 <html>
@@ -8,7 +8,6 @@
 <meta charset="UTF-8">
 <title>Profile</title>
 <style>
-/* Body styling */
 body {
 	font-family: 'Poppins', sans-serif;
 	background-color: #f8f9fa;
@@ -50,41 +49,36 @@ body {
 }
 
 /* Profile image styling */
+/* Avatar image styling */
+.profile-card img {
+	max-width: 150px !important;
+	max-height: 150px !important;
+	object-fit: cover !important;
+	width: auto;
+	height: auto;
+	object-fit: cover;
+	border-radius: 50%;
+	border: 2px solid #ddd; /* Viền ảnh */
+	display: block; /* Đảm bảo ảnh là block để căn giữa */
+	margin: auto; /* Căn giữa ảnh */
+}
+
 .profile-card {
+	max-width: 200px;
+	margin: auto;
 	text-align: center;
 }
 
-.profile-card img {
-	width: 120px;
-	height: 120px;
-	border-radius: 50%;
-	object-fit: cover;
-	border: 2px solid #ddd;
-}
-
-.profile-card h2 {
-	margin: 10px 0 5px;
-	font-size: 20px;
-	color: #333;
-	font-weight: bold;
-}
-
-.profile-card h3 {
-	color: #666;
-	font-size: 14px;
-	font-weight: normal;
-}
-
-/* Social links styling */
-.social-links a {
-	margin: 0 5px;
-	font-size: 16px;
-	color: #007bff;
-	text-decoration: none;
-}
-
-.social-links a:hover {
-	color: #0056b3;
+/* Responsive adjustments for smaller screens */
+@media ( max-width : 768px) {
+	.profile-card img {
+		width: 100px; /* Thu nhỏ trên màn hình nhỏ */
+		height: 100px;
+	}
+	.main {
+		margin: 10px;
+		padding: 15px;
+	}
 }
 
 /* Tabs styling */
@@ -145,7 +139,6 @@ input[type="text"]:focus, input[type="email"]:focus, input[type="password"]:focu
 .btn-primary:hover {
 	background-color: #0056b3;
 }
-
 /* Responsive styling */
 @media ( max-width : 768px) {
 	.main {
@@ -185,10 +178,11 @@ input[type="text"]:focus, input[type="email"]:focus, input[type="password"]:focu
 						<div
 							class="card-body profile-card pt-4 d-flex flex-column align-items-center">
 
-							<img src="/images/user/${user.avatar}" alt="Profile"
-								class="rounded-circle">
-							<h2>${user.username}</h2>
-							<h3>USER</h3>
+							<img src="${user.avatar}" alt="Profile" class="rounded-circle"
+								style="width: 150px; height: 150px; object-fit: cover;">
+
+							<h3>${user.username}</h3>
+							<h5>USER</h5>
 							<div class="social-links mt-2">
 								<a href="#" class="twitter"><i class="bi bi-twitter"></i></a> <a
 									href="#" class="facebook"><i class="bi bi-facebook"></i></a> <a

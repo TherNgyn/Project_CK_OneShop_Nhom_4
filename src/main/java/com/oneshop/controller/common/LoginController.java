@@ -1,6 +1,5 @@
 package com.oneshop.controller.common;
 
-import java.lang.reflect.InvocationTargetException;
 import java.sql.Date;
 import java.util.List;
 
@@ -136,7 +135,7 @@ public class LoginController {
 	    return "redirect:/login"; // Trở về trang đăng nhập
 	}
 
-	@GetMapping("/register")
+	@GetMapping("register")
 	public String showRegisterPage(ModelMap model) {
 	    model.addAttribute("user", new UserModel());
 	    return "common/register"; 
@@ -152,15 +151,23 @@ public class LoginController {
 	                              @RequestParam(name = "confirmPassword", required = false) String confirmPassword,
 	                              @RequestParam(name = "agreePolicy", required = false) String agreePolicy) {
 
+		
+		if (username == null || username.trim().isEmpty() ||
+			    email == null || email.trim().isEmpty() ||
+			    phone == null || phone.trim().isEmpty() ||
+			    password == null || password.trim().isEmpty() ||
+			    confirmPassword == null || confirmPassword.trim().isEmpty()) {
+			    model.addAttribute("message", "Vui lòng điền đầy đủ thông tin.");
+			    return new ModelAndView("common/register", model);
+			}
 
-	    if (username == null || username.trim().isEmpty() ||
-	        email == null || email.trim().isEmpty() ||
-	        phone == null || phone.trim().isEmpty() ||
-	        password == null || password.trim().isEmpty() ||
-	        confirmPassword == null || confirmPassword.trim().isEmpty()) {
-	        model.addAttribute("message", "Vui lòng điền đầy đủ thông tin.");
-	        return new ModelAndView("common/register", model);
-	    }
+		System.out.println("Username: " + username);
+		System.out.println("Email: " + email);
+		System.out.println("Phone: " + phone);
+		System.out.println("Password: " + password);
+		System.out.println("ConfirmPassword: " + confirmPassword);
+		System.out.println("AgreePolicy: " + agreePolicy);
+		System.out.println("UserService.save() called");
 
 	    if (!password.equals(confirmPassword)) {
 	        model.addAttribute("message", "Mật khẩu và Nhập lại mật khẩu không khớp.");
@@ -193,6 +200,8 @@ public class LoginController {
 	    Date currentDate = new Date(System.currentTimeMillis());
 	    user.setCreateat(currentDate);
 	    user.setUpdateat(currentDate);
+	    System.out.print("\n" + "-----------------");
+	    System.out.print(user.toString());
 
 	    try {
 	        userService.save(user);
@@ -202,12 +211,12 @@ public class LoginController {
 	        cart.setUpdateat(currentDate);
 	        cartService.save(cart);
 	        
-	        Order order = new Order();
-	        order.setUser(user);
-	        order.setCreateat(currentDate);
-	        order.setUpdateat(currentDate);
-	        order.setPrice(0.0f);
-	        orderSerivce.save(order);
+//	        Order order = new Order();
+//	        order.setUser(user);
+//	        order.setCreateat(currentDate);
+//	        order.setUpdateat(currentDate);
+//	        order.setPrice(0.0f);
+//	        orderSerivce.save(order);
 
 	        model.addAttribute("message", "Tạo tài khoản thành công! Hãy đăng nhập.");
 	        return new ModelAndView("common/login", model);
@@ -226,17 +235,6 @@ public class LoginController {
 	    return "common/forgot_password"; // Tên view tương ứng
 	}
 
-	@PostMapping("/forgot_password")
-	public ModelAndView handleForgotPassword(@RequestParam("email") String email, ModelMap model) {
-	    // Logic gửi email đặt lại mật khẩu
-	    try {
-	        userService.updateResetPasswordToken("generated-token", email);
-	        model.addAttribute("message", "Một liên kết đặt lại mật khẩu đã được gửi đến email của bạn.");
-	    } catch (UserNotFoundException e) {
-	        model.addAttribute("error", "Không tìm thấy email này trong hệ thống.");
-	    }
-	    return new ModelAndView("common/forgot_password", model);
-	}
 	@GetMapping("/reset_password")
 	public String showResetPasswordPage(@RequestParam("token") String token, ModelMap model) {
 	    model.addAttribute("token", token);
