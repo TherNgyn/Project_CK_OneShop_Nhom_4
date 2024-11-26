@@ -294,7 +294,7 @@
 													</p>
 													<!-- Tên sản phẩm -->
 													<a class="wsus__pro_name"
-														href="/user/product/productdetail?id=${product.id}">${product.name}</a>
+														href="/user/products/productdetail?id=${product.id}">${product.name}</a>
 													<!-- Giá sản phẩm -->
 													<p class="wsus__price">
 														$${product.promotionalPrice}
@@ -322,7 +322,7 @@
 												<!-- Hình ảnh sản phẩm -->
 												<a
 													class="wsus__pro_link d-flex align-items-center justify-content-center me-3"
-													href="/user/product/productdetail?id=${product.id}"> <img
+													href="/user/products/productdetail?id=${product.id}"> <img
 													src="${product.imageUrls[0]}" alt="${product.name}"
 													class="img-fluid img_1" style="max-width: 150px;" /> <c:if
 														test="${product.imageUrls.size() > 1}">
@@ -334,7 +334,7 @@
 												<div class="wsus__product_details w-100">
 													<a class="wsus__category" href="#">${product.category.name}</a>
 													<a class="wsus__pro_name"
-														href="/user/product/productdetail?id=${product.id}">${product.name}</a>
+														href="/user/products/productdetail?id=${product.id}">${product.name}</a>
 													<p class="wsus__pro_rating">
 														<c:forEach begin="1" end="5" varStatus="loop">
 															<c:choose>

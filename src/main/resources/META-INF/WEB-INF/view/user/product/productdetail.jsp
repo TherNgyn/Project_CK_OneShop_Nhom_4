@@ -4,24 +4,9 @@
 <head>
 <meta charset="UTF-8">
 <title>Trang chủ</title>
+
 </head>
 <body>
-	<!-- <!-- Breadcrumb Section Begin -->
-	<section class="breadcrumb-section set-bg"
-		data-setbg="../../../common/user/img/breadcrumb.jpg">
-		<div class="container">
-			<div class="row">
-				<div class="col-lg-12 text-center">
-					<div class="breadcrumb__text">
-						<h2>Chi tiết sản phẩm</h2>
-
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>
-	<!-- Breadcrumb Section End --> -->
-
 	<!-- Product Details Section Begin -->
 	<section class="product-details spad">
 		<div class="container">
@@ -31,20 +16,6 @@
 						<div class="product__details__pic__item">
 							<img class="product__details__pic__item--large"
 								src="${product.imageUrls[0]}" alt="">
-						</div>
-						<div class="product__details__pic__slider owl-carousel">
-							<img
-								data-imgbigurl="../../../common/user/img/banner/banner-1.jpg"
-								src="../../../common/user/img/banner/banner-5.jpg" alt="">
-							<img
-								data-imgbigurl="../../../common/user/img/banner/banner-1.jpg"
-								src="../../../common/user/img/banner/banner-6.jpg" alt="">
-							<img
-								data-imgbigurl="../../../common/user/img/banner/banner-1.jpg"
-								src="../../../common/user/img/banner/banner-7.jpg" alt="">
-							<img
-								data-imgbigurl="../../../common/user/img/banner/banner-1.jpg"
-								src="../../../common/user/img/banner/banner-11.jpg" alt="">
 						</div>
 					</div>
 				</div>
@@ -62,32 +33,82 @@
 
 						<div class="product__details__quantity">
 							<div class="quantity">
-								<div class="pro-qty">
-									<input id="count" type="text" value="1">
-								</div>
+								<button class="qty-btn minus" onclick="decrementQuantity()">-</button>
+								<input id="count" type="text" value="${quantity}" readonly>
+								<button class="qty-btn plus" onclick="incrementQuantity()">+</button>
 							</div>
 						</div>
+
+						<script>
+						    function incrementQuantity() {
+						        const countInput = document.getElementById("count");
+						        let value = parseInt(countInput.value, 10);
+						        if (!isNaN(value)) {
+						            countInput.value = value + 1; // Tăng số lượng
+						        }
+						    }
+						
+						    function decrementQuantity() {
+						        const countInput = document.getElementById("count");
+						        let value = parseInt(countInput.value, 10);
+						        if (!isNaN(value) && value > 1) {
+						            countInput.value = value - 1; // Giảm số lượng (không cho < 1)
+						        }
+						    }
+						</script>
+
 						<%-- <button class="primary-btn" onclick="submitForm(${product.id})">THÊM VÀO GIỎ</button> --%>
 
-						<a onclick="submitForm(${product.id}, ${check })" href="#"
-							class="primary-btn">THÊM VÀO GIỎ</a> <a href="#"
-							class="heart-icon"><i class="fa-solid fa-heart"></i></a>
+						<a onclick="submitForm(${product.id}, ${check})" href="#"
+							class="primary-btn">THÊM VÀO GIỎ</a> <a href="#" id="heart-icon"
+							class="heart-icon" onclick="updateFavorite(${product.id})"> <i
+							id="heart-icon-element" class="fa-regular fa-heart"></i>
+						</a>
+						<%--Sản phẩm yêu thích --%>
+
 						<ul>
 							<li><b>Tình trạng</b> <span>${product.isSelling != null && product.isSelling ? 'Còn hàng' : 'Hết hàng' }</span></li>
-							<li><b>Giao hàng</b> <span>01 ngày giao hàng <samp>Free
-										pickup today</samp></span></li>
 							<li><b>Đã bán</b> <span>${product.sold}</span></li>
-							<li><b>Bán tại</b>
-								<div class="share">
-									<a href="#"><i class="fa fa-facebook"></i></a> <a href="#"><i
-										class="fa fa-twitter"></i></a> <a href="#"><i
-										class="fa fa-instagram"></i></a> <a href="#"><i
-										class="fa fa-pinterest"></i></a>
-								</div></li>
 
 						</ul>
 					</div>
 				</div>
+				<div class="shop-info">
+					<div class="row align-items-center">
+						<!-- Logo và tên shop -->
+						<div class="col-lg-2 col-md-3 col-sm-4 text-center">
+							<img src="${store.avatar}" alt="Shop Logo" class="shop-logo">
+						</div>
+						<div class="col-lg-10 col-md-9 col-sm-8">
+							<!-- Thông tin shop -->
+							<div class="shop-details">
+								<h4>${store.name}</h4>
+								<div>
+									<a href="/user/chat/${store.id}" class="btn btn-danger">Chat
+										Ngay</a> <a href="/user/store/${store.id}"
+										class="btn btn-outline-secondary">Xem Shop</a>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="row shop-stats">
+						<!-- Đánh Giá -->
+						<div class="col-lg-3 col-md-4 col-sm-6">
+							<p>
+								<b>Đánh Giá:</b> <span>${store.rating != null ? store.rating : 'Chưa có đánh giá'}</span>
+							</p>
+						</div>
+						<!-- Tình trạng hoạt động -->
+						<div class="col-lg-3 col-md-4 col-sm-6">
+							<p>
+								<b>Trạng thái:</b> <span>${store.isactive ? 'Hoạt động' : 'Ngừng hoạt động'}</span>
+							</p>
+						</div>
+					</div>
+
+				</div>
+
 				<div class="col-lg-12">
 					<div class="product__details__tab">
 						<ul class="nav nav-tabs" role="tablist">
@@ -100,6 +121,7 @@
 								href="#tabs-3" role="tab" aria-selected="false">Đánh giá<span>
 										(${product.rating} lượt)</span></a></li>
 						</ul>
+
 						<div class="tab-content">
 							<div class="tab-pane active" id="tabs-1" role="tabpanel">
 								<div class="product__details__tab__desc">
@@ -176,7 +198,8 @@
 														<img class="product__details__pic__item--large"
 															src="${product.listimage }"
 															alt="">
-													</div> --%> <!-- Chỗ này xử lý hình ảnh đánh giá ở Entity Review -->
+													</div> --%>
+													<!-- Chỗ này xử lý hình ảnh đánh giá ở Entity Review -->
 												</div>
 											</form>
 										</div>

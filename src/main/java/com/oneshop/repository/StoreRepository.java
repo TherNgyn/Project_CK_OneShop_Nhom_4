@@ -23,4 +23,5 @@ public interface StoreRepository extends JpaRepository<Store, Integer> {
 	// Viết thêm
 	Integer countByCreateat(Date date);
 	Store findOneByUser(User user);
+	
 }
