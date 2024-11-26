@@ -23,15 +23,18 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.cloudinary.Cloudinary;
 import com.oneshop.entity.Product;
+import com.oneshop.entity.Store;
 import com.oneshop.model.ProductModel;
 import com.oneshop.service.IProductService;
+import com.oneshop.service.IStoreService;
 @Controller
 @RequestMapping("/user/products")
 public class ProductUserController{
 	
 	@Autowired 
 	private IProductService productService;
-	
+	@Autowired 
+	private IStoreService storeService;
 	@Autowired
 	private Cloudinary cloudinary;
 	
@@ -110,24 +113,23 @@ public class ProductUserController{
 	    model.addAttribute("pageSize", pageSize);
 	    return "user/product/product-search-result";
 	}
+	
 	@GetMapping("/productdetail")
 	public String getProductDetail(@RequestParam("id") Integer id, Model model) {
 	    // Lấy sản phẩm từ service
 	    Product product = productService.getById(id);
-
+	    Store store = storeService.getById(product.getId());
 	    // Khởi tạo danh sách URL hình ảnh từ danh sách `images`
-		List<String> imageUrls = product.getImages().stream()
-				.map(image -> cloudinary.url().publicId(image.getImageUrl()).generate()).collect(Collectors.toList());
-	    product.setImageUrls(imageUrls); // Set danh sách URL vào `listimage`
-
-		/*
-		 * // Tìm các sản phẩm liên quan theo category List<Product> relatedProducts =
-		 * productService.findByCategoryId(product.getCategory().getId());
-		 */
+	    List<String> imageUrls = product.getImages().stream()
+	            .map(image -> cloudinary.url().publicId(image.getImageUrl()).generate())
+	            .collect(Collectors.toList());
+	    product.setImageUrls(imageUrls);
 
 	    // Đưa dữ liệu vào model để hiển thị trong view
 	    model.addAttribute("product", product);
-		/* model.addAttribute("listbycate", relatedProducts); */
+	    model.addAttribute("store", store);
+	    // Thêm số lượng mặc định
+	    model.addAttribute("quantity", 1);
 
 	    return "user/product/productdetail";
 	}
