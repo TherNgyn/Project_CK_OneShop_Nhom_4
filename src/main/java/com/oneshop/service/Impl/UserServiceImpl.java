@@ -10,6 +10,7 @@ import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.oneshop.entity.User;
@@ -21,7 +22,8 @@ import com.oneshop.service.IUserService;
 public class UserServiceImpl implements IUserService {
 	@Autowired
 	UserRepository UserRepository;
-	
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 	@Autowired
 	IUserService userService;
 
@@ -123,14 +125,14 @@ public class UserServiceImpl implements IUserService {
 	public User findByUsername(String username) {
 	    return UserRepository.findByUsername(username);
 	}
-	@Override
 	public User login(String username, String password) {
-	    User user = UserRepository.findByUsername(username);
-	    if (user != null && user.getPassword().equals(password)) {
-	        return user;
-	    }
-	    return null;
-	}
+        User user = UserRepository.findByUsername(username);
+        if (user == null || !passwordEncoder.matches(password, user.getPassword())) {
+            return null; 
+        }
+
+        return user; 
+    }
 
 
 	@Override
@@ -138,6 +140,7 @@ public class UserServiceImpl implements IUserService {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
 
 	
 
