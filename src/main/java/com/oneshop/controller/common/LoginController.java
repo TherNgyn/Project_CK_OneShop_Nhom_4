@@ -4,6 +4,7 @@ import java.sql.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,7 +31,6 @@ import com.oneshop.service.Impl.UserNotFoundException;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.http.HttpSession;
 @Controller
-@RequestMapping("")
 public class LoginController {
 	@Autowired
 	IUserService userService;
@@ -48,9 +48,13 @@ public class LoginController {
 	IStoreService storeService;
 	@Autowired
 	ICategoryService categoryService;
-	@RequestMapping("login")
+	@Autowired
+	PasswordEncoder passwordEncoder;
+	
+	@RequestMapping("/login")
 	public String home(ModelMap model) {
 		model.addAttribute("user", new UserModel());
+		System.out.println("\n\n\n\n\n\n\n\n---------------------GET received for login----------------------");
 		return "common/login";
 	}
 
@@ -78,7 +82,7 @@ public class LoginController {
 	    List<Category> listCate = categoryService.findAll();
 	    model.addAttribute("listcate", listCate);
 
-	    // Điều hướng theo role
+	    // Điều hướng theo roles
 	    switch (role) {
 	        case "ROLE_ADMIN":
 	            return "/admin/home";
@@ -91,42 +95,53 @@ public class LoginController {
 	    }
 	}
 
-	@PostMapping("login")
+	@PostMapping("/login")
 	public ModelAndView login(ModelMap model, 
 	                           @RequestParam(name = "username", required = false) String username,
 	                           @RequestParam(name = "password", required = false) String password) {
 	    session.removeAttribute("message");
-
+	    
+	    
+	    System.out.println("\n\n\n\n\n\n\n\n------------------POST received for login--------------------------");
+	    //System.out.println("Username: " + username + ", Password: " + password);
+	    
+	    // Kiểm tra xem tên đăng nhập và mật khẩu có rỗng hay không
 	    if (username == null || username.trim().isEmpty() || password == null || password.trim().isEmpty()) {
 	        model.addAttribute("message", "Vui lòng nhập đầy đủ tên đăng nhập và mật khẩu.");
 	        return new ModelAndView("common/login", model);
 	    }
 
-	    // Xác thực người dùng
-	    User user = userService.login(username.trim(), password.trim());
-	    if (user == null) {
+	    // Lấy người dùng từ cơ sở dữ liệu dựa trên tên đăng nhập
+	    User user = userService.findByUsername(username.trim());
+
+	    // Kiểm tra người dùng có tồn tại và mật khẩu có đúng không
+	    if (user == null || !passwordEncoder.matches(password.trim(), user.getPassword())) {
 	        model.addAttribute("message", "Tài khoản hoặc mật khẩu không chính xác.");
 	        return new ModelAndView("common/login", model);
 	    }
 
 	    // Lưu thông tin người dùng và vai trò vào session
 	    session.setAttribute("user", user);
+	    //System.out.println(user.toString());
 	    session.setAttribute("userRole", user.getRole());
 
-	    // Điều hướng theo vai trò
 	    switch (user.getRole()) {
 	        case "ROLE_ADMIN":
-	            return new ModelAndView("/admin/home", model);
+	            return new ModelAndView("redirect:/admin/home");
 	        case "ROLE_VENDOR":
-	            return new ModelAndView("/vendor/home", model);
+	            return new ModelAndView("redirect:/vendor/home");
 	        case "ROLE_USER":
-	            return new ModelAndView("/user/home", model);
+	            return new ModelAndView("redirect:/user/home");
 	        default:
 	            model.addAttribute("message", "Vai trò không hợp lệ.");
 	            session.invalidate();
 	            return new ModelAndView("common/login", model);
-	    }
+		    }
 	}
+
+
+
+
 
 
 	@RequestMapping("logout")
@@ -151,23 +166,14 @@ public class LoginController {
 	                              @RequestParam(name = "confirmPassword", required = false) String confirmPassword,
 	                              @RequestParam(name = "agreePolicy", required = false) String agreePolicy) {
 
-		
-		if (username == null || username.trim().isEmpty() ||
-			    email == null || email.trim().isEmpty() ||
-			    phone == null || phone.trim().isEmpty() ||
-			    password == null || password.trim().isEmpty() ||
-			    confirmPassword == null || confirmPassword.trim().isEmpty()) {
-			    model.addAttribute("message", "Vui lòng điền đầy đủ thông tin.");
-			    return new ModelAndView("common/register", model);
-			}
-
-		System.out.println("Username: " + username);
-		System.out.println("Email: " + email);
-		System.out.println("Phone: " + phone);
-		System.out.println("Password: " + password);
-		System.out.println("ConfirmPassword: " + confirmPassword);
-		System.out.println("AgreePolicy: " + agreePolicy);
-		System.out.println("UserService.save() called");
+	    if (username == null || username.trim().isEmpty() ||
+	        email == null || email.trim().isEmpty() ||
+	        phone == null || phone.trim().isEmpty() ||
+	        password == null || password.trim().isEmpty() ||
+	        confirmPassword == null || confirmPassword.trim().isEmpty()) {
+	        model.addAttribute("message", "Vui lòng điền đầy đủ thông tin.");
+	        return new ModelAndView("common/register", model);
+	    }
 
 	    if (!password.equals(confirmPassword)) {
 	        model.addAttribute("message", "Mật khẩu và Nhập lại mật khẩu không khớp.");
@@ -178,30 +184,32 @@ public class LoginController {
 	        model.addAttribute("message", "Bạn cần đồng ý với Chính Sách Bảo Mật để tiếp tục.");
 	        return new ModelAndView("common/register", model);
 	    }
+
 	    if (!email.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$")) {
 	        model.addAttribute("message", "Email không hợp lệ.");
 	        return new ModelAndView("common/register", model);
 	    }
+
 	    if (!phone.matches("^[0-9]{10}$")) {
 	        model.addAttribute("message", "Số điện thoại không hợp lệ.");
 	        return new ModelAndView("common/register", model);
 	    }
+
 	    if (userService.findByUsername(username.trim()) != null) {
 	        model.addAttribute("message", "Tên đăng nhập đã tồn tại.");
 	        return new ModelAndView("common/register", model);
 	    }
-	    User existingUserByEmail = userService.findByEmail(email.trim());
+
 	    User user = new User();
 	    user.setUsername(username.trim());
 	    user.setEmail(email.trim());
 	    user.setPhone(phone.trim());
-	    user.setPassword(password.trim()); 
-	    user.setRole("ROLE_USER"); 
+	    // Mã hóa mật khẩu
+	    user.setPassword(passwordEncoder.encode(password.trim()));
+	    user.setRole("ROLE_USER");
 	    Date currentDate = new Date(System.currentTimeMillis());
 	    user.setCreateat(currentDate);
 	    user.setUpdateat(currentDate);
-	    System.out.print("\n" + "-----------------");
-	    System.out.print(user.toString());
 
 	    try {
 	        userService.save(user);
@@ -210,23 +218,17 @@ public class LoginController {
 	        cart.setCreateat(currentDate);
 	        cart.setUpdateat(currentDate);
 	        cartService.save(cart);
-	        
-//	        Order order = new Order();
-//	        order.setUser(user);
-//	        order.setCreateat(currentDate);
-//	        order.setUpdateat(currentDate);
-//	        order.setPrice(0.0f);
-//	        orderSerivce.save(order);
 
 	        model.addAttribute("message", "Tạo tài khoản thành công! Hãy đăng nhập.");
 	        return new ModelAndView("common/login", model);
-
 	    } catch (Exception e) {
 	        e.printStackTrace();
 	        model.addAttribute("message", "Đã xảy ra lỗi trong quá trình đăng ký. Vui lòng thử lại.");
 	        return new ModelAndView("common/register", model);
 	    }
 	}
+
+
 
 
 
@@ -246,9 +248,12 @@ public class LoginController {
 	    @RequestParam("token") String token,
 	    @RequestParam("password") String newPassword,
 	    ModelMap model) {
+
 	    User user = userService.getByResetPasswordToken(token);
 	    if (user != null) {
-	        userService.updatePassword(user, newPassword);
+	        // Mã hóa mật khẩu mới
+	        String encodedPassword = passwordEncoder.encode(newPassword);
+	        userService.updatePassword(user, encodedPassword);
 	        model.addAttribute("message", "Mật khẩu của bạn đã được thay đổi thành công!");
 	        return new ModelAndView("common/login", model);
 	    } else {

@@ -1,14 +1,14 @@
-package com.oneshop.controller;
+package com.oneshop.controller.admin;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/vendor")
-public class VendorController {
+@RequestMapping("/admin")
+public class AdminController {
     @GetMapping("/home")
-    public String userHome() {
-        return "vendor/home"; // File JSP của user
+    public String adminHome() {
+        return "admin/home"; 
     }
 }
