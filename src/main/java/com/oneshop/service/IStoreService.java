@@ -9,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
+import com.oneshop.entity.Product;
 import com.oneshop.entity.Store;
 import com.oneshop.entity.User;
 
@@ -31,5 +32,4 @@ public interface IStoreService {
 	List<Store> findByNameContaining(String name);
 	Integer countByCreateat(Date date);
 	Store findOneByUser(User user);
-
 }

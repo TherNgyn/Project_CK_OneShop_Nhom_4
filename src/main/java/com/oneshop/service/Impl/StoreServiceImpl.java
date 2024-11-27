@@ -13,7 +13,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import com.oneshop.entity.Category;
 import com.oneshop.entity.Store;
 import com.oneshop.entity.User;
 import com.oneshop.repository.StoreRepository;
@@ -111,7 +110,8 @@ public class StoreServiceImpl implements IStoreService {
 	
 	@Override
 	public Store findOneByUser(User user) {
-		// TODO Auto-generated method stub
 		return StoreRepository.findOneByUser(user);
 	}
+
+
 }
