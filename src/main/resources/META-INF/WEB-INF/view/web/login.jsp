@@ -23,7 +23,7 @@
 							<h2>User Login</h2>
 							<span>${message}</span>
 						</div>
-						<form action="/login" method="Post" enctype="multipart/form-data">
+						<form action="login" method="Post" enctype="multipart/form-data">
 						
 						<div class="input_text">
 							<input type="text" placeholder="Username"  name="username"> <i

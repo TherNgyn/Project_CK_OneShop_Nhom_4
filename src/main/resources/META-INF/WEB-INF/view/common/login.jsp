@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -31,7 +33,10 @@
 				<div class="col-xl-5 m-auto">
 					<div class="wsus__login_reg_area">
 						<div class="wsus__login">
-							<form action="/login" method="post">
+							<form action="login" method="post">
+								<c:if test="${param.error != null}">
+		    						<div class="alert alert-danger">Tên đăng nhập hoặc mật khẩu không đúng!</div>
+								</c:if>
 								<div class="wsus__login_input">
 									<i class="fa fa-user"></i> <input type="text" name="username"
 										placeholder="Tên đăng nhập" required>
@@ -55,8 +60,7 @@
 
 							<!-- Đường dẫn đến trang Đăng Ký -->
 							<p class="text-center mt-3">
-								Chưa có tài khoản? <a href="/register" class="register-link">Đăng
-									Ký ngay</a>
+								Chưa có tài khoản? <a href="/register" class="register-link">Đăng Ký ngay</a>
 							</p>
 						</div>
 					</div>

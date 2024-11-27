@@ -79,7 +79,7 @@ public class HomeUserController {
 	}
 	@GetMapping("home")
 	public String home(ModelMap model, HttpServletRequest request) {
-
+		
 		model.addAttribute("user", getSessionUser(request));
 		List<Product> listNew = productService.findTop8ByOrderByIdDesc();
 		model.addAttribute("products", listNew);
