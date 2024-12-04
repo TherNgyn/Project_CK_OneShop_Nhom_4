@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -30,7 +31,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
             .csrf(csrf -> csrf
-                .ignoringRequestMatchers("/register", "/login")
+                .ignoringRequestMatchers("/register", "/login", "/user/**")
             )
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/user/**").hasAnyAuthority("ROLE_USER")
@@ -46,9 +47,11 @@ public class SecurityConfig {
                     String username = authentication.getName();
                     User user = userService.findByUsername(username);
 
-                    // Lưu thông tin người dùng và vai trò vào session
+                    // Lưu thông tin người dùng vào SecurityContext
+                    SecurityContextHolder.getContext().setAuthentication(authentication);
+
+                    // Lưu thông tin người dùng vào session 
                     session.setAttribute("user", user);
-                    session.setAttribute("userRole", user.getRole());
 
                     // Điều hướng sau khi đăng nhập thành công
                     String redirectUrl = "/home";
