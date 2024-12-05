@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Entity
 @Table(name = "cartitem")
@@ -20,6 +21,7 @@ public class CartItem {
 
     @ManyToOne
     @JoinColumn(name = "cartid", nullable = false)
+    @ToString.Exclude // Loại trừ `cart` khỏi `toString`
     private Cart cart;
 
     @ManyToOne

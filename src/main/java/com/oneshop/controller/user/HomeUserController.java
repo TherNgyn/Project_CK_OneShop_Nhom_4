@@ -204,7 +204,6 @@ public class HomeUserController {
 	@GetMapping("user/productdetail/{id}")
 	public ModelAndView detail(ModelMap model, @PathVariable("id") Integer id) {
 		Product product = productService.getById(id);
-		
 
 		List<Product> listbycate = productService.findByCategoryId(product.getCategory().getId());
 

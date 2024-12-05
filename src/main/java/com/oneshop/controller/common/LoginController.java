@@ -14,9 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.oneshop.entity.Cart;
 import com.oneshop.entity.Category;
-import com.oneshop.entity.Order;
 import com.oneshop.entity.Product;
-import com.oneshop.entity.Store;
 import com.oneshop.entity.User;
 import com.oneshop.model.UserModel;
 import com.oneshop.service.ICartService;
@@ -25,7 +23,6 @@ import com.oneshop.service.IOrderService;
 import com.oneshop.service.IProductService;
 import com.oneshop.service.IStoreService;
 import com.oneshop.service.IUserService;
-import com.oneshop.service.Impl.UserNotFoundException;
 
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.http.HttpSession;
@@ -232,13 +229,13 @@ public class LoginController {
 
 	@GetMapping("/forgot_password")
 	public String showForgotPasswordPage() {
-	    return "common/forgot_password"; // Tên view tương ứng
+	    return "common/forgot_password";
 	}
 
 	@GetMapping("/reset_password")
 	public String showResetPasswordPage(@RequestParam("token") String token, ModelMap model) {
 	    model.addAttribute("token", token);
-	    return "common/reset_password"; // Tên view tương ứng
+	    return "common/reset_password";
 	}
 
 	@PostMapping("/reset_password")

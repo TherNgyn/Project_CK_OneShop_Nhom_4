@@ -39,7 +39,7 @@
 					<ul class="wsus__icon_area">
 						<li><a href="wishlist.jsp"><i class="fal fa-heart"></i><span>05</span></a></li>
 						<li><a href="compare.jsp"><i class="fal fa-random"></i><span>03</span></a></li>
-						<li><a class="wsus__cart_icon" href="#"><i
+						<li><a class="wsus__cart_icon" href="/user/cart/item"><i
 								class="fal fa-shopping-bag"></i><span>04</span></a></li>
 					</ul>
 				</div>
