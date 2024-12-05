@@ -112,6 +112,7 @@ public class LoginController {
 	    if (session != null) {
 	        session.setAttribute("user", user);
 	        session.setAttribute("userRole", user.getRole());
+	        System.out.println("userRole"+ user.getRole());
 	    } else {
 	        System.out.println("Session is null!");
 	        model.addAttribute("message", "Đã xảy ra lỗi hệ thống. Vui lòng thử lại.");
