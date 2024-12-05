@@ -52,6 +52,7 @@ public class SecurityConfig {
 
                     // Lưu thông tin người dùng vào session 
                     session.setAttribute("user", user);
+                    session.setAttribute("userRole", user.getRole());
 
                     // Điều hướng sau khi đăng nhập thành công
                     String redirectUrl = "/home";

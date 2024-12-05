@@ -1,7 +1,9 @@
 package com.oneshop.controller.common;
 
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -19,7 +21,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.cloudinary.Cloudinary;
+import com.oneshop.entity.Category;
 import com.oneshop.entity.Product;
+import com.oneshop.service.ICategoryService;
 import com.oneshop.service.IProductService;
 @Controller
 @RequestMapping("/common/products")
@@ -27,6 +31,9 @@ public class ProductController{
 	
 	@Autowired 
 	private IProductService productService;
+	
+	@Autowired
+	private ICategoryService categoryService;
 	
 	@Autowired
 	private Cloudinary cloudinary;
@@ -43,7 +50,7 @@ public class ProductController{
             List<String> imageUrls = product.getImages().stream()
                                            .map(image -> cloudinary.url().publicId(image.getImageUrl()).generate())
                                            .collect(Collectors.toList());
-            product.setImageUrls(imageUrls); // Giả sử bạn đã thêm thuộc tính `imageUrls` trong Product
+            product.setImageUrls(imageUrls);
         });
 
         model.addAttribute("productPage", productPage);
@@ -59,6 +66,11 @@ public class ProductController{
 
         Pageable pageable = PageRequest.of(currentPage - 1, pageSize, Sort.by("name"));
         Page<Product> resultPage;
+        
+        List<Category> categories = categoryService.findAll();
+        
+        List<Product> products = productService.findAll();
+        
         String message = null; 
 
         if (StringUtils.hasText(name)) {
@@ -96,8 +108,17 @@ public class ProductController{
                                            .collect(Collectors.toList());
             product.setImageUrls(imageUrls);
         });
+        
+     // Lọc danh sách các thương hiệu duy nhất
+        Set<String> uniqueBrands = products.stream()
+                                           .map(Product::getBrand) // Lấy tên brand
+                                           .collect(Collectors.toCollection(LinkedHashSet::new));
+
+ 
 
         model.addAttribute("productPage", resultPage);
+        model.addAttribute("categories", categories);
+        model.addAttribute("brands", uniqueBrands);
         model.addAttribute("message", message); // Truyền message xuống view
 
         return "common/product/product-search-result";

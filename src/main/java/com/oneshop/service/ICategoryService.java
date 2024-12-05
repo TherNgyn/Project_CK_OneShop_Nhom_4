@@ -26,9 +26,13 @@ public interface ICategoryService {
 	boolean existsById(Integer id);
 	Optional<Category> findById(Integer id);
 	List<Category> findAllById(Iterable<Integer> ids);
+	// Tìm Category
 	List<Category> findAll(Sort sort);
 	Page<Category> findAll(Pageable pageable);
+	// Dùng để hiển thị danh mục category cho filter
 	List<Category> findAll();
+	//
+
 	<S extends Category> Optional<S> findOne(Example<S> example);
 	<S extends Category> S save(S entity);
 	Page<Category> findByNameContaining(String name, Pageable pageable);

@@ -17,8 +17,8 @@
 			</div>
 			<div class="col-xl-5 col-md-6 col-lg-4 d-none d-lg-block">
 				<div class="wsus__search">
-					<form>
-						<input type="text" placeholder="Search...">
+					<form action="/common/products/search" method="get">
+						<input type="text" placeholder="Search..." name="searchname">
 						<button type="submit">
 							<i class="far fa-search"></i>
 						</button>

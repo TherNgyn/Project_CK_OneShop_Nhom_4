@@ -23,6 +23,9 @@ public class Product {
     @Column(length = 255)
     private String name;
 
+    @Column(nullable=true)
+    private String brand;
+    
     @Column(length = 255)
     private String description;
 
