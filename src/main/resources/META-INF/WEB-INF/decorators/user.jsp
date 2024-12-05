@@ -47,7 +47,7 @@
              <sitemesh:write property="body"/>
         </div>
     </div>
-    
+    <h1>user</h1>
     <!-- BEGIN FOOTER -->
     <%@ include file = "/commons/web/footer.jsp" %>
     <!-- END FOOTER -->

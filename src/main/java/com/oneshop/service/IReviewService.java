@@ -13,20 +13,20 @@ import com.oneshop.entity.Review;
 import com.oneshop.entity.Store;
 
 public interface IReviewService {
-	<S extends Review> S save(S entity);
-	<S extends Review> Optional<S> findOne(Example<S> example);
-	List<Review> findAll();
-	Page<Review> findAll(Pageable pageable);
-	List<Review> findAll(Sort sort);
-	List<Review> findAllById(Iterable<Integer> ids);
-	<S extends Review> Page<S> findAll(Example<S> example, Pageable pageable);
-	Optional<Review> findById(Integer id);
-	boolean existsById(Integer id);
-	long count();
-	void deleteById(Integer id);
-	void delete(Review entity);
-	Review getById(Integer id);
-	void deleteAll();
-	Page<Review> findByProductStore(Store store, Pageable page);
-	List<Review> findByProduct(Product product);
+    <S extends Review> S save(S entity);
+    <S extends Review> Optional<S> findOne(Example<S> example);
+    List<Review> findAll();
+    Page<Review> findAll(Pageable pageable);
+    List<Review> findAll(Sort sort);
+    List<Review> findAllById(Iterable<Integer> ids);
+    <S extends Review> Page<S> findAll(Example<S> example, Pageable pageable);
+    Optional<Review> findById(Integer id);
+    boolean existsById(Integer id);
+    long count();
+    void deleteById(Integer id);
+    void delete(Review entity);
+    Review getById(Integer id);
+    void deleteAll();
+    Page<Review> findByProductStore(Store store, Pageable page);
+    List<Review> findByProduct(Product product);
 }

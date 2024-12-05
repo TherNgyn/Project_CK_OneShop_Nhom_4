@@ -45,7 +45,6 @@ public interface IProductService {
 	List<Product> findTop5ByStoreOrderByIdDesc(Store store);
 	List<Product> findTop5ByStoreOrderByRatingDesc(Store store);
 	long totalproductByStore(List<Product> products, Store store);
-	
 	// Hiển thị tất cả sản phẩm
 	Page<Product> findAll(Pageable pageable);
 	// Tìm kiếm theo tên và phân trang

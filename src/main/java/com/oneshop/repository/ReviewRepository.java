@@ -15,5 +15,6 @@ import com.oneshop.entity.Store;
 public interface ReviewRepository extends JpaRepository<Review, Integer> {
 	List<Review> findByProduct(Product product);
 	Page<Review> findByProductStore(Store store ,Pageable page);
+	List<Review> findByProductId(Integer productId);
 
 }
