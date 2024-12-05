@@ -1,113 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+
+<%@ taglib uri="http://java.sun.com/jstl/fmt_rt" prefix="fmt"%>
+
 <body>
 	<section id="wsus__product_page" class="wsus__vendor_details_page">
         <div class="container">
-            <div class="row">
-                <div class="col-xl-3 col-lg-4">
-                    <div class="wsus__sidebar_filter">
-                        <p>LỌC SẢN PHẨM</p>
-                        <span class="wsus__filter_icon">
-                            <i class="far fa-minus" id="minus"></i>
-                            <i class="far fa-plus" id="plus"></i>
-                        </span>
-                    </div>
-                    <div class="wsus__product_sidebar" id="sticky_sidebar">
-                        <div class="accordion" id="accordionExample">
-                            <div class="accordion-item">
-                                <h2 class="accordion-header" id="headingOne">
-                                    <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                                        data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                        Danh mục sản phẩm
-                                    </button>
-                                </h2>
-                                <div id="collapseOne" class="accordion-collapse collapse show"
-                                    aria-labelledby="headingOne" data-bs-parent="#accordionExample">
-                                    <div class="accordion-body">
-                                        <ul>
-                                            <li><a href="#">Accessories</a></li>
-                                            <li><a href="#">Babies</a></li>
-                                            <li><a href="#">Babies</a></li>
-                                            <li><a href="#">Beauty</a></li>
-                                            <li><a href="#">Decoration</a></li>
-                                            <li><a href="#">Electronics</a></li>
-                                            <li><a href="#">Fashion</a></li>
-                                            <li><a href="#">Food</a></li>
-                                            <li><a href="#">Furniture</a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="accordion-item">
-                                <h2 class="accordion-header" id="headingTwo">
-                                    <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                                        data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                       Giá
-                                    </button>
-                                </h2>
-                                <div id="collapseTwo" class="accordion-collapse collapse show"
-                                    aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
-                                    <div class="accordion-body">
-                                        <div class="price_ranger">
-                                            <input type="hidden" id="slider_range" class="flat-slider" />
-                                            <button type="submit" class="common_btn">filter</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="accordion-item">
-                                <h2 class="accordion-header" id="headingThree3">
-                                    <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                                        data-bs-target="#collapseThree3" aria-expanded="false"
-                                        aria-controls="collapseThree">
-                                        Thương hiệu
-                                    </button>
-                                </h2>
-                                <div id="collapseThree3" class="accordion-collapse collapse show"
-                                    aria-labelledby="headingThree3" data-bs-parent="#accordionExample">
-                                    <div class="accordion-body">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" value=""
-                                                id="flexCheckDefault11">
-                                            <label class="form-check-label" for="flexCheckDefault11">
-                                                gentle park
-                                            </label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" value=""
-                                                id="flexCheckChecked22">
-                                            <label class="form-check-label" for="flexCheckChecked22">
-                                                colors
-                                            </label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" value=""
-                                                id="flexCheckChecked222">
-                                            <label class="form-check-label" for="flexCheckChecked222">
-                                                yellow
-                                            </label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" value=""
-                                                id="flexCheckChecked33">
-                                            <label class="form-check-label" for="flexCheckChecked33">
-                                                enice man
-                                            </label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" value=""
-                                                id="flexCheckChecked333">
-                                            <label class="form-check-label" for="flexCheckChecked333">
-                                                plus point
-                                            </label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
                 <div class="col-xl-9 col-lg-8">
                     <div class="row">
                         <div class="col-xl-12 d-none d-md-block mt-4 mt-lg-0">
@@ -194,15 +93,20 @@
 														<!-- Tên sản phẩm -->
 														<a class="wsus__pro_name"
 															href="product_details.html?id=${product.id}">${product.name}</a>
-														<!-- Giá sản phẩm -->
-														<p class="wsus__price">
-															$${product.promotionalPrice}
-															<del>
-																<c:if test="${product.promotionalPrice < product.price}">$${product.price}</c:if>
-															</del>
-														</p>
-														<!-- Nút thêm vào giỏ hàng -->
-														<a class="add_cart" href="#">add to cart</a>
+													<!-- Giá sản phẩm -->
+													<p class="wsus__price">
+														<fmt:formatNumber value="${product.promotionalPrice}"
+															type="number" minFractionDigits="0" maxFractionDigits="2" />
+														<del>
+															<c:if test="${product.promotionalPrice < product.price}">
+																<fmt:formatNumber value="${product.price}" type="number"
+																	minFractionDigits="0" maxFractionDigits="2" />
+															</c:if>
+														</del>
+													</p>
+
+													<!-- Nút thêm vào giỏ hàng -->
+													<a class="add_cart" href="#">add to cart</a>
 													</div>
 												</div>
 											</div>
@@ -393,6 +297,7 @@
                         </div>
                     </div>
                 </div>
+                <!-- PHÂN TRANG -->
                 <div class="col-xl-12">
                     <section id="pagination">
                         <nav aria-label="Page navigation example">
@@ -415,8 +320,6 @@
                         </nav>
                     </section>
                 </div>
-            </div>
-        </div>
     </section>
     <!--============================
        VENDORS DETAILA END
