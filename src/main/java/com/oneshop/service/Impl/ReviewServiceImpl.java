@@ -18,88 +18,86 @@ import com.oneshop.service.IReviewService;
 
 @Service
 public class ReviewServiceImpl implements IReviewService {
-	@Autowired
-	ReviewRepository ReviewRepository;
+    @Autowired
+    private ReviewRepository reviewRepository;
 
-	@Override
-	public List<Review> findByProduct(Product product) {
-		return ReviewRepository.findByProduct(product);
-	}
+    @Override
+    public List<Review> findByProduct(Product product) {
+        return reviewRepository.findByProduct(product);
+    }
 
-	@Override
-	public <S extends Review> S save(S entity) {
-		return ReviewRepository.save(entity);
-	}
+    @Override
+    public <S extends Review> S save(S entity) {
+        return reviewRepository.save(entity);
+    }
 
-	@Override
-	public <S extends Review> Optional<S> findOne(Example<S> example) {
-		return ReviewRepository.findOne(example);
-	}
+    @Override
+    public <S extends Review> Optional<S> findOne(Example<S> example) {
+        return reviewRepository.findOne(example);
+    }
 
-	@Override
-	public List<Review> findAll() {
-		return ReviewRepository.findAll();
-	}
+    @Override
+    public List<Review> findAll() {
+        return reviewRepository.findAll();
+    }
 
-	@Override
-	public Page<Review> findAll(Pageable pageable) {
-		return ReviewRepository.findAll(pageable);
-	}
+    @Override
+    public Page<Review> findAll(Pageable pageable) {
+        return reviewRepository.findAll(pageable);
+    }
 
-	@Override
-	public List<Review> findAll(Sort sort) {
-		return ReviewRepository.findAll(sort);
-	}
+    @Override
+    public List<Review> findAll(Sort sort) {
+        return reviewRepository.findAll(sort);
+    }
 
-	@Override
-	public List<Review> findAllById(Iterable<Integer> ids) {
-		return ReviewRepository.findAllById(ids);
-	}
+    @Override
+    public List<Review> findAllById(Iterable<Integer> ids) {
+        return reviewRepository.findAllById(ids);
+    }
 
-	@Override
-	public <S extends Review> Page<S> findAll(Example<S> example, Pageable pageable) {
-		return ReviewRepository.findAll(example, pageable);
-	}
+    @Override
+    public <S extends Review> Page<S> findAll(Example<S> example, Pageable pageable) {
+        return reviewRepository.findAll(example, pageable);
+    }
 
-	@Override
-	public Optional<Review> findById(Integer id) {
-		return ReviewRepository.findById(id);
-	}
+    @Override
+    public Optional<Review> findById(Integer id) {
+        return reviewRepository.findById(id);
+    }
 
-	@Override
-	public boolean existsById(Integer id) {
-		return ReviewRepository.existsById(id);
-	}
+    @Override
+    public boolean existsById(Integer id) {
+        return reviewRepository.existsById(id);
+    }
 
-	@Override
-	public long count() {
-		return ReviewRepository.count();
-	}
+    @Override
+    public long count() {
+        return reviewRepository.count();
+    }
 
-	@Override
-	public void deleteById(Integer id) {
-		ReviewRepository.deleteById(id);
-	}
+    @Override
+    public void deleteById(Integer id) {
+        reviewRepository.deleteById(id);
+    }
 
-	@Override
-	public void delete(Review entity) {
-		ReviewRepository.delete(entity);
-	}
+    @Override
+    public void delete(Review entity) {
+        reviewRepository.delete(entity);
+    }
 
-	@Override
-	public Review getById(Integer id) {
-	    return ReviewRepository.getReferenceById(id);
-	}
+    @Override
+    public Review getById(Integer id) {
+        return reviewRepository.findById(id).orElse(null);
+    }
 
+    @Override
+    public void deleteAll() {
+        reviewRepository.deleteAll();
+    }
 
-	@Override
-	public void deleteAll() {
-		ReviewRepository.deleteAll();
-	}
-
-	@Override
-	public Page<Review> findByProductStore(Store store, Pageable page) {
-		// TODO Auto-generated method stub
-		return ReviewRepository.findByProductStore(store, page);
-	}
+    @Override
+    public Page<Review> findByProductStore(Store store, Pageable page) {
+        return reviewRepository.findByProductStore(store, page);
+    }
 }

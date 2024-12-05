@@ -7,6 +7,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Entity
 @Table(name = "cart")
@@ -31,7 +32,9 @@ public class Cart {
     private Date updateat;
 
     @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL)
+    @ToString.Exclude // Loại trừ `cartItems` khỏi `toString`
     private List<CartItem> cartItems;
+
     @PrePersist
     public void prePersist() {
         if (store == null) {
@@ -39,3 +42,4 @@ public class Cart {
         }
     }
 }
+

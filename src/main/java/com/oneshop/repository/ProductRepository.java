@@ -32,7 +32,7 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
 	List<Product> findTop5ByStoreOrderBySoldDesc(Store store);
 	List<Product> findTop5ByStoreOrderByIdDesc(Store store);
 	List<Product> findTop5ByStoreOrderByRatingDesc(Store store);
-	
+
 	// Hiển thị tất cả sản phẩm
 	Page<Product> findAll(Pageable pageable);
 	// Tìm kiếm theo tên và phân trang
