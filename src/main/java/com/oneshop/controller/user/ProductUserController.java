@@ -1,10 +1,12 @@
 package com.oneshop.controller.user;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -20,12 +22,15 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import java.util.Collections;
 
 import com.cloudinary.Cloudinary;
 import com.oneshop.entity.Product;
+import com.oneshop.entity.Review;
 import com.oneshop.entity.Store;
 import com.oneshop.model.ProductModel;
 import com.oneshop.service.IProductService;
+import com.oneshop.service.IReviewService;
 import com.oneshop.service.IStoreService;
 @Controller
 @RequestMapping("/user/products")
@@ -34,10 +39,12 @@ public class ProductUserController{
 	@Autowired 
 	private IProductService productService;
 	@Autowired 
+	private IReviewService reviewService;
+	@Autowired 
 	private IStoreService storeService;
 	@Autowired
 	private Cloudinary cloudinary;
-	
+
 	private String message;
 	@RequestMapping("")
 	public String allProducts(Model model, 
@@ -113,26 +120,48 @@ public class ProductUserController{
 	    model.addAttribute("pageSize", pageSize);
 	    return "user/product/product-search-result";
 	}
-	
+
 	@GetMapping("/productdetail")
-	public String getProductDetail(@RequestParam("id") Integer id, Model model) {
-	    // Lấy sản phẩm từ service
-	    Product product = productService.getById(id);
-	    Store store = storeService.getById(product.getId());
-	    // Khởi tạo danh sách URL hình ảnh từ danh sách `images`
-	    List<String> imageUrls = product.getImages().stream()
-	            .map(image -> cloudinary.url().publicId(image.getImageUrl()).generate())
-	            .collect(Collectors.toList());
-	    product.setImageUrls(imageUrls);
+	public String getProductDetail(
+			@RequestParam("id") Integer id,
+			@RequestParam(value = "page", required = false, defaultValue = "1") int page,
+			@RequestParam(value = "size", required = false, defaultValue = "4") int size,
+			@RequestParam(value = "quantity", required = false, defaultValue = "1") int quantity,
+			Model model) {
 
-	    // Đưa dữ liệu vào model để hiển thị trong view
-	    model.addAttribute("product", product);
-	    model.addAttribute("store", store);
-	    // Thêm số lượng mặc định
-	    model.addAttribute("quantity", 1);
+		if (id == null) {
+			throw new IllegalArgumentException("Product ID is required.");
+		}
 
-	    return "user/product/productdetail";
+		Product product = productService.getById(id);
+		if (product == null) {
+			throw new IllegalArgumentException("Không tìm thấy sản phẩm với ID: " + id);
+		}
+
+		List<String> imageUrls = product.getImages().stream()
+				.map(image -> cloudinary.url().publicId(image.getImageUrl()).generate())
+				.collect(Collectors.toList());
+		product.setImageUrls(imageUrls);
+
+		Pageable pageable = PageRequest.of(page - 1, size, Sort.by("name"));
+		Page<Product> relatedProductPage = productService.findByCategory(product.getCategory(), pageable);
+
+		int totalPages = relatedProductPage.getTotalPages();
+		List<Integer> pageNumbers = totalPages > 0
+				? IntStream.rangeClosed(1, totalPages).boxed().collect(Collectors.toList())
+				: Collections.emptyList();
+
+		// Đưa dữ liệu vào model
+		model.addAttribute("product", product);
+		model.addAttribute("relatedProducts", relatedProductPage.getContent());
+		model.addAttribute("quantity", quantity);
+		model.addAttribute("currentPage", page);
+		model.addAttribute("pageSize", size);
+		model.addAttribute("pageNumbers", pageNumbers);
+
+		return "user/product/productdetail";
 	}
+
 
 
 

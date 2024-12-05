@@ -4,7 +4,6 @@
 <head>
 <meta charset="UTF-8">
 <title>Trang chủ</title>
-
 </head>
 <body>
 	<!-- Product Details Section Begin -->
@@ -14,10 +13,24 @@
 				<div class="col-lg-6 col-md-6">
 					<div class="product__details__pic">
 						<div class="product__details__pic__item">
-							<img class="product__details__pic__item--large"
-								src="${product.imageUrls[0]}" alt="">
+							<!-- Hình ảnh chính -->
+							<img class="product__details__pic__item--large main-img"
+								 src="${product.imageUrls[0]}" alt="Main Image">
+							<!-- Hình ảnh hover -->
+							<c:if test="${product.imageUrls.size() > 1}">
+								<img class="hover-img"
+									 src="${product.imageUrls[1]}" alt="Hover Image">
+							</c:if>
+						</div>
+						<div class="product__details__pic__list">
+							<c:forEach var="img" items="${product.imageUrls}">
+								<div class="product__details__pic__thumb">
+									<img src="${img}" alt="Thumbnail Image" onclick="changeMainImage(this)">
+								</div>
+							</c:forEach>
 						</div>
 					</div>
+
 				</div>
 				<div class="col-lg-6 col-md-6">
 					<div class="product__details__text">
@@ -28,8 +41,11 @@
 								class="fa fa-star-half-o"></i> <span>(${product.rating}
 								lượt)</span>
 						</div>
-						<div class="product__details__price">${product.price }</div>
-						<p>${product.description != null ? product.description : "Không có mô tả"}</p>
+						<div class="product__details__price">
+							<span class="current-price">$${product.promotionalPrice}</span>
+							<span class="original-price">$${product.price}</span>
+						</div>
+
 
 						<div class="product__details__quantity">
 							<div class="quantity">
@@ -47,7 +63,7 @@
 						            countInput.value = value + 1; // Tăng số lượng
 						        }
 						    }
-						
+
 						    function decrementQuantity() {
 						        const countInput = document.getElementById("count");
 						        let value = parseInt(countInput.value, 10);
@@ -56,10 +72,8 @@
 						        }
 						    }
 						</script>
-
-						<%-- <button class="primary-btn" onclick="submitForm(${product.id})">THÊM VÀO GIỎ</button> --%>
-
-						<a onclick="submitForm(${product.id}, ${check})" href="#"
+						<p>Số lượng sản phẩm: ${quantity}</p>
+						<a onclick="submitForm(${product.id}, ${check})" href="/user/cart/item/add/${product.id}/${quantity}"
 							class="primary-btn">THÊM VÀO GIỎ</a> <a href="#" id="heart-icon"
 							class="heart-icon" onclick="updateFavorite(${product.id})"> <i
 							id="heart-icon-element" class="fa-regular fa-heart"></i>
@@ -138,75 +152,30 @@
 							<div class="tab-pane" id="tabs-3" role="tabpanel">
 								<div class="product__details__tab__desc">
 									<h6>ĐÁNH GIÁ SẢN PHẨM</h6>
-									<c:if test="${listreview.size() > 0}">
-										<c:forEach var="review" items="${listreview}">
-											<div class="contact-form spad">
-												<div class="container">
-
-													<div class="col-lg-3 col-md-6 col-sm-6"
-														style="display: flex;">
-
-														<div class="footer__about__logo">
-															<img class="img-profile rounded-circle"
-																style="width: 40px"
-																src="/images/user/${review.user.avatar}">
-														</div>
-														<div class="footer__about">
-
-															<ul>
-																<li>${review.user.username}</li>
-																<li>Nội dung: ${review.content}</li>
-																<li>Điểm số: ${review.rating}</li>
-																<li>Ngày đánh giá: ${review.createat}</li>
-
-															</ul>
-
-														</div>
-
-													</div>
-
-												</div>
-											</div>
-										</c:forEach>
-									</c:if>
-									<!-- Review Form Begin -->
-									<div class="contact-form spad">
-										<div class="container">
-											<div class="row">
-												<div class="col-lg-12">
-													<div class="contact__form__title">
-														<h2>Đánh giá</h2>
-													</div>
-												</div>
-											</div>
-											<form action="/user/review/${product.id }" method="post">
-												<div class="" style="display: flex;">
-													<div class="" style="width: 550px;">
-														<div>
-															<input name="content" type="text" placeholder="Nội dung"
-																style="height: 150px">
-														</div>
-														<div>
-															<input name="rating" type="number" max="5" min="0"
-																placeholder="Điểm đánh giá">
-														</div>
-														<div class="col-lg-12 text-center">
-															<button type="submit" class="site-btn">GỬI</button>
-														</div>
-													</div>
-													<%-- <div style="width: 650px; margin-left: 170px">
-														<img class="product__details__pic__item--large"
-															src="${product.listimage }"
-															alt="">
-													</div> --%>
-													<!-- Chỗ này xử lý hình ảnh đánh giá ở Entity Review -->
-												</div>
-											</form>
-										</div>
+									<div class="reviews">
+										<!-- Hiển thị danh sách đánh giá -->
+										<ul>
+											<c:forEach var="review" items="${reviews}">
+												<li>
+													<p>
+														<!-- Hiển thị tên người dùng -->
+														<strong>${review.user.username}</strong>:
+														<!-- Hiển thị nội dung đánh giá -->
+														<span>${review.content}</span> <br />
+														<!-- Hiển thị đánh giá (rating) -->
+														<span>Rating:</span> <span>${review.rating}</span> <br />
+														<!-- Hiển thị ngày tạo -->
+														<small>${review.formattedCreateat}</small>
+													</p>
+												</li>
+											</c:forEach>
+										</ul>
 									</div>
-									<!-- Review Form End -->
 								</div>
 							</div>
+
+
+
 						</div>
 					</div>
 				</div>
@@ -215,7 +184,6 @@
 	</section>
 	<!-- Product Details Section End -->
 
-	<!-- Related Product Section Begin -->
 	<section class="related-product">
 		<div class="container">
 			<div class="row">
@@ -226,59 +194,66 @@
 				</div>
 			</div>
 			<div class="row">
-				<c:forEach var="pro" items="${listbycate.content}">
+				<!-- Hiển thị danh sách sản phẩm liên quan -->
+				<c:forEach var="pro" items="${relatedProducts}">
 					<div class="col-lg-3 col-md-4 col-sm-6">
 						<div class="product__item">
-							<div class="product__item__pic set-bg"
-								data-setbg="../../../common/user/img/product/${pro.listimage}">
+							<div class="product__item__pic"
+								 style="background-image: url('${pro.imageUrls[0] != null ? pro.imageUrls[0] : 'default-image.jpg'}');">
 								<ul class="product__item__pic__hover">
 									<li><a href="#"><i class="fa fa-heart"></i></a></li>
-									<li><a href="#"><i class="fa fa-retweet"></i></a></li>
 									<li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
 								</ul>
 							</div>
 							<div class="product__item__text">
-								<h6>
-									<a href="/user/product/productdetail/${pro.id}">${pro.name}</a>
-								</h6>
+								<h6><a href="/user/product/productdetail?id=${pro.id}">${pro.name}</a></h6>
 								<h5>${pro.price}</h5>
 							</div>
 						</div>
 					</div>
 				</c:forEach>
-
-				<c:if test="${listbycate != null && listbycate.totalPages > 0}">
-					<nav aria-label="Page navigation"
-						style="display: flex; justify-content: center;">
+			</div>
+			<!-- Phân trang -->
+			<div class="row">
+				<div class="col-lg-12">
+					<nav aria-label="Page navigation">
 						<ul class="pagination">
-							<!-- First Page -->
-							<li
-								class="page-item ${1 == listbycate.number + 1 ? 'active' : ''}">
-								<a class="page-link"
-								href="/user/product/productdetail?id=${product.id}&size=${listbycate.size}&page=1">First</a>
+							<!-- Nút Previous -->
+							<li class="page-item ${currentPage == 1 ? 'disabled' : ''}">
+								<a class="page-link" href="javascript:void(0);"
+								   onclick="loadRelatedProducts(${product.id}, ${currentPage - 1}, ${pageSize});">
+									Previous
+								</a>
 							</li>
 
-							<!-- Middle Pages -->
-							<c:forEach items="${pageNumbers}" var="pageNumber">
-								<li
-									class="page-item ${pageNumber == listbycate.number + 1 ? 'active' : ''}">
-									<a class="page-link"
-									href="/user/product/productdetail?id=${product.id}&size=${listbycate.size}&page=${pageNumber}">${pageNumber}</a>
+							<!-- Số trang -->
+							<c:forEach var="pageNumber" items="${pageNumbers}">
+								<li class="page-item ${pageNumber == currentPage ? 'active' : ''}">
+									<a class="page-link" href="javascript:void(0);"
+									   onclick="loadRelatedProducts(${product.id}, ${pageNumber}, ${pageSize});">
+											${pageNumber}
+									</a>
 								</li>
 							</c:forEach>
 
-							<!-- Last Page -->
-							<li
-								class="page-item ${listbycate.totalPages == listbycate.number + 1 ? 'active' : ''}">
-								<a class="page-link"
-								href="/user/product/productdetail?id=${product.id}&size=${listbycate.size}&page=${listbycate.totalPages}">Last</a>
+							<!-- Nút Next -->
+							<li class="page-item ${currentPage == pageNumbers[pageNumbers.size() - 1] ? 'disabled' : ''}">
+								<a class="page-link" href="javascript:void(0);"
+								   onclick="loadRelatedProducts(${product.id}, ${currentPage + 1}, ${pageSize});">
+									Next
+								</a>
 							</li>
 						</ul>
 					</nav>
-				</c:if>
+
+				</div>
 			</div>
+
 		</div>
 	</section>
+
+
+	<!-- Related Product Section End -->
 
 	<script>
     async function submitForm(pro, check) {
@@ -301,6 +276,48 @@
             alert("Có lỗi xảy ra khi thêm vào giỏ hàng.");
         }
     }
-</script>
+	function changeMainImage(thumbnail) {
+		const mainImage = document.querySelector('.product__details__pic__item--large');
+		mainImage.src = thumbnail.src;
+	}
+	function loadRelatedProducts(productId, page, size) {
+		const url = `/user/product/productdetail?id=${productId}&page=${page}&size=${size}`;
+
+		fetch(url, { method: 'GET' })
+				.then(response => response.text())
+				.then(html => {
+					const parser = new DOMParser();
+					const doc = parser.parseFromString(html, 'text/html');
+					const relatedProductSection = doc.querySelector('.related-product');
+					document.querySelector('.related-product').innerHTML = relatedProductSection.innerHTML;
+				})
+				.catch(error => console.error('Error loading related products:', error));
+	}
+	async function submitForm(productId, check) {
+		if (check == 0) {
+			alert("BẠN VUI LÒNG ĐĂNG NHẬP ĐỂ TIẾP TỤC MUA HÀNG");
+			return;
+		}
+
+
+		const quantity = document.getElementById("count")?.value || 1; // Lấy số lượng, mặc định là 1.
+
+		try {
+			const response = await fetch(`/user/cart/item/add/${productId}/${quantity}`, {
+				method: 'GET'
+			});
+
+			if (response.ok) {
+				alert("Sản phẩm đã được thêm vào giỏ hàng!");
+			} else {
+				alert("Không thể thêm vào giỏ hàng. Vui lòng thử lại.");
+			}
+		} catch (error) {
+			console.error("Error:", error);
+			alert("Có lỗi xảy ra khi thêm vào giỏ hàng.");
+		}
+	}
+
+	</script>
 
 </body>

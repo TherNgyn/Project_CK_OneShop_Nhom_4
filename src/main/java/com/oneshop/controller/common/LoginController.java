@@ -215,4 +215,33 @@ public class LoginController {
 			return new ModelAndView("common/register", model);
 		}
 	}
+	@GetMapping("/forgot_password")
+	public String showForgotPasswordPage() {
+	    return "common/forgot_password";
+	}
+
+	@GetMapping("/reset_password")
+	public String showResetPasswordPage(@RequestParam("token") String token, ModelMap model) {
+	    model.addAttribute("token", token);
+	    return "common/reset_password";
+	}
+
+	@PostMapping("/reset_password")
+	public ModelAndView handleResetPassword(
+	    @RequestParam("token") String token,
+	    @RequestParam("password") String newPassword,
+	    ModelMap model) {
+	    User user = userService.getByResetPasswordToken(token);
+	    if (user != null) {
+	        userService.updatePassword(user, newPassword);
+	        model.addAttribute("message", "Mật khẩu của bạn đã được thay đổi thành công!");
+	        return new ModelAndView("common/login", model);
+	    } else {
+	        model.addAttribute("error", "Liên kết đặt lại mật khẩu không hợp lệ hoặc đã hết hạn.");
+	        return new ModelAndView("common/reset_password", model);
+	    }
+	}
+
+
 }
+

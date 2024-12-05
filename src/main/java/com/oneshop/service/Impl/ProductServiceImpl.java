@@ -186,6 +186,7 @@ public class ProductServiceImpl implements IProductService {
 		// TODO Auto-generated method stub
 		return productRepository.findTop5ByStoreOrderByRatingDesc(store);
 	}
+
 	@Override
 	public long totalproductByStore(List<Product> products,Store store) {
 		long countproduct =0;
