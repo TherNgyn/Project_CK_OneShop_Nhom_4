@@ -24,6 +24,9 @@ public class Product {
     @Column(length = 255)
     private String name;
 
+    @Column(nullable=true)
+    private String brand;
+    
     @Column(length = 255)
     private String description;
 
@@ -38,11 +41,7 @@ public class Product {
     // Có đang bán hay không
     private Boolean isSelling;
     
-	/*
-	 * @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval =
-	 * true) private List<ProductImage> images;
-	 */
-
+    
     //không cần lưu trữ vào cơ sở dữ liệu
   	@Transient
   	private List<String> imageUrls;// URL to be generated

@@ -35,7 +35,6 @@ public class CategoryServiceImpl implements ICategoryService {
 		return categoryRepository.findByNameContaining(name, pageable);
 	}
 	
-	
 
 	public <S extends Category> S save(S entity) {
 		return categoryRepository.save(entity);
