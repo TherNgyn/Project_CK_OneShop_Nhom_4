@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
 import com.oneshop.entity.CartItem;
+import com.oneshop.entity.User;
 
 public interface ICartItemService {
 
@@ -27,5 +28,8 @@ public interface ICartItemService {
 	<S extends CartItem> Optional<S> findOne(Example<S> example);
 	<S extends CartItem> S save(S entity);
 	List<CartItem> findByCartId(Integer id);
-
+	List<CartItem> findByUserId(Integer userId);
+	void deleteAll(List<CartItem> cartItems);
+	void deleteAllByIds(List<Integer> cartItemIds);
+	
 }

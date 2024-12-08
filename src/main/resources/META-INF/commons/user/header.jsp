@@ -12,11 +12,12 @@
 			</div>
 			<div class="col-xl-2 col-7 col-md-8 col-lg-2">
 				<div class="wsus_logo_area">
-					<a class="wsus__header_logo" href="home"> <img
+					<a class="wsus__header_logo" href="/user/home"> <img
 						src="/template/images/logo_2.png" alt="logo"
 						class="img-fluid w-100">
 					</a>
 				</div>
+
 			</div>
 			<div class="col-xl-5 col-md-6 col-lg-4 d-none d-lg-block">
 				<div class="wsus__search">
@@ -42,14 +43,14 @@
 					<ul class="wsus__icon_area">
 						<li><a href="wishlist.jsp"><i class="fal fa-heart"></i><span>05</span></a></li>
 						<li><a href="compare.jsp"><i class="fal fa-random"></i><span>03</span></a></li>
-						<li><a class="wsus__cart_icon" href="/user/cart/item"><i
+						<li><a class="wsus__cart_icon" href="/user/cart"><i
 								class="fal fa-shopping-bag"></i><span>04</span></a></li>
 					</ul>
 				</div>
 			</div>
 		</div>
 	</div>
-	<div class="wsus__mini_cart">
+	<%-- <div class="wsus__mini_cart">
 		<h4>
 			shopping cart <span class="wsus_close_mini_cart"><i
 				class="far fa-times"></i></span>
@@ -130,7 +131,7 @@
 			<a class="common_btn" href="cart_view.jsp">view cart</a> <a
 				class="common_btn" href="check_out.jsp">checkout</a>
 		</div>
-	</div>
+	</div> --%>
 </header>
 <!--============================
         MAIN MENU START

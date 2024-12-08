@@ -12,12 +12,15 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.oneshop.entity.CartItem;
+import com.oneshop.entity.User;
 import com.oneshop.repository.CartItemRepository;
 import com.oneshop.service.ICartItemService;
 
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 
 @Service
+@Transactional
 public class CartItemServiceImpl implements ICartItemService {
 	@Autowired
 	CartItemRepository CartItemRepository;
@@ -101,5 +104,23 @@ public class CartItemServiceImpl implements ICartItemService {
 	public List<CartItem> findByCartId(Integer id) {
 		return CartItemRepository.findByCartId(id);
 	}
+	@Override
+    public List<CartItem> findByUserId(Integer userId) {
+        return CartItemRepository.findByUserId(userId);
+    }
+	
+	@Override
+	@Transactional
+	public void deleteAll(List<CartItem> cartItems) {
+	    CartItemRepository.deleteAllByCartItems(cartItems);
+	}
+
+	@Override
+	@Transactional
+	public void deleteAllByIds(List<Integer> cartItemIds) {
+	    CartItemRepository.deleteAllByIds(cartItemIds);
+	}
+
+
 
 }
