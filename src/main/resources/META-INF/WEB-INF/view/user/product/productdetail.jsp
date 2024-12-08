@@ -15,17 +15,18 @@
 						<div class="product__details__pic__item">
 							<!-- Hình ảnh chính -->
 							<img class="product__details__pic__item--large main-img"
-								 src="${product.imageUrls[0]}" alt="Main Image">
+								src="${product.imageUrls[0]}" alt="Main Image">
 							<!-- Hình ảnh hover -->
 							<c:if test="${product.imageUrls.size() > 1}">
-								<img class="hover-img"
-									 src="${product.imageUrls[1]}" alt="Hover Image">
+								<img class="hover-img" src="${product.imageUrls[1]}"
+									alt="Hover Image">
 							</c:if>
 						</div>
 						<div class="product__details__pic__list">
 							<c:forEach var="img" items="${product.imageUrls}">
 								<div class="product__details__pic__thumb">
-									<img src="${img}" alt="Thumbnail Image" onclick="changeMainImage(this)">
+									<img src="${img}" alt="Thumbnail Image"
+										onclick="changeMainImage(this)">
 								</div>
 							</c:forEach>
 						</div>
@@ -42,43 +43,47 @@
 								lượt)</span>
 						</div>
 						<div class="product__details__price">
-							<span class="current-price">$${product.promotionalPrice}</span>
-							<span class="original-price">$${product.price}</span>
+							<span class="current-price">${product.promotionalPrice}</span> <span
+								class="original-price">${product.price}</span>
 						</div>
 
 
-						<div class="product__details__quantity">
-							<div class="quantity">
-								<button class="qty-btn minus" onclick="decrementQuantity()">-</button>
-								<input id="count" type="text" value="${quantity}" readonly>
-								<button class="qty-btn plus" onclick="incrementQuantity()">+</button>
+						<form action="/user/cart/add/${product.id}" method="post">
+							<!-- Thêm CSRF token -->
+							<input type="hidden" name="_csrf" value="${_csrf.token}">
+
+							<div class="product__details__quantity">
+								<div class="quantity">
+									<button type="button" class="qty-btn minus"
+										onclick="decrementQuantity()">-</button>
+									<input id="quantity" name="quantity" type="number" value="1"
+										min="1">
+									<button type="button" class="qty-btn plus"
+										onclick="incrementQuantity()">+</button>
+								</div>
 							</div>
-						</div>
+							<button type="submit" class="primary-btn">THÊM VÀO GIỎ</button>
+						</form>
+
 
 						<script>
-						    function incrementQuantity() {
-						        const countInput = document.getElementById("count");
-						        let value = parseInt(countInput.value, 10);
-						        if (!isNaN(value)) {
-						            countInput.value = value + 1; // Tăng số lượng
-						        }
-						    }
+    function incrementQuantity() {
+        const countInput = document.getElementById("quantity");
+        let value = parseInt(countInput.value, 10);
+        if (!isNaN(value)) {
+            countInput.value = value + 1; // Tăng số lượng
+        }
+    }
 
-						    function decrementQuantity() {
-						        const countInput = document.getElementById("count");
-						        let value = parseInt(countInput.value, 10);
-						        if (!isNaN(value) && value > 1) {
-						            countInput.value = value - 1; // Giảm số lượng (không cho < 1)
-						        }
-						    }
-						</script>
-						<p>Số lượng sản phẩm: ${quantity}</p>
-						<a onclick="submitForm(${product.id}, ${check})" href="/user/cart/item/add/${product.id}/${quantity}"
-							class="primary-btn">THÊM VÀO GIỎ</a> <a href="#" id="heart-icon"
-							class="heart-icon" onclick="updateFavorite(${product.id})"> <i
-							id="heart-icon-element" class="fa-regular fa-heart"></i>
-						</a>
-						<%--Sản phẩm yêu thích --%>
+    function decrementQuantity() {
+        const countInput = document.getElementById("quantity");
+        let value = parseInt(countInput.value, 10);
+        if (!isNaN(value) && value > 1) {
+            countInput.value = value - 1; // Giảm số lượng (không cho nhỏ hơn 1)
+        }
+    }
+</script>
+
 
 						<ul>
 							<li><b>Tình trạng</b> <span>${product.isSelling != null && product.isSelling ? 'Còn hàng' : 'Hết hàng' }</span></li>
@@ -199,14 +204,16 @@
 					<div class="col-lg-3 col-md-4 col-sm-6">
 						<div class="product__item">
 							<div class="product__item__pic"
-								 style="background-image: url('${pro.imageUrls[0] != null ? pro.imageUrls[0] : 'default-image.jpg'}');">
+								style="background-image: url('${pro.imageUrls[0] != null ? pro.imageUrls[0] : 'default-image.jpg'}');">
 								<ul class="product__item__pic__hover">
 									<li><a href="#"><i class="fa fa-heart"></i></a></li>
 									<li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
 								</ul>
 							</div>
 							<div class="product__item__text">
-								<h6><a href="/user/product/productdetail?id=${pro.id}">${pro.name}</a></h6>
+								<h6>
+									<a href="/user/product/productdetail?id=${pro.id}">${pro.name}</a>
+								</h6>
 								<h5>${pro.price}</h5>
 							</div>
 						</div>
@@ -221,27 +228,26 @@
 							<!-- Nút Previous -->
 							<li class="page-item ${currentPage == 1 ? 'disabled' : ''}">
 								<a class="page-link" href="javascript:void(0);"
-								   onclick="loadRelatedProducts(${product.id}, ${currentPage - 1}, ${pageSize});">
-									Previous
-								</a>
+								onclick="loadRelatedProducts(${product.id}, ${currentPage - 1}, ${pageSize});">
+									Previous </a>
 							</li>
 
 							<!-- Số trang -->
 							<c:forEach var="pageNumber" items="${pageNumbers}">
-								<li class="page-item ${pageNumber == currentPage ? 'active' : ''}">
+								<li
+									class="page-item ${pageNumber == currentPage ? 'active' : ''}">
 									<a class="page-link" href="javascript:void(0);"
-									   onclick="loadRelatedProducts(${product.id}, ${pageNumber}, ${pageSize});">
-											${pageNumber}
-									</a>
+									onclick="loadRelatedProducts(${product.id}, ${pageNumber}, ${pageSize});">
+										${pageNumber} </a>
 								</li>
 							</c:forEach>
 
 							<!-- Nút Next -->
-							<li class="page-item ${currentPage == pageNumbers[pageNumbers.size() - 1] ? 'disabled' : ''}">
+							<li
+								class="page-item ${currentPage == pageNumbers[pageNumbers.size() - 1] ? 'disabled' : ''}">
 								<a class="page-link" href="javascript:void(0);"
-								   onclick="loadRelatedProducts(${product.id}, ${currentPage + 1}, ${pageSize});">
-									Next
-								</a>
+								onclick="loadRelatedProducts(${product.id}, ${currentPage + 1}, ${pageSize});">
+									Next </a>
 							</li>
 						</ul>
 					</nav>
@@ -256,26 +262,6 @@
 	<!-- Related Product Section End -->
 
 	<script>
-    async function submitForm(pro, check) {
-        if (check == 0) {
-            alert("BẠN VUI LÒNG ĐĂNG NHẬP ĐỂ TIẾP TỤC MUA HÀNG");
-            return;
-        }
-        
-        const ele = document.getElementById("count")?.value || 1; // Lấy giá trị số lượng, mặc định là 1 nếu không có.
-        
-        try {
-            const response = await fetch(`http://localhost:9093/user/cart/item/add/${pro}/${ele}`);
-            if (response.ok) {
-                alert("Sản phẩm đã được thêm vào giỏ hàng!");
-            } else {
-                alert("Không thể thêm vào giỏ hàng. Vui lòng thử lại.");
-            }
-        } catch (error) {
-            console.error("Error:", error);
-            alert("Có lỗi xảy ra khi thêm vào giỏ hàng.");
-        }
-    }
 	function changeMainImage(thumbnail) {
 		const mainImage = document.querySelector('.product__details__pic__item--large');
 		mainImage.src = thumbnail.src;
@@ -292,30 +278,6 @@
 					document.querySelector('.related-product').innerHTML = relatedProductSection.innerHTML;
 				})
 				.catch(error => console.error('Error loading related products:', error));
-	}
-	async function submitForm(productId, check) {
-		if (check == 0) {
-			alert("BẠN VUI LÒNG ĐĂNG NHẬP ĐỂ TIẾP TỤC MUA HÀNG");
-			return;
-		}
-
-
-		const quantity = document.getElementById("count")?.value || 1; // Lấy số lượng, mặc định là 1.
-
-		try {
-			const response = await fetch(`/user/cart/item/add/${productId}/${quantity}`, {
-				method: 'GET'
-			});
-
-			if (response.ok) {
-				alert("Sản phẩm đã được thêm vào giỏ hàng!");
-			} else {
-				alert("Không thể thêm vào giỏ hàng. Vui lòng thử lại.");
-			}
-		} catch (error) {
-			console.error("Error:", error);
-			alert("Có lỗi xảy ra khi thêm vào giỏ hàng.");
-		}
 	}
 
 	</script>

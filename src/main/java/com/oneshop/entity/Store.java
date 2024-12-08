@@ -6,6 +6,7 @@ import java.util.List;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
@@ -14,10 +15,12 @@ import lombok.ToString;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(onlyExplicitlyIncluded = true) // Chỉ bao gồm trường cần thiết trong hashCode/equals
 public class Store {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @EqualsAndHashCode.Include // Bao gồm ID trong hashCode/equals
     private Integer id;
 
     @Column(length = 255)
@@ -28,7 +31,8 @@ public class Store {
 
     @OneToOne
     @JoinColumn(name = "ownerid", nullable = false)
-    @ToString.Exclude // Ngăn vòng lặp với User
+    @ToString.Exclude // Ngăn vòng lặp trong toString
+    @EqualsAndHashCode.Exclude // Loại bỏ khỏi hashCode/equals
     private User user;
 
     private Boolean isactive;
@@ -39,19 +43,22 @@ public class Store {
     private Date updateat;
 
     @OneToMany(mappedBy = "store", cascade = CascadeType.ALL)
-    @ToString.Exclude // Ngăn vòng lặp với Cart
+    @ToString.Exclude // Ngăn vòng lặp trong toString
+    @EqualsAndHashCode.Exclude // Loại bỏ khỏi hashCode/equals
     private List<Cart> carts;
 
     @OneToMany(mappedBy = "store", cascade = CascadeType.ALL)
-    @ToString.Exclude // Ngăn vòng lặp với Product
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     private List<Product> products;
 
     @OneToMany(mappedBy = "store", cascade = CascadeType.ALL)
-    @ToString.Exclude // Ngăn vòng lặp với Transaction
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     private List<Transaction> transactions;
 
     @OneToMany(mappedBy = "store", cascade = CascadeType.ALL)
-    @ToString.Exclude // Ngăn vòng lặp với Order
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     private List<Order> orders;
 }
-
