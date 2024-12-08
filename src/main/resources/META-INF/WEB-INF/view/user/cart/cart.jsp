@@ -321,7 +321,7 @@
 			        .then(data => {
 			            if (data.success) {
 			                alert(data.success);
-			                window.location.href = '/user/order'; 
+			                window.location.href = '${baseUrl}/user/order'; 
 			            } else {
 			                alert("Lỗi: " + (data.error || "Không xác định"));
 			            }
