@@ -63,7 +63,6 @@ public class OrderUserController {
 
     @RequestMapping("")
     public String order(ModelMap model, HttpServletRequest request) {
-        // model.addAttribute("user", new UserModel());
         User user = (User) request.getSession().getAttribute("user");
         double price = 0;
         List<Cart> carts = cartService.findByUserId(user.getId());
@@ -80,42 +79,8 @@ public class OrderUserController {
         model.addAttribute("listcart", listItem);
         model.addAttribute("price", price);
 
-        return "user/orderItem/order";
+        return "user/order/order";
     }
 
-    @PostMapping("{price}")
-    public ModelAndView order(ModelMap model, /* @RequestParam(name = "fullname", required = false) String fullname, */
-                              @RequestParam(name = "address", required = false) String address,
-            /*
-             * @RequestParam(name = "phuong", required = false) String phuong,
-             *
-             * @RequestParam(name = "quan", required = false) String quan,
-             *
-             * @RequestParam(name = "thanhpho", required = false) String thanhpho,
-             */
-                              @RequestParam(name = "phone", required = false) String phone, HttpServletRequest request,
-                              @PathVariable("price") Float price) {
-        User user = (User) request.getSession().getAttribute("user");
-        long millis = System.currentTimeMillis();
-        Date date = new Date(millis);
-        Order order = new Order();
-
-        Store store = storeService.getById(33);
-        order.setAddress(address);
-        order.setPhone(phone);
-        order.setUser(user);
-        order.setCreateat(date);
-        order.setDelivery(null);
-        order.setStatus("cho xac nhan");
-        order.setStore(store);
-        order.setUpdateat(null);
-        order.setPrice(price);
-        if (order.getAddress() == null || order.getPhone() == null) {
-            System.out.println("AAA");
-            return new ModelAndView("redirect:/user/order", model);
-        }
-        orderService.save(order);
-
-        return new ModelAndView("redirect:/user/order", model);
-    }
+    
 }

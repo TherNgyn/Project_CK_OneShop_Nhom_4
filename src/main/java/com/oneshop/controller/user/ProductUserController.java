@@ -151,7 +151,6 @@ public class ProductUserController{
 				? IntStream.rangeClosed(1, totalPages).boxed().collect(Collectors.toList())
 				: Collections.emptyList();
 
-		// Đưa dữ liệu vào model
 		model.addAttribute("product", product);
 		model.addAttribute("relatedProducts", relatedProductPage.getContent());
 		model.addAttribute("quantity", quantity);

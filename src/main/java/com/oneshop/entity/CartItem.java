@@ -29,6 +29,19 @@ public class CartItem {
     private Product product;
 
     private Integer count;
+
     private Date createat;
+
     private Date updateat;
+
+    @PrePersist
+    protected void onCreate() {
+        this.createat = new Date(System.currentTimeMillis());
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        this.updateat = new Date(System.currentTimeMillis());
+    }
 }
+
