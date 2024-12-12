@@ -168,49 +168,30 @@
 									<p>${product.description}</p>
 								</div>
 							</div>
-							<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 							<div class="tab-pane" id="tabs-3" role="tabpanel">
 								<div class="product__details__tab__desc">
 									<h6>ĐÁNH GIÁ SẢN PHẨM</h6>
 									<div class="reviews">
-										<!-- Kiểm tra nếu có đánh giá -->
-										<c:choose>
-											<c:when test="${!empty reviews}">
-												<ul>
-													<c:forEach var="review" items="${reviews}">
-														<li>
-															<p>
-																<!-- Hiển thị tên người dùng -->
-																<strong>${review.user.username}</strong>: <br>
-																<!-- Hiển thị nội dung đánh giá -->
-																<span>${review.content}</span> <br>
-																<!-- Hiển thị đánh giá (rating) -->
-																<span>Rating:</span>
-																<c:forEach begin="1" end="${review.rating}">
-																	<i class="fa fa-star"></i>
-																</c:forEach>
-																<c:forEach begin="${review.rating + 1}" end="5">
-																	<i class="fa fa-star-o"></i>
-																</c:forEach>
-																<br>
-																<!-- Hiển thị ngày tạo (định dạng ngay tại đây) -->
-																<small class="text-muted"> <fmt:formatDate
-																		value="${review.createat}" pattern="dd-MM-yyyy HH:mm" />
-																</small>
-															</p>
-														</li>
-													</c:forEach>
-												</ul>
-											</c:when>
-											<c:otherwise>
-												<!-- Hiển thị khi không có đánh giá -->
-												<p>Chưa có đánh giá nào cho sản phẩm này.</p>
-											</c:otherwise>
-										</c:choose>
+										<!-- Hiển thị danh sách đánh giá -->
+										<ul>
+											<c:forEach var="review" items="${reviews}">
+												<li>
+													<p>
+														<!-- Hiển thị tên người dùng -->
+														<strong>${review.user.username}</strong>:
+														<!-- Hiển thị nội dung đánh giá -->
+														<span>${review.content}</span> <br />
+														<!-- Hiển thị đánh giá (rating) -->
+														<span>Rating:</span> <span>${review.rating}</span> <br />
+														<!-- Hiển thị ngày tạo -->
+														<small>${review.formattedCreateat}</small>
+													</p>
+												</li>
+											</c:forEach>
+										</ul>
 									</div>
 								</div>
 							</div>
-
 
 
 
@@ -259,54 +240,34 @@
 					<nav aria-label="Page navigation">
 						<ul class="pagination">
 							<!-- Nút Previous -->
-							<c:choose>
-								<c:when test="${currentPage == 1}">
-									<li class="page-item disabled"><a class="page-link"
-										href="javascript:void(0);">Previous</a></li>
-								</c:when>
-								<c:otherwise>
-									<li class="page-item"><a class="page-link"
-										href="javascript:void(0);"
-										onclick="loadRelatedProducts(${product.id}, ${currentPage - 1}, ${pageSize});">
-											Previous </a></li>
-								</c:otherwise>
-							</c:choose>
+							<li class="page-item ${currentPage == 1 ? 'disabled' : ''}">
+								<a class="page-link" href="javascript:void(0);"
+								onclick="loadRelatedProducts(${product.id}, ${currentPage - 1}, ${pageSize});">
+									Previous </a>
+							</li>
 
 							<!-- Số trang -->
 							<c:forEach var="pageNumber" items="${pageNumbers}">
-								<c:choose>
-									<c:when test="${pageNumber == currentPage}">
-										<li class="page-item active"><a class="page-link"
-											href="javascript:void(0);">${pageNumber}</a></li>
-									</c:when>
-									<c:otherwise>
-										<li class="page-item"><a class="page-link"
-											href="javascript:void(0);"
-											onclick="loadRelatedProducts(${product.id}, ${pageNumber}, ${pageSize});">
-												${pageNumber} </a></li>
-									</c:otherwise>
-								</c:choose>
+								<li
+									class="page-item ${pageNumber == currentPage ? 'active' : ''}">
+									<a class="page-link" href="javascript:void(0);"
+									onclick="loadRelatedProducts(${product.id}, ${pageNumber}, ${pageSize});">
+										${pageNumber} </a>
+								</li>
 							</c:forEach>
 
 							<!-- Nút Next -->
-							<c:choose>
-								<c:when
-									test="${currentPage == pageNumbers[pageNumbers.size() - 1]}">
-									<li class="page-item disabled"><a class="page-link"
-										href="javascript:void(0);">Next</a></li>
-								</c:when>
-								<c:otherwise>
-									<li class="page-item"><a class="page-link"
-										href="javascript:void(0);"
-										onclick="loadRelatedProducts(${product.id}, ${currentPage + 1}, ${pageSize});">
-											Next </a></li>
-								</c:otherwise>
-							</c:choose>
+							<li
+								class="page-item ${currentPage == pageNumbers[pageNumbers.size() - 1] ? 'disabled' : ''}">
+								<a class="page-link" href="javascript:void(0);"
+								onclick="loadRelatedProducts(${product.id}, ${currentPage + 1}, ${pageSize});">
+									Next </a>
+							</li>
 						</ul>
 					</nav>
+
 				</div>
 			</div>
-
 
 		</div>
 	</section>
@@ -335,6 +296,7 @@
 
 	</script>
 	
+	<!-- Load the Facebook SDK for JavaScript -->
 	<!-- Load the Facebook SDK for JavaScript -->
 <div id="fb-root"></div>
 <script async defer crossorigin="anonymous"

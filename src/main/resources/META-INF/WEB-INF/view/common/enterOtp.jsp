@@ -50,7 +50,7 @@
                         Mã OTP hết hạn sau <span id="timer">40</span> giây. 
                     </div>
                     <div class="wsus__login">
-                        <form action="/register" method="get" onsubmit="return validateForm()">
+                        <form action="/enterOtp" method="post" onsubmit="return validateForm()">
                         	<input type="hidden" name="code" value="${sessionScope.code}">                        	
                         	<div class="wsus__login_input">
                                 <i class="fa fa-envelope"></i>
@@ -67,7 +67,7 @@
 						    var code = '${sessionScope.code}'; // Mã OTP từ server
 						
 						    // Kiểm tra OTP có đúng không
-						    if (otp !== code) {
+						    if (otp != code) {
 						        alert("Mã OTP không chính xác.");
 						        return false; // Ngừng gửi form nếu OTP không chính xác
 						    }						

@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
 
 import com.oneshop.entity.Category;
@@ -12,7 +13,7 @@ import com.oneshop.entity.Product;
 import com.oneshop.entity.Store;
 
 @Repository
-public interface ProductRepository extends JpaRepository<Product, Integer> {
+public interface ProductRepository extends JpaRepository<Product, Integer>, JpaSpecificationExecutor<Product> {
 	List<Product> findBynameContaining(String name);
 	List<Product> findTop8ByOrderBySoldDesc();
 	List<Product> findTop8ByOrderByIdDesc();

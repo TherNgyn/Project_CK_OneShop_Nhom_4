@@ -78,6 +78,33 @@ p {
   -o-transition: all linear 0.3s ease;
 }
 
+.price-input-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    align-items: center;
+}
+.price-input {
+    display: flex;
+    flex-direction: column; /* Đổi chiều các phần tử thành dọc */
+    justify-content: space-between;
+    width: 100%;
+    max-width: 350px; /* Giới hạn chiều rộng */
+    margin-bottom: 15px;
+}
+
+.price-input div {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+.price-input input {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
 .common_btn:hover {
   color: #fff;
   background: rgb(2, 82, 122);
@@ -3092,6 +3119,7 @@ PPRODUCT PAGE START
   box-shadow: rgb(50 50 93 / 15%) 0px 0px 5px 0px;
   background: #fff;
   padding: 15px;
+  align-items: center;
 }
 
 .wsus__product_sidebar .accordion-button:focus {
@@ -3100,6 +3128,7 @@ PPRODUCT PAGE START
 
 .accordion-item {
   margin-top: 15px;
+  width:100%;
 }
 
 .accordion-button:not(.collapsed) {
@@ -3316,6 +3345,17 @@ PPRODUCT PAGE START
   box-shadow: none;
 }
 
+/* Center icon in pagination links */
+.page-item .page-link {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    text-decoration: none;
+    padding: 0;
+}
 .wsus__list_view .wsus__pro_link {
   width: 40%;
   height: 343px;
