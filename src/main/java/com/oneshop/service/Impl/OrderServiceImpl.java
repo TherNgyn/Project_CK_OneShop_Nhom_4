@@ -3,6 +3,7 @@ package com.oneshop.service.Impl;
 
 import java.sql.Date;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.List;
 import java.util.Optional;
@@ -16,8 +17,10 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.oneshop.entity.Order;
+import com.oneshop.entity.OrderItem;
 import com.oneshop.entity.Store;
 import com.oneshop.entity.User;
+import com.oneshop.repository.OrderItemRepository;
 import com.oneshop.repository.OrderRepository;
 import com.oneshop.service.IOrderService;
 @Service
@@ -25,8 +28,24 @@ public class OrderServiceImpl implements IOrderService {
 	@Autowired
 	OrderRepository orderRepository;
 	
+	@Autowired
+	OrderItemRepository orderItemRepository;
 	
-
+	@Override
+    public List<Order> getAllOrdersByCustomer(Integer customerId) {
+        return orderRepository.findByUser_Id(customerId);
+    }
+	
+	@Override
+    public List<Order> getOrdersByCustomer(Integer customerId, String status) {
+        return orderRepository.findByUser_IdAndStatus(customerId, status);
+    }
+	
+	@Override
+    public List<OrderItem> getOrderItemsByOrderId(Integer orderId) {
+        return orderItemRepository.findByOrder_Id(orderId); 
+    }
+	
 	@Override
 	public <S extends Order> S save(S entity) {
 		return orderRepository.save(entity);
@@ -109,38 +128,43 @@ public class OrderServiceImpl implements IOrderService {
 	}
 	
 	@Override
-	public Float totalPriceToDay(List<Order> orders, Date date) {
-	    Float price = (float) 0;
-	    LocalDate targetDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+	public Float totalPriceToDay(List<Order> orders, LocalDate date) {
+	    Float price = 0f;
 
 	    for (Order order : orders) {
-	        LocalDate orderDate = order.getCreateat().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+	        // Convert `LocalDateTime` to `LocalDate` for comparison
+	        LocalDate orderDate = order.getCreateat().toLocalDate();
 
-	        if (orderDate.equals(targetDate)) {
+	        if (orderDate.equals(date)) {
 	            price += order.getPrice();
 	        }
 	    }
 	    return price;
 	}
+
 	
-	@SuppressWarnings("deprecation")
 	@Override
-	public Float getPrice12Month(List<Order> oders, Integer limit) {
+	public Float getPrice12Month(List<Order> orders, Integer limit) {
 
-		Float totalPrice = (float) 0;
+	    Float totalPrice = 0f;
 
-		long millis = System.currentTimeMillis();
-		Date date = new Date(millis);
+	    // Lấy thời gian hiện tại
+	    LocalDateTime now = LocalDateTime.now();
 
-		int y = 12;
-		for (Order order : oders) {
+	    for (Order order : orders) {
+	        LocalDateTime createAt = order.getCreateat();
+	        if (createAt != null) {
+	            // So sánh tháng giữa `createAt` và thời gian hiện tại trừ đi `limit`
+	            if (createAt.getYear() == now.minusMonths(limit).getYear() &&
+	                createAt.getMonthValue() == now.minusMonths(limit).getMonthValue()) {
+	                totalPrice += order.getPrice();
+	            }
+	        }
+	    }
 
-			if (order.getCreateat().getMonth() == (date.getMonth()-limit)) {
-				totalPrice = totalPrice + order.getPrice();
-			}
-		}
-		return totalPrice;
+	    return totalPrice;
 	}
+
 	
 	@Override
 	public Integer countByCreateat(Date date) {
@@ -157,19 +181,18 @@ public class OrderServiceImpl implements IOrderService {
 	    for (Order order : orders) {
 	        if (order.getStore().getId().equals(id)) {
 	            // Chuyển đổi ngày tạo đơn hàng từ Date sang LocalDate
-	            LocalDate orderDate = order.getCreateat().toInstant()
-	                                        .atZone(ZoneId.systemDefault())
-	                                        .toLocalDate();
+	            LocalDate orderDate = order.getCreateat().toLocalDate();
 
 	            // Kiểm tra tháng
-	            if (orderDate.getYear() == currentDate.minusMonths(limit).getYear() &&
-	                orderDate.getMonth() == currentDate.minusMonths(limit).getMonth()) {
+	            if (orderDate.getYear() == currentDate.getYear() 
+	                && orderDate.getMonthValue() >= (currentDate.getMonthValue() - limit)) {
 	                totalPrice += order.getPrice();
 	            }
 	        }
 	    }
 	    return totalPrice;
 	}
+
 	@Override
 	public List<Order> findByStore(Store store) {
 		// TODO Auto-generated method stub
@@ -200,4 +223,21 @@ public class OrderServiceImpl implements IOrderService {
 		// TODO Auto-generated method stub
 		return orderRepository.findByUser(user);
 	}
+	@Override
+    public List<Order> getAllOrdersByCustomerAndStore(Integer userId, Store store) {
+        return orderRepository.findAllByUserIdAndStore(userId, store);
+    }
+
+    @Override
+    public List<Order> getOrdersByCustomerAndStore(Integer userId, Store store, String status) {
+        return orderRepository.findAllByUserIdAndStoreAndStatus(userId, store, status);
+    }
+
+    @Override
+    public Order findLatestOrder(User user) {
+        return orderRepository.findTopByUserIdOrderByCreateatDesc(user.getId());
+    }
+
+
+
 }

@@ -33,6 +33,8 @@ public interface IOrderItemService {
 	List<OrderItem> getOrderItemByStore(Store store);
 	Double doanhThu(List<OrderItem> orderitems);
 	List<OrderItem> findByOrder(Order Order);
+	List<OrderItem> getOrderItemsByOrderId(int orderId);
+	List<OrderItem> findByOrderId(Integer id);
 
 
 }

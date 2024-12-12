@@ -132,7 +132,7 @@
 											<td class="shoping__cart__item"><img
 												src="${item.product.imageUrls[0]}"
 												alt="${item.product.name}">
-												<h5>${item.product.name}</h5></td>
+												<h5 data-product-id="${item.product.id}">${item.product.name}</h5></td>
 											<td class="shoping__cart__price"><fmt:formatNumber
 													value="${item.product.price}" type="currency"
 													currencySymbol="₫" /></td>
@@ -266,11 +266,8 @@
 			                        currency: 'VND'
 			                    });
 			                }
-
-			                // Hiển thị thông báo xác nhận
 			                const confirmed = confirm(`Tổng tiền của bạn là: ${total.toLocaleString('vi-VN', {style: 'currency', currency: 'VND'})}. Bạn có muốn thanh toán không?`);
 			                if (confirmed) {
-			                    // Chuyển hướng đến trang thanh toán
 			                    window.location.href = '/user/order';
 			                }
 			            }
@@ -297,40 +294,62 @@
 			        return;
 			    }
 
-			    const payload = { total: totalPrice };
+			    const selectedItems = new Map();
+			    
+			    // Lấy tất cả các sản phẩm đã được chọn (các checkbox được tick)
+			    const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
+			    
+			    checkboxes.forEach(cb => {
+			        const row = cb.closest('tr');
+			        if (row) {
+			            const productId = row.querySelector('.shoping__cart__item h5').getAttribute("data-product-id"); // Lấy productId, không phải name
+			            const quantity = row.querySelector('.shoping__cart__quantity input').value;
+			            
+			            if (selectedItems.has(productId)) {
+			                selectedItems.set(productId, selectedItems.get(productId) + parseInt(quantity, 10));
+			            } else {
+			                selectedItems.set(productId, parseInt(quantity, 10));
+			            }
+			        }
+			    });
+
+			    if (selectedItems.size === 0) {
+			        alert("Bạn chưa chọn sản phẩm nào để thanh toán.");
+			        return;
+			    }
+
+			    // Chuyển đổi Map thành mảng các đối tượng trước khi gửi
+			    const selectedItemsArray = Array.from(selectedItems, ([productId, quantity]) => ({
+			        productId: productId,
+			        quantity: quantity
+			    }));
+
+			    const payload = { 
+			        total: totalPrice,
+			        selectedItems: selectedItemsArray 
+			    };
 
 			    fetch(`${baseUrl}/user/cart/saveTotal`, {
 			        method: 'POST',
 			        headers: { 'Content-Type': 'application/json' },
 			        body: JSON.stringify(payload)
 			    })
-			        .then(async (response) => {
-			            const contentType = response.headers.get("content-type");
-			            if (!response.ok) {
-			                if (contentType && contentType.indexOf("application/json") !== -1) {
-			                    const errorJson = await response.json();
-			                    throw new Error(errorJson.error || "Lỗi không xác định từ server.");
-			                } else {
-			                    const errorText = await response.text();
-			                    console.error("Server trả về lỗi dạng HTML/Text:", errorText);
-			                    throw new Error("Lỗi HTTP: " + response.status);
-			                }
-			            }
-			            return response.json();
-			        })
-			        .then(data => {
-			            if (data.success) {
-			                alert(data.success);
-			                window.location.href = '${baseUrl}/user/order'; 
-			            } else {
-			                alert("Lỗi: " + (data.error || "Không xác định"));
-			            }
-			        })
-			        .catch(error => {
-			            console.error("Lỗi khi gọi API:", error.message);
-			            alert("Đã xảy ra lỗi khi lưu tổng tiền. Chi tiết: " + error.message);
-			        });
+			    .then(response => response.json())
+			    .then(data => {
+			        if (data.success) {
+			            alert(data.success);
+			            window.location.href = `${baseUrl}/user/order`; // Chuyển hướng đến trang đơn hàng
+			        } else {
+			            alert("Lỗi: " + (data.error || "Không xác định"));
+			        }
+			    })
+			    .catch(error => {
+			        console.error("Lỗi khi gọi API:", error.message);
+			        alert("Đã xảy ra lỗi khi lưu tổng tiền. Chi tiết: " + error.message);
+			    });
 			}
+
+
 
 
 			</script>
@@ -348,7 +367,7 @@
 						<h5>THANH TOÁN</h5>
 						<ul>
 						</ul>
-						<a href="javascript:void(0);" class="primary-btn" onclick="saveCartTotal()">THANH TOÁN</a>
+						<a href="javascript:void(0);" class="primary-btn" onclick="saveCartTotal()">MUA HÀNG</a>
 
 					</div>
 				</div>

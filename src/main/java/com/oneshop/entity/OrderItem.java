@@ -1,11 +1,14 @@
 package com.oneshop.entity;
 
-import java.sql.Date;
+import java.time.LocalDateTime;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Entity
 @Table(name = "orderitem")
@@ -20,6 +23,8 @@ public class OrderItem {
 
     @ManyToOne
     @JoinColumn(name = "orderid", nullable = false)
+    @ToString.Exclude
+    @JsonIgnore
     private Order order;
 
     @ManyToOne
@@ -27,6 +32,10 @@ public class OrderItem {
     private Product product;
 
     private Integer count;
-    private Date createat;
-    private Date updateat;
+
+    @Column(nullable = false)
+    private LocalDateTime createat;
+
+    @Column(nullable = true)
+    private LocalDateTime updateat;
 }
