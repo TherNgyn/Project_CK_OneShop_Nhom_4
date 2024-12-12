@@ -53,7 +53,7 @@
 									<div class="col-xl-4 col-sm-6 mb-4">
 										<div class="wsus__product_item">
 											<a class="wsus__pro_link"
-												href="/common/products/id=${product.id}"> <img
+												href="/common/products/productdetail?id=${product.id}"> <img
 												src="${product.imageUrls[0]}" alt="${product.name}"
 												class="img-fluid w-100 img_1" /> <c:if
 													test="${product.imageUrls.size() > 1}">
@@ -67,7 +67,7 @@
 												<li><a href="#"><i class="far fa-random"></i></a></li>
 											</ul>
 											<div class="wsus__product_details">
-												<a class="wsus__category" href="#">${product.category.name}</a>
+												<a class="wsus__category" href="/common/products/productdetail?id=${product.id}">${product.category.name}</a>
 												<p class="wsus__pro_rating">
 													<c:forEach begin="1" end="5" varStatus="loop">
 														<c:choose>
@@ -86,7 +86,7 @@
 													<span>(${product.reviews.size()} reviews)</span>
 												</p>
 												<a class="wsus__pro_name"
-													href="product_details.html?id=${product.id}">${product.name}</a>
+													href="/common/products/productdetail?id=${product.id}">${product.name}</a>
 												<p class="wsus__price">
 													<fmt:formatNumber value="${product.promotionalPrice}"
 														type="number" minFractionDigits="0" maxFractionDigits="2" />
@@ -113,7 +113,7 @@
 									<div class="col-xl-12 mb-4">
 										<div class="wsus__product_item wsus__list_view">
 											<a class="wsus__pro_link"
-												href="/common/products/id=${product.id}"> <img
+												href="/common/products/productdetail?id=${product.id}"> <img
 												src="${product.imageUrls[0]}" alt="${product.name}"
 												class="img-fluid w-100 img_1" /> <c:if
 													test="${product.imageUrls.size() > 1}">
@@ -122,7 +122,7 @@
 												</c:if>
 											</a>
 											<div class="wsus__product_details">
-												<a class="wsus__category" href="#">${product.category.name}</a>
+												<a class="wsus__category" href="/common/products/productdetail?id=${product.id}">${product.category.name}</a>
 												<p class="wsus__pro_rating">
 													<c:forEach begin="1" end="5" varStatus="loop">
 														<c:choose>
@@ -141,8 +141,7 @@
 													<span>(${product.reviews.size()} reviews)</span>
 												</p>
 												<a class="wsus__pro_name"
-													href="product_details.html?id=${product.id}">${product.name}</a>
-												<p class="wsus__price">
+													href="/common/products/productdetail?id=${product.id}"></a>
 													<fmt:formatNumber value="${product.promotionalPrice}"
 														type="number" minFractionDigits="0" maxFractionDigits="2" />
 													<del>
@@ -151,7 +150,7 @@
 																minFractionDigits="0" maxFractionDigits="2" />
 														</c:if>
 													</del>
-												</p>
+												
 												<p class="list_description">${product.description}</p>
 												<ul class="wsus__single_pro_icon">
 													<li><a class="add_cart" href="#">add to cart</a></li>

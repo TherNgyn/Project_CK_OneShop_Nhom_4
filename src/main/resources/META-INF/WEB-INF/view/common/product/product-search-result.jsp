@@ -209,7 +209,7 @@
 
 												<!-- Link dẫn đến trang chi tiết sản phẩm -->
 												<a class="wsus__pro_link"
-													href="/common/products/id=${product.id}"> <!-- Hình ảnh chính của sản phẩm -->
+													href="/common/products/productdetail?id=${product.id}"> <!-- Hình ảnh chính của sản phẩm -->
 													<img src="${product.imageUrls[0]}" alt="${product.name}"
 													class="img-fluid w-100 img_1" /> <!-- Hình ảnh phụ nếu có -->
 													<c:if test="${product.imageUrls.size() > 1}">
@@ -246,7 +246,7 @@
 													</p>
 													<!-- Tên sản phẩm -->
 													<a class="wsus__pro_name"
-														href="product_details.html?id=${product.id}">${product.name}</a>
+														href="/common/products/productdetail?id=${product.id}">${product.name}</a>
 													<!-- Giá sản phẩm -->
 													<p class="wsus__price">
 														<fmt:formatNumber value="${product.promotionalPrice}"
@@ -276,7 +276,7 @@
 									<div class="col-xl-12 mb-4">
 										<div class="wsus__product_item wsus__list_view">
 											<a class="wsus__pro_link"
-												href="/common/products/id=${product.id}"> <img
+												href="/common/products/productdetail?id=${product.id}"> <img
 												src="${product.imageUrls[0]}" alt="${product.name}"
 												class="img-fluid w-100 img_1" /> <c:if
 													test="${product.imageUrls.size() > 1}">
@@ -285,7 +285,7 @@
 												</c:if>
 											</a>
 											<div class="wsus__product_details">
-												<a class="wsus__category" href="#">${product.category.name}</a>
+												<a class="wsus__category" href="/common/products/productdetail?id=${product.id}">${product.category.name}</a>
 												<p class="wsus__pro_rating">
 													<c:forEach begin="1" end="5" varStatus="loop">
 														<c:choose>
@@ -304,7 +304,7 @@
 													<span>(${product.reviews.size()} reviews)</span>
 												</p>
 												<a class="wsus__pro_name"
-													href="product_details.html?id=${product.id}">${product.name}</a>
+													href="/common/products/productdetail?id=${product.id}">${product.name}</a>
 												<p class="wsus__price">
 													<fmt:formatNumber value="${product.promotionalPrice}"
 														type="number" minFractionDigits="0" maxFractionDigits="2" />

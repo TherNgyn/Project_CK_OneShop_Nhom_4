@@ -1,4 +1,5 @@
 package com.oneshop.controller.common;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -168,6 +169,45 @@ public class ProductController {
 
         return "common/product/product-search-result";
     }
+    @GetMapping("/productdetail")
+	public String getProductDetail(
+			@RequestParam("id") Integer id,
+			@RequestParam(value = "page", required = false, defaultValue = "1") int page,
+			@RequestParam(value = "size", required = false, defaultValue = "4") int size,
+			@RequestParam(value = "quantity", required = false, defaultValue = "1") int quantity,
+			Model model) {
+
+		if (id == null) {
+			throw new IllegalArgumentException("Product ID is required.");
+		}
+
+		Product product = productService.getById(id);
+		if (product == null) {
+			throw new IllegalArgumentException("Không tìm thấy sản phẩm với ID: " + id);
+		}
+
+		List<String> imageUrls = product.getImages().stream()
+				.map(image -> cloudinary.url().publicId(image.getImageUrl()).generate())
+				.collect(Collectors.toList());
+		product.setImageUrls(imageUrls);
+
+		Pageable pageable = PageRequest.of(page - 1, size, Sort.by("name"));
+		Page<Product> relatedProductPage = productService.findByCategory(product.getCategory(), pageable);
+
+		int totalPages = relatedProductPage.getTotalPages();
+		List<Integer> pageNumbers = totalPages > 0
+				? IntStream.rangeClosed(1, totalPages).boxed().collect(Collectors.toList())
+				: Collections.emptyList();
+
+		model.addAttribute("product", product);
+		model.addAttribute("relatedProducts", relatedProductPage.getContent());
+		model.addAttribute("quantity", quantity);
+		model.addAttribute("currentPage", page);
+		model.addAttribute("pageSize", size);
+		model.addAttribute("pageNumbers", pageNumbers);
+
+		return "common/product/product-detail";
+	}
 
     private List<String> getUniqueBrands() {
         List<Product> productList = productService.findAll();
