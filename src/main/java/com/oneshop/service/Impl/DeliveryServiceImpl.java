@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import com.oneshop.repository.DeliveryRepository;
 import com.oneshop.entity.Category;
 import com.oneshop.entity.Delivery;
+import com.oneshop.entity.Order;
 import com.oneshop.service.IDeliveryService;
 
 @Service
@@ -117,7 +118,6 @@ public class DeliveryServiceImpl implements IDeliveryService{
 	public void deleteAll() {
 		deliveryRepository.deleteAll();
 	}
-	
 	
 
 }

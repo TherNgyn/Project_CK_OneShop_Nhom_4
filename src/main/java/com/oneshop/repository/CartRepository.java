@@ -8,4 +8,5 @@ import com.oneshop.entity.Cart;
 @Repository
 public interface CartRepository extends JpaRepository<Cart, Integer> {
 	List<Cart> findByUserId(Integer Id);
+	
 }
