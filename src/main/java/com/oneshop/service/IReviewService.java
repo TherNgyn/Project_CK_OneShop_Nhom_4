@@ -29,4 +29,5 @@ public interface IReviewService {
     void deleteAll();
     Page<Review> findByProductStore(Store store, Pageable page);
     List<Review> findByProduct(Product product);
+    List<Review> findByProductId(Integer productId);
 }
