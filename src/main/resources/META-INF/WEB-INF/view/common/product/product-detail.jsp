@@ -297,6 +297,7 @@
 	</script>
 	
 	<!-- Load the Facebook SDK for JavaScript -->
+	<!-- Load the Facebook SDK for JavaScript -->
 <div id="fb-root"></div>
 <script async defer crossorigin="anonymous"
   src="https://connect.facebook.net/en_US/sdk.js"></script>
