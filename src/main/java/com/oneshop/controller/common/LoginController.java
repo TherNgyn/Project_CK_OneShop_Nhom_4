@@ -2,16 +2,19 @@ package com.oneshop.controller.common;
 
 import java.sql.Date;
 import java.util.List;
+import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.oneshop.entity.Cart;
 import com.oneshop.entity.Category;
@@ -142,56 +145,102 @@ public class LoginController {
 	    session.invalidate();
 	    return "redirect:/login";
 	}
+	
+	@GetMapping("otp_register")
+	public String otp_register(ModelMap model) {
+		return "common/otp_register";
+	}
+	
+	@PostMapping("otp_register")
+	public ModelAndView otp_register(RedirectAttributes redirectAttributes, 
+	                             @RequestParam(name = "email", required = false) String email, HttpSession session) {
+	    if (email == null || email.trim().isEmpty()) {
+	        redirectAttributes.addFlashAttribute("infor", "Email không được trống");
+	        return new ModelAndView("redirect:/otp_register");
+	    }
+	    User user = userService.findByEmail(email);
+        if (user != null) {
+            redirectAttributes.addFlashAttribute("infor", "Email đã tồn tại");
+            return new ModelAndView("redirect:/otp_register");
+        }
+        session.setAttribute("email", email);
+    	SendMail sm = new SendMail();
+    	String code = getRandom();
+    	Boolean success = sm.sendEmail(email, code);
+    	session.setAttribute("code", code);
+    	if (success == true) {	        		
+    		return new ModelAndView("redirect:/enterOtp");
+    	}
+    	else {
+    		redirectAttributes.addFlashAttribute("infor", "Gửi mã thất bại");
+            return new ModelAndView("redirect:/otp_register");
+    	}
+	}
+	
+	@GetMapping("enterOtp")
+	public String enterOtp(ModelMap model) {
+		session.setAttribute("code", session.getAttribute("code"));
+		return "common/enterOtp";
+	}
+	
+	@PostMapping("enterOtp")
+	public ModelAndView enterOtp(RedirectAttributes redirectAttributes, @RequestParam(name = "otp", required = true) String otp) {
+		if (!otp.equals(session.getAttribute("code"))) {
+			redirectAttributes.addFlashAttribute("infor", "Otp không đúng.");
+			return new ModelAndView("redirect:/enterOtp");
+		}
+		return new ModelAndView("register"); 
+	}
+	
 
 	@GetMapping("register")
-	public String showRegisterPage(ModelMap model) {
+	public String showRegisterPage(ModelMap model, @RequestParam(name = "otp", required = false) String otp) {
+		if (!otp.equals(session.getAttribute("code"))) {
+			return "redirect:/enterOtp";
+		}
 		model.addAttribute("user", new UserModel());
 		return "common/register";
 	}
 
 	@PostMapping("register")
-	public ModelAndView register(ModelMap model, @RequestParam(name = "username", required = false) String username,
-			@RequestParam(name = "email", required = false) String email,
+	public ModelAndView register(RedirectAttributes redirectAttributes, @RequestParam(name = "username", required = false) String username,
 			@RequestParam(name = "phone", required = false) String phone,
 			@RequestParam(name = "password", required = false) String password,
 			@RequestParam(name = "confirmPassword", required = false) String confirmPassword,
-			@RequestParam(name = "agreePolicy", required = false) String agreePolicy) {
-
-		if (username == null || username.trim().isEmpty() || email == null || email.trim().isEmpty() || phone == null
-				|| phone.trim().isEmpty() || password == null || password.trim().isEmpty() || confirmPassword == null
-				|| confirmPassword.trim().isEmpty()) {
-			model.addAttribute("message", "Vui lòng điền đầy đủ thông tin.");
-			return new ModelAndView("common/register", model);
-		}
+			@RequestParam(name = "agreePolicy", required = false) String agreePolicy, HttpSession session) {
 
 		if (!password.equals(confirmPassword)) {
-			model.addAttribute("message", "Mật khẩu và Nhập lại mật khẩu không khớp.");
-			return new ModelAndView("common/register", model);
+			redirectAttributes.addFlashAttribute("message", "Mật khẩu và Nhập lại mật khẩu không khớp.");
+			//model.addAttribute("message", "Mật khẩu và Nhập lại mật khẩu không khớp.");
+			return new ModelAndView("redirect:/register");
 		}
 
 		if (agreePolicy == null) {
-			model.addAttribute("message", "Bạn cần đồng ý với Chính Sách Bảo Mật để tiếp tục.");
-			return new ModelAndView("common/register", model);
+			redirectAttributes.addFlashAttribute("message", "Bạn cần đồng ý với Chính Sách Bảo Mật để tiếp tục.");
+			//model.addAttribute("message", "Bạn cần đồng ý với Chính Sách Bảo Mật để tiếp tục.");
+			return new ModelAndView("redirect:/register");
 		}
-
-		if (!email.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$")) {
-			model.addAttribute("message", "Email không hợp lệ.");
-			return new ModelAndView("common/register", model);
+		
+		if (userService.findByPhone(phone.trim()) != null) {
+			redirectAttributes.addFlashAttribute("message", "Số điện thoại đã tồn tại.");
+			//model.addAttribute("message", "Số điện thoại không hợp lệ.");
+			return new ModelAndView("redirect:/register");
 		}
 
 		if (!phone.matches("^[0-9]{10}$")) {
-			model.addAttribute("message", "Số điện thoại không hợp lệ.");
-			return new ModelAndView("common/register", model);
+			redirectAttributes.addFlashAttribute("message", "Số điện thoại không hợp lệ.");
+			//model.addAttribute("message", "Số điện thoại không hợp lệ.");
+			return new ModelAndView("redirect:/register");
 		}
 
 		if (userService.findByUsername(username.trim()) != null) {
-			model.addAttribute("message", "Tên đăng nhập đã tồn tại.");
-			return new ModelAndView("common/register", model);
+			redirectAttributes.addFlashAttribute("message", "Tên đăng nhập đã tồn tại.");
+			return new ModelAndView("redirect:/register");
 		}
 
 		User user = new User();
 		user.setUsername(username.trim());
-		user.setEmail(email.trim());
+		user.setEmail(session.getAttribute("email").toString());
 		user.setPhone(phone.trim());
 		user.setPassword(passwordEncoder.encode(password.trim()));
 		user.setRole("ROLE_USER");
@@ -206,20 +255,17 @@ public class LoginController {
 			cart.setCreateat(currentDate);
 			cart.setUpdateat(currentDate);
 			cartService.save(cart);
-
-			model.addAttribute("message", "Tạo tài khoản thành công! Hãy đăng nhập.");
-			return new ModelAndView("common/login", model);
+			redirectAttributes.addFlashAttribute("message", "Tạo tài khoản thành công! Hãy đăng nhập.");
+			return new ModelAndView("redirect:/login");
 
 		} catch (Exception e) {
 			e.printStackTrace();
-			model.addAttribute("message", "Đã xảy ra lỗi trong quá trình đăng ký. Vui lòng thử lại.");
-			return new ModelAndView("common/register", model);
+			redirectAttributes.addFlashAttribute("message", "Đã xảy ra lỗi trong quá trình đăng ký. Vui lòng thử lại.");
+			//model.addAttribute("message", "Đã xảy ra lỗi trong quá trình đăng ký. Vui lòng thử lại.");
+			return new ModelAndView("redirect:/register");
 		}
 	}
-	@GetMapping("/forgot_password")
-	public String showForgotPasswordPage() {
-	    return "common/forgot_password";
-	}
+	
 
 	@GetMapping("/reset_password")
 	public String showResetPasswordPage(@RequestParam("token") String token, ModelMap model) {
@@ -242,7 +288,79 @@ public class LoginController {
 	        return new ModelAndView("common/reset_password", model);
 	    }
 	}
+	@GetMapping("/forgot_password")
+	public String ForgetPassword(Model model) {
+	    return "common/forgot_password";
+	}
+	
+	@PostMapping("/forgot_password")
+	public ModelAndView register(RedirectAttributes redirectAttributes, 
+	                             @RequestParam(name = "email", required = false) String email, HttpSession session) {
+	    if (email == null || email.trim().isEmpty()) {
+	        redirectAttributes.addFlashAttribute("infor", "Email không được trống");
+	        return new ModelAndView("redirect:/forgot_password");
+	    } else {
+	        User user = userService.findByEmail(email);
+	        if (user == null) {
+	            redirectAttributes.addFlashAttribute("infor", "Email không tồn tại");
+	            return new ModelAndView("redirect:/forgot_password");
+	        } else {
+	        	session.setAttribute("email", email);
+	        	SendMail sm = new SendMail();
+	        	String code = getRandom();
+	        	Boolean success = sm.sendEmail(email, code);
+	        	session.setAttribute("code", code);
+	        	if (success == true) {	        		
+	        		return new ModelAndView("common/otp_password");
+	        	}
+	        	else {
+	        		redirectAttributes.addFlashAttribute("infor", "Gửi mã thất bại");
+		            return new ModelAndView("redirect:/forgot_password");
+	        	}
+	            
+	        }
+	    }	
+	}
+	
+	@PostMapping("/otp_password")
+	public ModelAndView resetPassword(Model model,
+	                                  @RequestParam(name = "newPassword") String newPassword,
+	                                  @RequestParam(name = "confirmPassword") String confirmPassword,
+	                                  @RequestParam(name = "email") String email,
+	                                  @RequestParam(name = "otp") String otp,
+	                                  @RequestParam(name = "code") String code) {
+	    ModelAndView modelAndView = new ModelAndView("common/otp_password");
 
+	    if (email == null || email.trim().isEmpty()) {
+	        model.addAttribute("infor", "Email không tìm thấy.");
+	        return modelAndView;
+	    }
+
+	    if (!newPassword.equals(confirmPassword)) {
+	        model.addAttribute("infor", "Mật khẩu không khớp.");
+	        return modelAndView;
+	    }
+
+	    if (!otp.equals(code)) {
+	        model.addAttribute("infor", "Mã OTP không chính xác.");
+	        return modelAndView;
+	    }
+
+	    User user = userService.findByEmail(email);
+	    userService.updatePassword(user, passwordEncoder.encode(newPassword.trim()));
+
+	    // Chuyển hướng tới trang đăng nhập nếu thành công
+	    return new ModelAndView("redirect:/login")
+	            .addObject("message", "Mật khẩu đã được đặt lại thành công.");
+	}
+
+
+
+	String getRandom() {
+        Random rnd = new Random();
+        int number = rnd.nextInt(999999);
+        return String.format("%06d", number); // Định dạng mã gồm 6 chữ số
+    }
 
 }
 

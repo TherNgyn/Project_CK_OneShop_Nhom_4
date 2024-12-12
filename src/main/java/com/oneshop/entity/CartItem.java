@@ -43,5 +43,10 @@ public class CartItem {
     protected void onUpdate() {
         this.updateat = new Date(System.currentTimeMillis());
     }
+    
+    public User getUser() {
+        return this.cart != null ? this.cart.getUser() : null;
+    }
+
 }
 

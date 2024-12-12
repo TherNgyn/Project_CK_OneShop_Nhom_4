@@ -12,15 +12,18 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.oneshop.entity.Cart;
+import com.oneshop.entity.Store;
 import com.oneshop.entity.User;
 import com.oneshop.repository.CartRepository;
+import com.oneshop.repository.StoreRepository;
 import com.oneshop.service.ICartService;
 
 @Service
 public class CartServiceImpl implements ICartService {
 	@Autowired
 	CartRepository CartRepository;
-
+	 @Autowired
+	    private StoreRepository storeRepository;
 	@Override
 	public <S extends Cart> S save(S entity) {
 		return CartRepository.save(entity);
@@ -96,5 +99,8 @@ public class CartServiceImpl implements ICartService {
 	public List<Cart> findByUserId(Integer id) {
 		return CartRepository.findByUserId(id);
 	}
-
+	@Override
+    public Store getStoreByUserId(Integer userId) {
+        return storeRepository.findByUserId(userId);
+    }
 }
