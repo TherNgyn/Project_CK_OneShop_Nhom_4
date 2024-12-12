@@ -30,16 +30,15 @@
 			<div class="row">
 				<div class="col-xl-5 m-auto">
 					<div class="wsus__login_reg_area">
-						<div class="wsus__login">
+						<div class="alert alert-warning" role="alert" style="${message != null && message.trim().length() > 0 ? '' : 'display: none;'}">
+			                        ${message}
+			             </div>
+						<div class="wsus__login">							
 							<form action="/register" method="post">
+								<input type="hidden" name="email" value="${sessionScope.email}">
 								<div class="wsus__login_input">
 									<i class="fa fa-user"></i> <input type="text" name="username"
 										placeholder="Tên đăng nhập" required autocomplete="username">
-								</div>
-								<div class="wsus__login_input">
-									<i class="fa fa-envelope"></i> <input type="email" name="email"
-										placeholder="Email (ví dụ: abc@gmail.com)" required
-										autocomplete="email">
 								</div>
 								<div class="wsus__login_input">
 									<i class="fa fa-phone"></i> <input type="text" name="phone"
