@@ -27,8 +27,11 @@
 				class="tab <c:if test='${param.status == "Processing"}'>active</c:if>'">Đang
 				xử lý</a> <a
 				href="${pageContext.request.contextPath}/user/delivery?status=Paid"
+				class="tab <c:if test='${param.status == "Paid"}'>active</c:if>'">Duyệt thanh toán</a>
+				<a
+				href="${pageContext.request.contextPath}/user/delivery?status=Paid"
 				class="tab <c:if test='${param.status == "Paid"}'>active</c:if>'">Thanh
-				toán xong</a> <a
+				toán</a> <a
 				href="${pageContext.request.contextPath}/user/delivery?status=Awaiting Shipment"
 				class="tab <c:if test='${param.status == "Awaiting Shipment"}'>active</c:if>'">Đang
 				chờ vận chuyển</a> <a
