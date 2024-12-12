@@ -123,43 +123,57 @@ public class ProductUserController{
 
 	@GetMapping("/productdetail")
 	public String getProductDetail(
-			@RequestParam("id") Integer id,
-			@RequestParam(value = "page", required = false, defaultValue = "1") int page,
-			@RequestParam(value = "size", required = false, defaultValue = "4") int size,
-			@RequestParam(value = "quantity", required = false, defaultValue = "1") int quantity,
-			Model model) {
+	        @RequestParam("id") Integer id,
+	        @RequestParam(value = "page", required = false, defaultValue = "1") int page,
+	        @RequestParam(value = "size", required = false, defaultValue = "4") int size,
+	        @RequestParam(value = "quantity", required = false, defaultValue = "1") int quantity,
+	        Model model) {
 
-		if (id == null) {
-			throw new IllegalArgumentException("Product ID is required.");
-		}
+	    // Kiểm tra ID sản phẩm
+	    if (id == null) {
+	        throw new IllegalArgumentException("Product ID is required.");
+	    }
 
-		Product product = productService.getById(id);
-		if (product == null) {
-			throw new IllegalArgumentException("Không tìm thấy sản phẩm với ID: " + id);
-		}
+	    // Lấy sản phẩm theo ID
+	    Product product = productService.getById(id);
+	    if (product == null) {
+	        throw new IllegalArgumentException("Không tìm thấy sản phẩm với ID: " + id);
+	    }
 
-		List<String> imageUrls = product.getImages().stream()
-				.map(image -> cloudinary.url().publicId(image.getImageUrl()).generate())
-				.collect(Collectors.toList());
-		product.setImageUrls(imageUrls);
+	    // Xử lý hình ảnh sản phẩm
+	    List<String> imageUrls = product.getImages().stream()
+	            .map(image -> cloudinary.url().publicId(image.getImageUrl()).generate())
+	            .collect(Collectors.toList());
+	    product.setImageUrls(imageUrls);
 
-		Pageable pageable = PageRequest.of(page - 1, size, Sort.by("name"));
-		Page<Product> relatedProductPage = productService.findByCategory(product.getCategory(), pageable);
+	    // Lấy danh sách đánh giá của sản phẩm
+	    List<Review> reviews = reviewService.findByProductId(product.getId());
 
-		int totalPages = relatedProductPage.getTotalPages();
-		List<Integer> pageNumbers = totalPages > 0
-				? IntStream.rangeClosed(1, totalPages).boxed().collect(Collectors.toList())
-				: Collections.emptyList();
+	    // Tạo đối tượng phân trang
+	    Pageable pageable = PageRequest.of(page - 1, size, Sort.by(Sort.Direction.ASC, "name"));
+	    Page<Product> relatedProductPage = productService.findByCategory(product.getCategory(), pageable);
 
-		model.addAttribute("product", product);
-		model.addAttribute("relatedProducts", relatedProductPage.getContent());
-		model.addAttribute("quantity", quantity);
-		model.addAttribute("currentPage", page);
-		model.addAttribute("pageSize", size);
-		model.addAttribute("pageNumbers", pageNumbers);
+	    // Xử lý số trang
+	    int totalPages = relatedProductPage.getTotalPages();
+	    List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
+	            .boxed()
+	            .collect(Collectors.toList());
 
-		return "user/product/productdetail";
+	    if (totalPages == 0) {
+	        pageNumbers = Collections.emptyList();
+	    }
+
+	    // Gắn các thuộc tính vào Model để hiển thị ở view
+	    model.addAttribute("product", product);
+	    model.addAttribute("relatedProducts", relatedProductPage.getContent());
+	    model.addAttribute("reviews", reviews); // Thêm đánh giá vào Model
+	    model.addAttribute("currentPage", page);
+	    model.addAttribute("pageSize", size);
+	    model.addAttribute("pageNumbers", pageNumbers);
+
+	    return "user/product/productdetail";
 	}
+
 
 
 

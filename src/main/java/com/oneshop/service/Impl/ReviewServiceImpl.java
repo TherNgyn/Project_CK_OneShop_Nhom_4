@@ -100,4 +100,9 @@ public class ReviewServiceImpl implements IReviewService {
     public Page<Review> findByProductStore(Store store, Pageable page) {
         return reviewRepository.findByProductStore(store, page);
     }
+
+	@Override
+	public List<Review> findByProductId(Integer productId) {
+		return reviewRepository.findByProductId(productId);
+	}
 }
