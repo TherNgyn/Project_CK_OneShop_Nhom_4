@@ -73,6 +73,11 @@ public class User {
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     private List<Transaction> transactions;
+    
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    private List<Address> addresses; 
 }
 
 

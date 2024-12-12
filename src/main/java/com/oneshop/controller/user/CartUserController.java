@@ -99,17 +99,17 @@ public class CartUserController {
 
 
     @PostMapping("/add/{id}")
-    public String addToCart(
+    public ModelAndView addToCart(
             @PathVariable("id") Integer id, 
             @RequestParam("quantity") Integer quantity, 
             ModelMap model, 
-            HttpServletRequest request) {
+            HttpServletRequest request,
+            RedirectAttributes redirectAttributes) {
         User user = (User) request.getSession().getAttribute("user");
         if (user == null) {
-            return "redirect:/login"; 
+            return new ModelAndView("redirect:/login"); 
         }
 
-        System.out.println("User ID: " + user.getId());
         List<Cart> carts = cartService.findByUserId(user.getId());
         long millis = System.currentTimeMillis();
         Date date = new Date(millis);
@@ -118,16 +118,15 @@ public class CartUserController {
             cart.setCreateat(date);
             cart.setUser(user);
             cartService.save(cart);
+            carts = cartService.findByUserId(user.getId());
         }
-        carts = cartService.findByUserId(user.getId());
+
         Product product = productService.getById(id);
         if (product == null) {
             throw new IllegalArgumentException("Sản phẩm không tồn tại."); 
         }
         Store store = product.getStore(); 
-
         CartItem thisItem = null;
-
         for (Cart cart : carts) {
             List<CartItem> cartItems = cartItemService.findByCartId(cart.getId());
             for (CartItem cartItem : cartItems) {
@@ -146,15 +145,16 @@ public class CartUserController {
             thisItem = new CartItem();
             thisItem.setCount(quantity);
             thisItem.setCreateat(date);
-            thisItem.setUpdateat(null);
+            thisItem.setUpdateat(null);  
             thisItem.setCart(carts.get(0)); 
             thisItem.setProduct(product);
         }
-        carts.get(0).setStore(store);
-        cartService.save(carts.get(0)); 
+        Cart cart = carts.get(0);
+        cartService.save(cart); 
         cartItemService.save(thisItem);
         updateCartModel(model, request);
-        return "redirect:/user/cart";
+        redirectAttributes.addFlashAttribute("message", "Sản phẩm đã được thêm vào giỏ hàng");
+        return new ModelAndView("redirect:/user/cart", model);
     }
 
     private void updateCartModel(ModelMap model, HttpServletRequest request) {
@@ -169,6 +169,7 @@ public class CartUserController {
             }
         }
     }
+
     
     @GetMapping("delete/{id}")
 	public ModelAndView deletetoCart(ModelMap model, @PathVariable("id") Integer id) {
@@ -238,41 +239,70 @@ public class CartUserController {
     @ResponseBody
     public ResponseEntity<?> saveCartTotal(@RequestBody Map<String, Object> requestBody, HttpServletRequest request) {
         try {
+            // Lấy thông tin người dùng từ session
             User user = (User) request.getSession().getAttribute("user");
             if (user == null) {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                                      .body(Map.of("error", "Người dùng chưa đăng nhập."));
             }
 
+            // Lấy tổng tiền và kiểm tra tính hợp lệ
             Number totalNumber = (Number) requestBody.get("total");
             if (totalNumber == null || totalNumber.doubleValue() <= 0) {
                 return ResponseEntity.badRequest()
                                      .body(Map.of("error", "Tổng tiền không hợp lệ."));
             }
-
             Double total = totalNumber.doubleValue();
-            List<CartItem> cartItems = cartItemService.findByUserId(user.getId());
-            if (cartItems == null || cartItems.isEmpty()) {
+
+            // Lấy danh sách các sản phẩm đã chọn
+            List<Map<String, Object>> selectedItems = (List<Map<String, Object>>) requestBody.get("selectedItems");
+            if (selectedItems == null || selectedItems.isEmpty()) {
                 return ResponseEntity.badRequest()
-                                     .body(Map.of("error", "Giỏ hàng trống."));
+                                     .body(Map.of("error", "Không có sản phẩm nào được chọn."));
             }
 
+            // Tạo đơn hàng mới
             Order order = new Order();
             order.setUser(user);
             order.setPrice(total.floatValue());
             order.setPhone(user.getPhone());
-            order.setAddress(user.getAddress());
-            order.setCreateat(new Date(System.currentTimeMillis()));
+            order.setCreateat(java.time.LocalDateTime.now());
             order.setStatus("Pending");
             orderService.save(order);
 
-            for (CartItem cartItem : cartItems) {
-                OrderItem orderItem = new OrderItem();
-                orderItem.setOrder(order);
-                orderItem.setProduct(cartItem.getProduct());
-                orderItem.setCount(cartItem.getCount());
-                orderItem.setCreateat(new Date(System.currentTimeMillis()));
-                orderItemService.save(orderItem);
+            // Lưu các sản phẩm vào đơn hàng
+            for (Map<String, Object> item : selectedItems) {
+                try {
+                    // Lấy productId từ item và chuyển đổi thành Integer một cách an toàn
+                    String productIdStr = (String) item.get("productId");
+                    if (productIdStr == null) {
+                        return ResponseEntity.badRequest()
+                                             .body(Map.of("error", "ID sản phẩm không hợp lệ."));
+                    }
+                    Integer productId = null;
+                    try {
+                        productId = Integer.parseInt(productIdStr);  // Chuyển đổi chuỗi thành Integer
+                    } catch (NumberFormatException e) {
+                        return ResponseEntity.badRequest()
+                                             .body(Map.of("error", "ID sản phẩm không hợp lệ."));
+                    }
+
+                    Product product = productService.getById(productId); // Lấy sản phẩm từ DB
+                    if (product != null) {
+                        OrderItem orderItem = new OrderItem();
+                        orderItem.setOrder(order);
+                        orderItem.setProduct(product);
+                        orderItem.setCount((Integer) item.get("quantity"));
+                        orderItem.setCreateat(java.time.LocalDateTime.now());
+                        orderItemService.save(orderItem);
+                    } else {
+                        return ResponseEntity.badRequest()
+                                             .body(Map.of("error", "Không tìm thấy sản phẩm với ID: " + productId));
+                    }
+                } catch (Exception e) {
+                    return ResponseEntity.badRequest()
+                                         .body(Map.of("error", "Lỗi xử lý sản phẩm: " + e.getMessage()));
+                }
             }
 
             return ResponseEntity.ok(Map.of("success", "Lưu đơn hàng thành công!"));
@@ -282,6 +312,8 @@ public class CartUserController {
                                  .body(Map.of("error", "Lỗi khi lưu đơn hàng: " + e.getMessage()));
         }
     }
+
+
 
 }
 

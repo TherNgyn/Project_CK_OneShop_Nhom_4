@@ -35,6 +35,7 @@ public class OrderItemServiceImpl implements IOrderItemService {
 	 @Lazy
 	    private IOrderItemService orderItemService;
 
+	
 	@Override
 	public <S extends OrderItem> S save(S entity) {
 		return orderItemRepository.save(entity);
@@ -147,5 +148,15 @@ public class OrderItemServiceImpl implements IOrderItemService {
 	public List<OrderItem> findByOrder(Order Order) {
 		return orderItemRepository.findByOrder(Order);
 	}
+
+	@Override
+    public List<OrderItem> getOrderItemsByOrderId(int orderId) {
+        return orderItemRepository.findAllByOrderId(orderId);
+    }
+
+	public List<OrderItem> findByOrderId(Integer orderId) {
+	    return orderItemRepository.findByOrder_Id(orderId);
+	}
+
 
 }

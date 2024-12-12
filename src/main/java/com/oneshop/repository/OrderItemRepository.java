@@ -11,4 +11,6 @@ import com.oneshop.entity.OrderItem;
 @Repository
 public interface OrderItemRepository extends JpaRepository<OrderItem, Integer> {
 	List<OrderItem> findByOrder(Order Order);
+	List<OrderItem> findByOrder_Id(Integer orderId);
+	List<OrderItem> findAllByOrderId(int orderId);
 }
