@@ -7,12 +7,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import com.oneshop.repository.ProductRepository;
 import com.oneshop.entity.Category;
 import com.oneshop.entity.Order;
 import com.oneshop.entity.Product;
+import com.oneshop.entity.ProductSpecification;
 import com.oneshop.entity.Store;
 import com.oneshop.service.IProductService;
 
@@ -209,4 +211,9 @@ public class ProductServiceImpl implements IProductService {
 		return productRepository.findByNameContainingIgnoreCase(name, pageable);
 	}
 
+	@Override
+	public Page<Product> findByCriteria(String name, List<String> categoryNames, List<String> brand, Double minPrice, Double maxPrice, Pageable pageable) {
+        Specification<Product> spec = ProductSpecification.filterByCriteria(name, categoryNames, brand, minPrice, maxPrice);
+        return productRepository.findAll(spec, pageable);
+    }
 }

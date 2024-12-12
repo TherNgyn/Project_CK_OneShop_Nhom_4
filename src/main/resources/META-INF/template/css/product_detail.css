@@ -8,6 +8,8 @@
 	background-color: #fff;
 }
 
+
+
 .product__details__pic {
 	text-align: center;
 	margin-bottom: 20px;
@@ -57,6 +59,7 @@
 	display: inline-flex;
 	align-items: center;
 }
+
 
 .quantity {
 	display: flex;

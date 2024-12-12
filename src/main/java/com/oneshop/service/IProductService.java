@@ -50,4 +50,6 @@ public interface IProductService {
 	// Tìm kiếm theo tên và phân trang
 	Page<Product> findByNameContainingIgnoreCase(String name, Pageable pageable);
 	long count();
+	// Lọc sản phẩm
+	Page<Product> findByCriteria(String name, List<String> categoryName, List<String> brand, Double maxPrice, Double minPrice, Pageable page);
 }
