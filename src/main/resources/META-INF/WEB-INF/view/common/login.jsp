@@ -60,7 +60,7 @@
 
 							<!-- Đường dẫn đến trang Đăng Ký -->
 							<p class="text-center mt-3">
-								Chưa có tài khoản? <a href="/register" class="register-link">Đăng Ký ngay</a>
+								Chưa có tài khoản? <a href="/otp_register" class="register-link">Đăng Ký ngay</a>
 							</p>
 						</div>
 					</div>
