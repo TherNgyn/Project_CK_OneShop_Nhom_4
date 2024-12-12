@@ -69,7 +69,7 @@ public class LoginController {
 	        session.setAttribute("userRole", role);
 	    }
 
-	    System.out.println("Current userRole in session: " + role);
+	    //System.out.println("Current userRole in session: " + role);
 
 	    List<Product> listNew = productService.findTop8ByOrderByIdDesc();
 	    model.addAttribute("products", listNew);
@@ -185,16 +185,18 @@ public class LoginController {
 	
 	@PostMapping("enterOtp")
 	public ModelAndView enterOtp(RedirectAttributes redirectAttributes, @RequestParam(name = "otp", required = true) String otp) {
-		if (!otp.equals(session.getAttribute("code"))) {
+		if (!otp.equals(session.getAttribute("code").toString())) {
 			redirectAttributes.addFlashAttribute("infor", "Otp không đúng.");
 			return new ModelAndView("redirect:/enterOtp");
 		}
-		return new ModelAndView("register"); 
+		session.setAttribute("otp", otp);
+		return new ModelAndView("redirect:/register");
 	}
 	
 
 	@GetMapping("register")
-	public String showRegisterPage(ModelMap model, @RequestParam(name = "otp", required = false) String otp) {
+	public String showRegisterPage(ModelMap model) {
+		String otp = (String) session.getAttribute("otp");
 		if (!otp.equals(session.getAttribute("code"))) {
 			return "redirect:/enterOtp";
 		}
