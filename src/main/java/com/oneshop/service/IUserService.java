@@ -33,5 +33,6 @@ public interface IUserService {
     void updatePassword(User customer, String newPassword);
     User getByResetPasswordToken(String token);
     User findByEmail(String email);
+    User findByPhone(String phone);
 }
 

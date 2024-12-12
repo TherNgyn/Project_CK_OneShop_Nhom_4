@@ -15,10 +15,10 @@
         <div class="container">
             <div class="row">
                 <div class="col-12">
-                    <h4>Quên Mật Khẩu</h4>
+                    <h4>Đăng ký</h4>
                     <ul>
                         <li><a href="/">Trang Chủ</a></li>
-                        <li><a href="#">Quên Mật Khẩu</a></li>
+                        <li><a href="#">Đăng ký</a></li>
                     </ul>
                 </div>
             </div>
@@ -30,7 +30,7 @@
 ==============================-->
 
 <!--============================
-       FORGOT PASSWORD FORM
+        FORM ĐĂNG KÝ
 ==============================-->
 <section id="forgot_password">
     <div class="container">
@@ -39,18 +39,19 @@
                 <div class="wsus__login_reg_area">
                     <ul class="nav nav-pills mb-3" id="pills-tab2" role="tablist">
                         <li class="nav-item" role="presentation">
-                            <button class="nav-link active">Quên Mật Khẩu</button>
+                            <button class="nav-link active">Đăng ký</button>
                         </li>
                     </ul>
 					<div class="alert alert-warning" role="alert" style="${infor != null && infor.trim().length() > 0 ? '' : 'display: none;'}">
 					    ${infor}
 					</div>
                     <div class="wsus__login">
-                        <form action="/forgot_password" method="post">
-                        	<div class="wsus__login_input">
-                                <i class="fa fa-envelope"></i>
-                                <input type="email" name="email" id="email" placeholder="Nhập email của bạn" required autofocus>
-                            </div>
+                        <form action="/otp_register" method="post">
+                        		<div class="wsus__login_input">
+									<i class="fa fa-envelope"></i> <input type="email" name="email"
+										placeholder="Email (ví dụ: abc@gmail.com)" required
+										autocomplete="email">
+								</div>
                             <div class="text-center mt-3">
                                 <button class="common_btn" type="submit">Gửi Yêu Cầu</button>
                             </div>
