@@ -52,4 +52,5 @@ public interface IProductService {
 	long count();
 	// Lọc sản phẩm
 	Page<Product> findByCriteria(String name, List<String> categoryName, List<String> brand, Double maxPrice, Double minPrice, Pageable page);
+	List<Product> findTop4ByIsSelling();
 }

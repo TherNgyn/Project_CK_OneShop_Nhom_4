@@ -44,7 +44,7 @@
     </div>
     
     <!-- BEGIN FOOTER -->
-    <%@ include file = "/commons/web/footer.jsp" %>
+    <%@ include file = "/commons/admin/footer.jsp" %>
     <!-- END FOOTER -->
     
  <!--jquery library js-->
