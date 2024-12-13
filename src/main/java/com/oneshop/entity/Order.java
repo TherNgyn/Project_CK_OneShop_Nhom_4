@@ -62,6 +62,12 @@ public class Order {
     private LocalDateTime createat;
     private LocalDateTime updateat;
 
+    @Column(nullable = false)
+    private Boolean received = false; // Trạng thái nhận hàng, mặc định là `false`
+
+    @Column(nullable = false)
+    private Boolean reviewed = false; // Trạng thái đã đánh giá, mặc định là `false`
+
     // Tránh vòng lặp khi trả về danh sách đơn hàng
     @ToString.Exclude
     @JsonIgnore

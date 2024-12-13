@@ -11,6 +11,7 @@ import org.springframework.data.domain.Sort;
 import com.oneshop.entity.Product;
 import com.oneshop.entity.Review;
 import com.oneshop.entity.Store;
+import com.oneshop.entity.User;
 
 public interface IReviewService {
     <S extends Review> S save(S entity);
@@ -30,4 +31,7 @@ public interface IReviewService {
     Page<Review> findByProductStore(Store store, Pageable page);
     List<Review> findByProduct(Product product);
     List<Review> findByProductId(Integer productId);
+    long countByProductId(Integer productId);
+    Review findByUserAndProduct(User user, Product product);
+	void saveReview(Review review);
 }
