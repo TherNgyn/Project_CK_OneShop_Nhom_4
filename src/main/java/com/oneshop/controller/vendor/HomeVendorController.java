@@ -21,6 +21,8 @@ import com.cloudinary.Cloudinary;
 import com.oneshop.entity.Product;
 import com.oneshop.entity.Store;
 import com.oneshop.entity.User;
+import com.oneshop.model.CategoryModel;
+import com.oneshop.service.ICategoryService;
 import com.oneshop.service.IProductService;
 import com.oneshop.service.IStoreService;
 import com.oneshop.service.Impl.CloudinaryService;
@@ -39,19 +41,43 @@ public class HomeVendorController {
 	
 	 @Autowired
 	 private Cloudinary cloudinary;
+    @Autowired
+    private ICategoryService categoryService;
     
     @Autowired IProductService productService;
 
+    @GetMapping("")
+    public ModelAndView vendorHomeSession(ModelMap model) {
+        // Lấy thông tin user từ session
+        User loggedInUser = (User) session.getAttribute("user");
+              
+        if ("ROLE_VENDOR".equals(loggedInUser.getRole())) {
+            // Truy vấn để lấy store dựa trên ownerid
+            Store vendorStore = storeService.findByOwner(loggedInUser);
+            System.out.println("Store ID: " + vendorStore.getId());
+
+            // Thêm thông tin cửa hàng vào model
+            model.addAttribute("store", vendorStore);
+        }
+        
+        return new ModelAndView("vendor/home", model);
+    }
     @GetMapping("/home")
     public ModelAndView vendorHome(ModelMap model) {
         // Lấy thông tin user từ session
-        User loggedInUser = (User) session.getAttribute("loggedInUser");
-        Store vendorStore = storeService.findOneByUser(loggedInUser);
-        model.addAttribute("user", loggedInUser);
-        System.out.println(vendorStore);
-        model.addAttribute("store", vendorStore);
-        return new ModelAndView("vendor/home", model);
+        User loggedInUser = (User) session.getAttribute("user");
+              
+        if ("ROLE_VENDOR".equals(loggedInUser.getRole())) {
+            // Truy vấn để lấy store dựa trên ownerid
+            Store vendorStore = storeService.findByOwner(loggedInUser);
+            System.out.println("Store ID: " + vendorStore.getId());
+
+            // Thêm thông tin cửa hàng vào model
+            model.addAttribute("store", vendorStore);
         }
+        
+        return new ModelAndView("vendor/home", model);
+    }
     @RequestMapping("/storedetail/{id}")
     public String getStore(@PathVariable("id") Integer storeId, ModelMap model, Pageable pageable) {
     	

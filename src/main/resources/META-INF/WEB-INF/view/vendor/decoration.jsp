@@ -5,7 +5,7 @@
 
 <form action="/vendor/savedecoration" method="post" enctype="multipart/form-data">
     <input type="hidden" name="storeId" value="${store.id}" />
-    
+    <input type="hidden" name="loggedInUser" value="${loggedInUser}" />
     <!-- Shop Name -->
     <div class="form-group">
         <label for="storeName">Shop Name</label>

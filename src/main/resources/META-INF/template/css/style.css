@@ -4,862 +4,6 @@
 	outline: 0;
 }
 
-ChatGPT
-
-
-You
- 
-said
-:
-
-
-featureimage
- 
-của
- 
-một
- 
-shop
- 
-là
- 
-gì
-
-
-ChatGPT
- 
-said
-:
-
-
-ChatGPT
-
-
-Feature
- 
-image
- 
-của
- 
-một
- 
-shop
- 
-là
- 
-hình
- 
-ảnh
- 
-đại
- 
-diện
- 
-nổi
- 
-bật
- 
-nhất
- 
-được
- 
-chọn
- 
-để
- 
-thể
- 
-hiện
- 
-cửa
- 
-hàng
-,
-sản
- 
-phẩm
- 
-hoặc
- 
-dịch
- 
-vụ
- 
-của
- 
-shop
- 
-đó
- 
-trên
- 
-các
- 
-nền
- 
-tảng
- 
-trực
- 
-tuyến
-.
- 
-Đây
- 
-thường
- 
-là
- 
-hình
- 
-ảnh
- 
-đầu
- 
-tiên
- 
-mà
- 
-khách
- 
-hàng
- 
-nhìn
- 
-thấy
-,
-giúp
- 
-tạo
- 
-ấn
- 
-tượng
- 
-ban
- 
-đầu
- 
-và
- 
-thu
- 
-hút
- 
-sự
- 
-chú
- 
-ý
-.
-
-
-
-Các
- 
-đặc
- 
-điểm
- 
-của
- 
-feature
- 
-image
-:
-
-
-Đại
- 
-diện
- 
-cho
- 
-thương
- 
-hiệu
-:
-
-
-
-Hình
- 
-ảnh
- 
-này
- 
-thường
- 
-được
- 
-chọn
- 
-để
- 
-thể
- 
-hiện
- 
-phong
- 
-cách
- 
-hoặc
- 
-đặc
- 
-điểm
- 
-nổi
- 
-bật
- 
-của
- 
-shop
-.
-
-
-Có
- 
-thể
- 
-là
- 
-logo
-,
-một
- 
-sản
- 
-phẩm
- 
-đặc
- 
-trưng
-,
-hoặc
- 
-không
- 
-gian
- 
-cửa
- 
-hàng
-.
-
-
-Chất
- 
-lượng
- 
-cao
-:
-
-
-
-Nên
- 
-sử
- 
-dụng
- 
-hình
- 
-ảnh
- 
-rõ
- 
-nét
-,
-chất
- 
-lượng
- 
-tốt
- 
-để
- 
-tạo
- 
-sự
- 
-chuyên
- 
-nghiệp
-.
-
-
-Phù
- 
-hợp
- 
-với
- 
-nền
- 
-tảng
-:
-
-
-
-Các
- 
-nền
- 
-tảng
- 
-như
- 
-Facebook
-,
-Shopee
-,
-Lazada
-,
-hoặc
- 
-website
- 
-có
- 
-thể
- 
-yêu
- 
-cầu
- 
-kích
- 
-thước
- 
-và
- 
-định
- 
-dạng
- 
-cụ
- 
-thể
-.
-
-
-Thu
- 
-hút
- 
-sự
- 
-chú
- 
-ý
-:
-
-
-
-Cần
- 
-thiết
- 
-kế
- 
-hoặc
- 
-chọn
- 
-ảnh
- 
-sao
- 
-cho
- 
-hấp
- 
-dẫn
-,
-gây
- 
-ấn
- 
-tượng
- 
-với
- 
-khách
- 
-hàng
- 
-ngay
- 
-từ
- 
-cái
- 
-nhìn
- 
-đầu
- 
-tiên
-.
-
-
-Mục
- 
-tiêu
- 
-marketing
-:
-
-
-
-Feature
- 
-image
- 
-cũng
- 
-đóng
- 
-vai
- 
-trò
- 
-như
- 
-một
- 
-công
- 
-cụ
- 
-marketing
-,
-giúp
- 
-shop
- 
-nổi
- 
-bật
- 
-hơn
- 
-so
- 
-với
- 
-đối
- 
-thủ
-.
-
-
-Bạn
- 
-muốn
- 
-tư
- 
-vấn
- 
-về
- 
-cách
- 
-chọn
- 
-feature
- 
-image
-,
-hay
- 
-cần
- 
-thiết
- 
-kế
- 
-nó
- 
-không
-?
- 
-😊
-
-
-
-
-
-
-
-You
- 
-said
-:
-
-
-<%@
-taglib
- 
-uri
-="
-http
-:
-//
-java
-.sun
-.com
-/
-jsp
-/
-jstl
-/
-core
-"
- 
-prefix
-="
-c
-"
- 
-%>
-<!
-DOCTYPE
- 
-html
->
-<
-html
->
-<
-head
->
-<
-meta
- 
-charset
-="
-UTF-8
-"
->
-<
-title
->
-${
-store
-.name
-}
--
- 
-Store Details </title> <link rel ="stylesheet " href ="<c:url value ='/css
-	/style.css ' /> "> </head> <body><!--Header Section --> <header class
-	="store-header "> <div class ="store-info "> <img src ="${store .avatar
-	
-}
-
-"
-alt ="${store .name
-	
-}
-
-Avatar
-"
- 
-class
-="
-store-avatar
-"
->
-<
-div
- 
-class
-="
-store-details
-"
->
-<
-h1
->
-${
-store
-.name
-}
-</
-h1
->
-<
-p
->
-<
-strong
->
-Bio
-:
-</
-strong
->
-${
-store
-.bio
-}
-</
-p
->
-<
-p
->
-<
-strong
->
-Owner
- 
-ID
-:
-</
-strong
->
-${
-store
-.user
-.id
-}
-</
-p
->
-<
-p
->
-<
-strong
->
-Created
- 
-At
-:
-</
-strong
->
-${
-store
-.createat
-}
-</
-p
->
-<
-p
->
-<
-strong
->
-Updated
- 
-At
-:
-</
-strong
->
-${
-store
-.updateat
-}
-</
-p
->
-<
-p
->
-<
-strong
->
-Status
-:
-</
-strong
->
-${
-store
-.isactive
- 
-?
-'
-Active
-'
- 
-:
- 
-'
-Inactive
-'
-}
-</
-p
->
-<
-p
->
-<
-strong
->
-Rating
-:
-</
-strong
->
-${
-store
-.rating
-}
-</
-p> </div> </div> <div class ="store-feature-images "> <c:forEach var ="image
-	" items ="${store .featuredimages
-	
-}
-
-">
-<
-img src ="${image
-	
-}
-
-"
-alt ="Feature Image " class ="feature-image "> </c:forEach> </div> </header><!--Voucher Section -->
-	<section class ="voucher-section "> <h2>Available Vouchers </h2> <%-- 
-	<div class ="voucher-list "> <c:forEach var ="voucher " items ="${store
-	.vouchers
-	
-}
-
-">
-<
-div
- 
-class
-="
-voucher-item
-"
->
-<
-p
->
-<
-strong
->
-${
-voucher
-.title
-}
-</
-strong
->
-</
-p
->
-<
-p
->
-Discount
-:
- 
-${
-voucher
-.discount
-}
-</
-p
->
-<
-p
->
-Minimum
- 
-Order
-:
- 
-${
-voucher
-.minOrder
-}
-</
-p
->
-<
-p
->
-Expires
-:
- 
-${
-voucher
-.expiry
-}
-</
-p> <button class ="save-button ">Save </button> </div> </c:forEach> </div>--
-	%> </section><!--Product Section --> <section class ="product-section ">
-	<h2>Products </h2> <div class ="product-list "> <c:forEach var ="product
-	" items ="${store .products
-	
-}
-
-">
-<
-div class ="product-item "> <%-- <img src ="${product .imageUrl
-	
-}
-
-"
-alt ="${product .name
-	
-}
-
-">
---
-%
->
-<
-h3
->
-${
-product
-.name
-}
-</
-h3
->
-<
-p
->
-Price
-:
- 
-${
-product
-.price
-}
-</
-p> <a href ="/user /product /${product .id
-	
-}
-
-"
-class ="view-product ">View Product </a> </div> </c:forEach> </div> </section>
-	</body> </html>đổi giao diện thành feature image là một ảnh lớn giữa chi tiết shop và sản phẩm 
-ChatGPT said:
-ChatGPT
-Store Details Feature Image
-Tôi đã thay đổi giao diện để đưa feature image thành một ảnh lớn giữa phần chi tiết shop và sản phẩm
-	. Nếu cần điều chỉnh thêm về giao diện hoặc chức năng, bạn có thể yêu cầu
-	! 😊
-
-
-
-
-
-You said: /* General Styles */ 
 body {
 	font-family: Arial, sans-serif;
 	margin: 0;
@@ -867,7 +11,89 @@ body {
 	background-color: #f8f8f8;
 	color: #333;
 }
+/* Horizontal Sidebar */
+.sidebar {
+    width: 100%; /* Chiếm toàn bộ chiều rộng */
+    height: 60px; /* Đặt chiều cao cố định cho thanh ngang */
+    background-color:#08c;
+    color: #ecf0f1;
+    display: flex; /* Bố cục linh hoạt */
+    align-items: center; /* Căn giữa nội dung theo chiều dọc */
+    overflow-x: auto; /* Hiển thị thanh cuộn ngang nếu nội dung dài */
+    overflow-y: hidden; /* Ẩn cuộn dọc */
+}
 
+.sidebar .title {
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+    padding: 0 15px;
+    white-space: nowrap; /* Không xuống dòng tiêu đề */
+    background-color: transparent; /* Bỏ màu nền của tiêu đề */
+    margin-right: 20px; /* Khoảng cách giữa tiêu đề và menu */
+}
+
+.sidebar ul {
+    display: flex; /* Bố cục hàng ngang */
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    flex-grow: 1; /* Giãn danh sách menu ra toàn chiều ngang */
+}
+
+.sidebar ul li {
+    border-bottom: none; /* Bỏ đường viền dưới */
+    margin: 0;
+}
+
+.sidebar ul li a {
+    display: flex; /* Đảm bảo biểu tượng và văn bản căn hàng ngang */
+    align-items: center;
+    padding: 15px 20px; /* Khoảng cách giữa các mục */
+    color: #ecf0f1;
+    text-decoration: none;
+    white-space: nowrap; /* Ngăn xuống dòng văn bản */
+}
+
+.sidebar ul li a:hover {
+    background-color: #1abc9c;
+}
+
+.sidebar ul li a i {
+    margin-right: 10px; /* Khoảng cách giữa biểu tượng và văn bản */
+}
+
+.sidebar ul li .submenu {
+    position: absolute; /* Hiển thị submenu dưới menu chính */
+    top: 60px; /* Đặt submenu ngay dưới thanh ngang */
+    left: 0;
+    background-color: #34495e;
+    display: none;
+    flex-direction: column; /* Bố cục dọc */
+    width: 200px;
+    z-index: 10;
+}
+
+.sidebar ul li .submenu li {
+    border-bottom: none;
+}
+
+.sidebar ul li .submenu a {
+    padding: 10px 15px;
+    text-align: left;
+}
+
+.sidebar ul li.open .submenu {
+    display: flex; /* Hiển thị submenu */
+}
+
+
+.content {
+    flex: 1; /* Chiếm toàn bộ không gian còn lại */
+    padding: 20px;
+    overflow-y: auto; /* Hiển thị thanh cuộn nếu nội dung dài */
+    box-sizing: border-box; /* Đảm bảo padding không gây tràn */
+}
 /* Header Section */
 .store-header {
 	background-color: #fff;
@@ -1904,9 +1130,10 @@ header {
 }
 
 .wsus_menu_category_bar {
+	display: flex;
 	color: #fff;
 	align-items: center;
-	justify-content: space-between;
+	justify-content: center;
 	cursor: pointer;
 	overflow: hidden;
 	width: 50px;
@@ -1914,7 +1141,6 @@ header {
 	padding: 0;
 	text-align: center;
 	line-height: 48px;
-	display: block;
 	font-size: 20px;
 	background: #08c;
 	position: relative;
@@ -1922,6 +1148,7 @@ header {
 	-webkit-transition: all linear 0.3s ease;
 	-moz-transition: all linear 0.3s ease;
 	-ms-transition: all linear 0.3s;
+	
 }
 
 .wsus_menu_category_bar p {

@@ -309,22 +309,12 @@
 	}
 
 	</script>
-<<<<<<< HEAD
 	
 	<!-- Load the Facebook SDK for JavaScript -->
 <div id="fb-root"></div>
 <script async defer crossorigin="anonymous"
   src="https://connect.facebook.net/en_US/sdk.js"></script>
 <script>
-=======
-
-			<!-- Load the Facebook SDK for JavaScript -->
-			<!-- Load the Facebook SDK for JavaScript -->
-			<div id="fb-root"></div>
-			<script async defer crossorigin="anonymous"
-				src="https://connect.facebook.net/en_US/sdk.js"></script>
-			<script>
->>>>>>> f490c49bc689eb200f48bdb87b7b268312cdc0c9
     window.fbAsyncInit = function() {
         FB.init({
             appId      : '492624269865314', // Thay đổi appId của bạn nếu cần

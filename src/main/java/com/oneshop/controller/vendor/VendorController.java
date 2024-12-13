@@ -34,8 +34,6 @@ public class VendorController {
     
     @Autowired IProductService productService;
 
-    
-
     @PostMapping("/savedecoration")
     public String saveShop(@RequestParam("storeId") Integer storeId,
                            @RequestParam("storeName") String storeName,
@@ -48,7 +46,7 @@ public class VendorController {
         Store store = storeService.getById(storeId);
         if (store == null) {
             redirectAttributes.addFlashAttribute("error", "Không tìm thấy thông tin cửa hàng.");
-            return "redirect:/user/storedetail/id=" + storeId;
+            return "redirect:/user/storedetail/" + storeId;
         }
 
         // Update store details
@@ -63,7 +61,7 @@ public class VendorController {
                 store.setFeaturedimages(imageUrl);
             } catch (Exception e) {
                 redirectAttributes.addFlashAttribute("error", "Không thể upload ảnh: " + e.getMessage());
-                return "redirect:/user/storedetail/id=" + storeId;
+                return "redirect:/user/storedetail/" + storeId;
             }
         }
 
@@ -71,6 +69,6 @@ public class VendorController {
         storeService.save(store);
         redirectAttributes.addFlashAttribute("message", "Cập nhật thông tin thành công!");
 
-        return "redirect:/user/storedetail/id=" + storeId;
+        return "redirect:/user/storedetail/" + storeId;
     }
 }

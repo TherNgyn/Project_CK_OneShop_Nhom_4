@@ -37,7 +37,7 @@ public class SecurityConfig {
                 .ignoringRequestMatchers("/register", "/login", "/forgot_password", "/otp_password", "/otp_register", "/enterOtp", "/user/**", "/vendor/**", "/admin/**")
             )
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/user/**").hasAnyAuthority("ROLE_USER", "ROLE_VENDOR")
+                .requestMatchers("/user/**").hasAnyAuthority("ROLE_USER","ROLE_VENDOR")
                 .requestMatchers("/admin/**").hasAnyAuthority("ROLE_ADMIN")
                 .requestMatchers("/vendor/**").hasAnyAuthority("ROLE_VENDOR")
                 .requestMatchers("/**").permitAll()

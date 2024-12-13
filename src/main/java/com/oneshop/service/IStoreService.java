@@ -33,4 +33,5 @@ public interface IStoreService {
 	Integer countByCreateat(Date date);
 	Store findOneByUser(User user);
 	Store findByName(String name);
+	Store findByOwner(User user);
 }
