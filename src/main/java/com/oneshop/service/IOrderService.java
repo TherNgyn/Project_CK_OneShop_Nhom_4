@@ -14,6 +14,7 @@ import com.oneshop.entity.Order;
 import com.oneshop.entity.OrderItem;
 import com.oneshop.entity.Store;
 import com.oneshop.entity.User;
+import com.oneshop.model.MonthlyRevenue;
 
 public interface IOrderService {
 	void deleteAll();

@@ -14,6 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.oneshop.entity.User;
+import com.oneshop.repository.OrderRepository;
 import com.oneshop.repository.UserRepository;
 import com.oneshop.service.IUserService;
 
@@ -22,6 +23,8 @@ import com.oneshop.service.IUserService;
 public class UserServiceImpl implements IUserService {
 	@Autowired
 	UserRepository UserRepository;
+	@Autowired
+	OrderRepository orderRepository;
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 	@Autowired
@@ -145,6 +148,12 @@ public class UserServiceImpl implements IUserService {
 	@Override
 	public User findByPhone(String phone) {
 		return UserRepository.findByPhone(phone);
+	}
+
+
+	@Override
+	public int countCustomer() {
+		return orderRepository.countDistinctUsers();
 	}
 
 	

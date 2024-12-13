@@ -5,8 +5,12 @@ import java.sql.Date;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -20,6 +24,7 @@ import com.oneshop.entity.Order;
 import com.oneshop.entity.OrderItem;
 import com.oneshop.entity.Store;
 import com.oneshop.entity.User;
+import com.oneshop.model.MonthlyRevenue;
 import com.oneshop.repository.OrderItemRepository;
 import com.oneshop.repository.OrderRepository;
 import com.oneshop.service.IOrderService;
@@ -258,6 +263,31 @@ public class OrderServiceImpl implements IOrderService {
         // Lưu lại vào DB
         orderRepository.save(existingOrder);
 	}
+
+
+	public List<MonthlyRevenue> calculateMonthlyRevenue(int year) {
+        // Fetch orders for the specified year
+        List<Order> orders = orderRepository.findOrdersByYear(year);
+
+        // Array to store total revenue for each month (12 months)
+        double[] monthlySales = new double[12];
+
+        // Process each order to accumulate revenue by month
+        for (Order order : orders) {
+            if (order.getPrice() != null && order.getCreateat() != null) {
+                int month = order.getCreateat().getMonthValue(); // Get month from createat (1-12)
+                monthlySales[month - 1] += order.getPrice(); // Accumulate revenue for the month
+            }
+        }
+
+        // Convert monthlySales array into MonthlyRevenue objects
+        List<MonthlyRevenue> monthlyRevenues = new ArrayList<>();
+        for (int i = 0; i < 12; i++) {
+            monthlyRevenues.add(new MonthlyRevenue(i + 1, monthlySales[i]));
+        }
+
+        return monthlyRevenues;
+    }
 
     
 

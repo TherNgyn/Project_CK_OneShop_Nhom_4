@@ -2,6 +2,7 @@ package com.oneshop.entity;
 
 import java.sql.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -69,5 +70,13 @@ public class Product {
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     @ToString.Exclude // Ngăn tham chiếu lặp trong Lombok
     private List<CartItem> cartItems;
+    
+    @Transient
+    public ProductImage getMainImage() {
+        return images.stream()
+                     .filter(ProductImage::getIsMain) // Lọc hình ảnh chính
+                     .findFirst() // Lấy hình ảnh đầu tiên nếu có
+                     .orElse(null); // Trả về null nếu không có hình ảnh chính
+    }
 
 }

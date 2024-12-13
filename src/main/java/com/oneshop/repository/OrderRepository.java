@@ -4,6 +4,7 @@ import java.sql.Date;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.oneshop.entity.Order;
@@ -19,5 +20,8 @@ public interface OrderRepository extends JpaRepository< Order, Integer >{
 	List<Order> findAllByUserIdAndStore(Integer userId, Store store);
 	List<Order> findAllByUserIdAndStoreAndStatus(Integer userId, Store store, String status);
 	Order findTopByUserIdOrderByCreateatDesc(Integer id);
-	
+	@Query("SELECT o FROM Order o WHERE YEAR(o.createat) = :year")
+    List<Order> findOrdersByYear(int year);
+	@Query("SELECT COUNT(DISTINCT o.user) FROM Order o WHERE o.user.id IS NOT NULL")
+	int countDistinctUsers();
 }
