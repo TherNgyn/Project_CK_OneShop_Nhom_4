@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
 import com.oneshop.entity.Category;
+import com.oneshop.model.CategoryModel;
 
 
 public interface ICategoryService {
@@ -39,4 +40,5 @@ public interface ICategoryService {
 	Category findOneByName(String name);
 	List<Category> findByNameContaining(String name);
 	Category getReferenceById(Integer id);
+
 }
