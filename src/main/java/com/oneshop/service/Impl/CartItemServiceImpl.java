@@ -12,8 +12,10 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.oneshop.entity.CartItem;
+import com.oneshop.entity.OrderItem;
 import com.oneshop.entity.User;
 import com.oneshop.repository.CartItemRepository;
+import com.oneshop.repository.OrderItemRepository;
 import com.oneshop.service.ICartItemService;
 
 import jakarta.persistence.EntityNotFoundException;
@@ -24,6 +26,9 @@ import jakarta.transaction.Transactional;
 public class CartItemServiceImpl implements ICartItemService {
 	@Autowired
 	CartItemRepository CartItemRepository;
+	
+	@Autowired
+    private OrderItemRepository orderItemRepository;
 
 	@Override
 	public <S extends CartItem> S save(S entity) {
@@ -119,6 +124,28 @@ public class CartItemServiceImpl implements ICartItemService {
 	@Transactional
 	public void deleteAllByIds(List<Integer> cartItemIds) {
 	    CartItemRepository.deleteAllByIds(cartItemIds);
+	}
+
+	@Override
+	public void deleteCartItem(int orderId, int userId) {
+		List<OrderItem> orderItems = orderItemRepository.findByOrderId(orderId);
+
+	    if (orderItems.isEmpty()) {
+	        return; // Không có sản phẩm nào trong đơn hàng để xử lý
+	    }
+
+	    // Lấy các productId từ danh sách OrderItem
+	    List<Integer> productIdsInOrder = orderItems.stream()
+	                                                .map(orderItem -> orderItem.getProduct().getId())
+	                                                .toList();
+
+	    // Lấy các CartItem của người dùng userId chứa các productId thuộc đơn hàng orderId
+	    List<CartItem> cartItemsToDelete = CartItemRepository.findByUserIdAndProductIds(userId, productIdsInOrder);
+
+	    if (!cartItemsToDelete.isEmpty()) {
+	        // Xóa các CartItem tương ứng
+	        CartItemRepository.deleteAll(cartItemsToDelete);
+	    }
 	}
 
 

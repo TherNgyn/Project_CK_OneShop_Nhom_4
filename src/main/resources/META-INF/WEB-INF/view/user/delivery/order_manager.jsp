@@ -13,36 +13,39 @@
 </head>
 <body>
 	<div class="container">
-		<h1>Quản Lý Đơn Hàng</h1>
+
+		<!-- Search bar -->
+		<div class="search-bar">
+			<form
+				action="${pageContext.request.contextPath}/user/delivery/search"
+				method="get">
+				<input type="text" name="search"
+					placeholder="Nhập từ khóa tìm kiếm..." value="${param.search}"
+					class="search-input" />
+				<button type="submit" class="search-button">Tìm kiếm</button>
+			</form>
+		</div>
+
 
 		<!-- Tabs for different order statuses -->
 		<div class="tabs">
 			<a href="${pageContext.request.contextPath}/user/delivery?status=all"
-				class="tab <c:if test='${empty param.status or param.status == "all"}'>active</c:if>'">Tất
+				class="<c:choose><c:when test='${empty param.status or param.status == "all"}'>tab active</c:when><c:otherwise>tab</c:otherwise></c:choose>">Tất
 				cả</a> <a
-				href="${pageContext.request.contextPath}/user/delivery?status=Pending"
-				class="tab <c:if test='${param.status == "Pending"}'>active</c:if>'">Chờ
-				xử lý</a> <a
 				href="${pageContext.request.contextPath}/user/delivery?status=Processing"
-				class="tab <c:if test='${param.status == "Processing"}'>active</c:if>'">Đang
+				class="<c:choose><c:when test='${param.status == "Processing_1" || param.status == "Processing_2"}'>tab active</c:when><c:otherwise>tab</c:otherwise></c:choose>">Đang
 				xử lý</a> <a
-				href="${pageContext.request.contextPath}/user/delivery?status=Paid"
-				class="tab <c:if test='${param.status == "Paid"}'>active</c:if>'">Duyệt thanh toán</a>
-				<a
-				href="${pageContext.request.contextPath}/user/delivery?status=Paid"
-				class="tab <c:if test='${param.status == "Paid"}'>active</c:if>'">Thanh
-				toán</a> <a
-				href="${pageContext.request.contextPath}/user/delivery?status=Awaiting Shipment"
-				class="tab <c:if test='${param.status == "Awaiting Shipment"}'>active</c:if>'">Đang
-				chờ vận chuyển</a> <a
+				href="${pageContext.request.contextPath}/user/delivery?status=Preparing"
+				class="<c:choose><c:when test='${param.status == "Preparing_1" || param.status == "Preparing_2"}'>tab active</c:when><c:otherwise>tab</c:otherwise></c:choose>">Đang
+				chuẩn bị hàng</a> <a
 				href="${pageContext.request.contextPath}/user/delivery?status=In Transit"
-				class="tab <c:if test='${param.status == "In Transit"}'>active</c:if>'">Đang
+				class="<c:choose><c:when test='${param.status == "In Transit_1" || param.status == "In Transit_2"}'>tab active</c:when><c:otherwise>tab</c:otherwise></c:choose>">Đang
 				vận chuyển</a> <a
 				href="${pageContext.request.contextPath}/user/delivery?status=Completed"
-				class="tab <c:if test='${param.status == "Completed"}'>active</c:if>'">Hoàn
+				class="<c:choose><c:when test='${param.status == "Completed"}'>tab active</c:when><c:otherwise>tab</c:otherwise></c:choose>">Hoàn
 				thành</a> <a
 				href="${pageContext.request.contextPath}/user/delivery?status=Cancelled"
-				class="tab <c:if test='${param.status == "Cancelled"}'>active</c:if>'">Đã
+				class="<c:choose><c:when test='${param.status == "Cancelled"}'>tab active</c:when><c:otherwise>tab</c:otherwise></c:choose>">Đã
 				hủy</a>
 		</div>
 
@@ -98,19 +101,77 @@
 							</c:forEach>
 						</c:forEach>
 					</div>
-					<!-- Hiển thị nút "Thanh toán" nếu trạng thái là "Processing" -->
-					<c:if test="${order.status == 'Processing'}">
-						<div class="payment-action">
-							<form action="${pageContext.request.contextPath}/user/payment"
-								method="post">
-								<input type="hidden" name="orderId" value="${order.id}" />
-								<button type="submit" class="btn-pay">Thanh toán ngay</button>
-							</form>
-						</div>
-					</c:if>
+
+					<!-- Nút xử lý theo trạng thái -->
+					<div class="order-actions">
+						<c:choose>
+							<c:when test="${order.status == 'Completed' && !order.reviewed}">
+								<c:if test="${not empty order.received}">
+									<button class="btn btn-primary btn-review"
+										data-order-id="${order.id}">Đánh giá đơn hàng</button>
+								</c:if>
+							</c:when>
+							<c:when test="${order.reviewed}">
+								<p class="text-success">Đã đánh giá</p>
+							</c:when>
+						</c:choose>
+					</div>
+
+
+					<script>
+document.addEventListener('DOMContentLoaded', () => {
+    // Xử lý nút "Đánh giá đơn hàng"
+    document.querySelectorAll('.btn-review').forEach(button => {
+        button.addEventListener('click', event => {
+            const orderId = button.getAttribute('data-order-id');
+            // Chuyển hướng sang trang đánh giá đơn hàng
+            window.location.href = `/user/review/write?orderId=${orderId}`;
+        });
+    });
+});
+</script>
+
+
+					<script>
+document.addEventListener('DOMContentLoaded', () => {
+    // Xử lý nút "Đã nhận được hàng"
+    document.querySelectorAll('.btn-received').forEach(button => {
+        button.addEventListener('click', event => {
+            const orderId = button.getAttribute('data-order-id');
+            if (confirm("Bạn có chắc chắn đã nhận được hàng?")) {
+                // Trực tiếp thay đổi trạng thái trong giao diện
+                button.textContent = "Đã nhận hàng";
+                button.disabled = true;
+
+                // Hiển thị nút Đánh giá
+                const reviewButton = document.createElement('button');
+                reviewButton.className = "btn btn-primary btn-review";
+                reviewButton.textContent = "Đánh giá";
+                reviewButton.setAttribute('data-order-id', orderId);
+                reviewButton.addEventListener('click', () => {
+                    window.location.href = `/user/review/write?orderId=${orderId}`;
+                });
+
+                // Thêm nút Đánh giá vào DOM
+                const actionContainer = button.parentElement;
+                actionContainer.appendChild(reviewButton);
+            }
+        });
+    });
+
+    // Xử lý nút "Đánh giá"
+    document.querySelectorAll('.btn-review').forEach(button => {
+        button.addEventListener('click', event => {
+            const orderId = button.getAttribute('data-order-id');
+            window.location.href = `/user/review/write?orderId= ${order.id}`;
+        });
+    });
+});
+</script>
+
+
 				</div>
 			</c:forEach>
-
 		</div>
 	</div>
 </body>

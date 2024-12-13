@@ -222,24 +222,26 @@
 			            const quantityInput = row.querySelector('.shoping__cart__quantity input');
 
 			            if (priceCell && quantityInput) {
+			                // Không làm tròn giá trị khi parse giá và số lượng
 			                const price = parseFloat(priceCell.textContent.replace(/[^0-9.-]+/g, ""));
 			                const quantity = parseInt(quantityInput.value, 10);
-			                total += price * quantity; // Tính tổng tiền
+			                total += price * quantity; // Tính tổng tiền chính xác
 			            }
 			        }
 			    });
 
-			    // Cập nhật tổng tiền trên giao diện
 			    const totalPriceElement = document.getElementById('totalPrice');
 			    if (totalPriceElement) {
+			        // Hiển thị giá trị chính xác
 			        totalPriceElement.textContent = total.toLocaleString('vi-VN', {
 			            style: 'currency',
-			            currency: 'VND'
+			            currency: 'VND',
+			            minimumFractionDigits: 2, // Đảm bảo giữ lại 2 chữ số thập phân
+			            maximumFractionDigits: 2
 			        });
 			    }
-
-			    console.log("Tổng tiền:", total); // Log để kiểm tra
 			}
+
 
 
 			function fetchCartTotal() {
@@ -288,27 +290,29 @@
 			        return;
 			    }
 
-			    const totalPrice = parseFloat(totalPriceElement.textContent.replace(/[^0-9.-]+/g, ""));
+			    // Chuyển đổi chính xác giá trị total price
+			    const totalPrice = parseFloat(
+			        totalPriceElement.textContent.replace(/[^0-9.-]+/g, "") // Loại bỏ ký tự không hợp lệ
+			    );
+
 			    if (isNaN(totalPrice) || totalPrice <= 0) {
 			        alert("Tổng tiền không hợp lệ hoặc bằng 0. Vui lòng kiểm tra lại.");
 			        return;
 			    }
 
 			    const selectedItems = new Map();
-			    
-			    // Lấy tất cả các sản phẩm đã được chọn (các checkbox được tick)
 			    const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
 			    
 			    checkboxes.forEach(cb => {
 			        const row = cb.closest('tr');
 			        if (row) {
-			            const productId = row.querySelector('.shoping__cart__item h5').getAttribute("data-product-id"); // Lấy productId, không phải name
-			            const quantity = row.querySelector('.shoping__cart__quantity input').value;
+			            const productId = row.querySelector('.shoping__cart__item h5').getAttribute("data-product-id"); 
+			            const quantity = parseInt(row.querySelector('.shoping__cart__quantity input').value, 10);
 			            
 			            if (selectedItems.has(productId)) {
-			                selectedItems.set(productId, selectedItems.get(productId) + parseInt(quantity, 10));
+			                selectedItems.set(productId, selectedItems.get(productId) + quantity);
 			            } else {
-			                selectedItems.set(productId, parseInt(quantity, 10));
+			                selectedItems.set(productId, quantity);
 			            }
 			        }
 			    });
@@ -318,21 +322,20 @@
 			        return;
 			    }
 
-			    // Chuyển đổi Map thành mảng các đối tượng trước khi gửi
 			    const selectedItemsArray = Array.from(selectedItems, ([productId, quantity]) => ({
 			        productId: productId,
 			        quantity: quantity
 			    }));
 
 			    const payload = { 
-			        total: totalPrice,
+			        total: totalPrice, // Gửi giá trị chính xác
 			        selectedItems: selectedItemsArray 
 			    };
 
 			    fetch(`${baseUrl}/user/cart/saveTotal`, {
 			        method: 'POST',
 			        headers: { 'Content-Type': 'application/json' },
-			        body: JSON.stringify(payload)
+			        body: JSON.stringify(payload) // Chuyển payload đúng định dạng
 			    })
 			    .then(response => response.json())
 			    .then(data => {
@@ -348,9 +351,6 @@
 			        alert("Đã xảy ra lỗi khi lưu tổng tiền. Chi tiết: " + error.message);
 			    });
 			}
-
-
-
 
 			</script>
 			<div class="row">
