@@ -79,4 +79,7 @@ public interface IOrderService {
 	List<Order> searchOrdersByProductName(Integer userId, String productName);
 
 	List<Order> searchOrdersByProductNameAndStatus(Integer userId, String productName, String status);
+  
+	void update(Order order);
+
 }

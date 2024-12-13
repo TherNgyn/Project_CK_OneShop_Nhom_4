@@ -31,5 +31,6 @@ public interface ICartItemService {
 	List<CartItem> findByUserId(Integer userId);
 	void deleteAll(List<CartItem> cartItems);
 	void deleteAllByIds(List<Integer> cartItemIds);
+	public void deleteCartItem(int orderId, int userId);
 	
 }

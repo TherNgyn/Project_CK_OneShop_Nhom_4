@@ -238,6 +238,7 @@ public class OrderServiceImpl implements IOrderService {
     }
 
 	@Override
+
 	public List<Order> getOrdersByCustomer(Integer userId, String status1, String status2) {
 		// TODO Auto-generated method stub
 		return orderRepository.findOrdersByUserAndStatuses(userId, status1, status2);
@@ -255,6 +256,25 @@ public class OrderServiceImpl implements IOrderService {
 		return orderRepository.findOrdersByUserAndProductNameAndStatusNative(userId, "%" + productName + "%", status);
 	}
 
+	public void update(Order order) {
+		// Tìm đơn hàng trong DB
+        Order existingOrder = orderRepository.findById(order.getId())
+                .orElseThrow(() -> new IllegalArgumentException("Order not found with id: " + order.getId()));
 
+        // Cập nhật các thuộc tính
+        existingOrder.setUser(order.getUser());
+        existingOrder.setStore(order.getStore());
+        existingOrder.setDelivery(order.getDelivery());
+        existingOrder.setAddress(order.getAddress());
+        existingOrder.setPhone(order.getPhone());
+        existingOrder.setStatus(order.getStatus());
+        existingOrder.setPrice(order.getPrice());
+        existingOrder.setOrderItems(order.getOrderItems());
+        existingOrder.setUpdateat(LocalDateTime.now()); // Cập nhật thời gian sửa đổi
+
+        // Lưu lại vào DB
+        orderRepository.save(existingOrder);
+	}
+    
 
 }

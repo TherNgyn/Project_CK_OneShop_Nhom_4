@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -145,9 +146,39 @@ public class OrderUserController {
         model.addAttribute("listcart", listItem);
         model.addAttribute("price", finalTotal);
 
-        return "redirect:/user/order/confirmation";
+        return "redirect:/user/order/payment";
     }
-
+    
+    @RequestMapping(value = "/payment", method = RequestMethod.GET)
+    public String payment(ModelMap model, HttpServletRequest request) {
+    	User user = (User) request.getSession().getAttribute("user");
+    	Order order = orderService.findLatestOrder(user); 
+    	String paymentCode = "https://img.vietqr.io/image/VCB-1025984614-compact.png?amount=" + order.getPrice() + "&addInfo=<" + "Thanh toán đơn hàng " + order.getId() + ">&accountName=PHAMQUYNHTHU";
+    	model.addAttribute("paymentCode", paymentCode);
+        return "user/order/payment";  
+    }
+    
+    @RequestMapping(value = "/payment", method = RequestMethod.POST)
+    public String payment(@RequestParam(value = "paymentMethod", required = false) String paymentMethod, HttpServletRequest request) {
+    	User user = (User) request.getSession().getAttribute("user");
+		Order order = orderService.findLatestOrder(user);
+    	if ("cod".equals(paymentMethod)) {    
+    		order.setStatus("Processing_1");
+    		orderService.update(order);
+    		cartItemService.deleteCartItem(order.getId(), user.getId());
+    		return "redirect:/user/order/confirmation";
+    	}else if ("online".equals(paymentMethod)) {
+    		order.setStatus("Processing_2");
+    		orderService.update(order);
+    		cartItemService.deleteCartItem(order.getId(), user.getId());
+    		return "redirect:/user/order/confirmation";
+    	} else {
+    		return "redirect:/user/order/payment";
+    	}
+    	
+    }
+    
+    
     @RequestMapping(value = "/confirmation", method = RequestMethod.GET)
     public String confirmationPage() {
         return "user/order/confirmation";  
