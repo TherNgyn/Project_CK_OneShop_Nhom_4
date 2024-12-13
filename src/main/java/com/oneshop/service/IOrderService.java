@@ -45,4 +45,5 @@ public interface IOrderService {
 	Float totalPriceToDay(List<Order> orders, LocalDate date);
 	Float totalPrice(List<Order> orders, Store store);
 	Order findLatestOrder(User user);
+	void update(Order order);
 }
