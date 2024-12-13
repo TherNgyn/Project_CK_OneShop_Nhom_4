@@ -112,6 +112,9 @@ public class StoreServiceImpl implements IStoreService {
 	public Store findOneByUser(User user) {
 		return StoreRepository.findOneByUser(user);
 	}
-
+	@Override
+	public Store findByName(String name) {
+		return StoreRepository.findByName(name);
+	}
 
 }

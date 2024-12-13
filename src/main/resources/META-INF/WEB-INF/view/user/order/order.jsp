@@ -231,15 +231,15 @@
 						</div>
 
 						<script>
-function updateTotalPrice() {
-    let basePrice = parseFloat(${price});
-    const deliverySelect = document.getElementById("deliverySelect");
-    const selectedOption = deliverySelect.options[deliverySelect.selectedIndex];
-    const deliveryPrice = parseFloat(selectedOption.getAttribute("data-price")) || 0;
-    const totalPrice = basePrice + deliveryPrice;
-    document.getElementById("total-price").innerText = totalPrice.toLocaleString('vi-VN') + "₫";
-}
-</script>
+							function updateTotalPrice() {
+							    let basePrice = parseFloat(${price});
+							    const deliverySelect = document.getElementById("deliverySelect");
+							    const selectedOption = deliverySelect.options[deliverySelect.selectedIndex];
+							    const deliveryPrice = parseFloat(selectedOption.getAttribute("data-price")) || 0;
+							    const totalPrice = basePrice + deliveryPrice;
+							    document.getElementById("total-price").innerText = totalPrice.toLocaleString('vi-VN') + "₫";
+							}
+						</script>
 
 
 						<!-- Gửi form -->
@@ -248,6 +248,7 @@ function updateTotalPrice() {
 							<a href="<c:url value='/user/products'/>" class="primary-btn">TIẾP
 								TỤC MUA SẮM</a>
 						</div>
+						
 					</form>
 				</div>
 			</div>

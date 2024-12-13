@@ -594,3 +594,27 @@ input#count {
 	flex-direction: column; /* Xếp hình chính và danh sách theo cột */
 	align-items: center; /* Căn giữa tất cả phần tử bên trong */
 }
+.product__item__pic {
+    width: 100%;
+    height: 200px;
+    background-size: cover;
+    background-position: center;
+}
+
+.product__item__text {
+    margin-top: 10px;
+}
+
+.product__item__pic__hover {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.product__item__pic__hover li a {
+    color: #f7941d;
+    font-size: 18px;
+}
+

@@ -4,6 +4,8 @@ import java.sql.Date;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import com.oneshop.entity.Store;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -25,6 +27,7 @@ public class UserModel {
 	private String address;
 	private String avatar;
 	private Boolean isSeller;
+	private Store store;
 	private MultipartFile avatarFile;
 	private Date createat;
 	private Date updateat;
