@@ -27,7 +27,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.cloudinary.Cloudinary;
-import com.oneshop.config.CloudinaryService;
+
 import com.oneshop.entity.Cart;
 import com.oneshop.entity.CartItem;
 import com.oneshop.entity.Category;
@@ -41,6 +41,7 @@ import com.oneshop.service.ICartService;
 import com.oneshop.service.ICategoryService;
 import com.oneshop.service.IProductService;
 import com.oneshop.service.IUserService;
+import com.oneshop.service.Impl.CloudinaryService;
 
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.http.HttpServletRequest;

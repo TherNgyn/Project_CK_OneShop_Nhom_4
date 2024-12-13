@@ -297,7 +297,6 @@
 	</script>
 	
 	<!-- Load the Facebook SDK for JavaScript -->
-	<!-- Load the Facebook SDK for JavaScript -->
 <div id="fb-root"></div>
 <script async defer crossorigin="anonymous"
   src="https://connect.facebook.net/en_US/sdk.js"></script>
@@ -323,7 +322,7 @@
     function shareOnFacebook() {
         FB.ui({
             method: 'share',
-            href: 'https://9cdb-115-79-219-34.ngrok-free.app/common/products/productdetail?id=<c:out value="${product.id}" />', // Chỉnh sửa cú pháp JSP
+            href: 'https://a066-103-129-191-39.ngrok-free.app/common/products/productdetail?id=<c:out value="${product.id}" />', // Chỉnh sửa cú pháp JSP
         }, function(response) {
             if (response && !response.error_message) {
                 alert('Sharing succeeded.');

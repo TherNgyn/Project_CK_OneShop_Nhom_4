@@ -7,11 +7,10 @@
 <!-- Head BEGIN -->
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport"
-        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, target-densityDpi=device-dpi" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+	<title><sitemesh:write property="title"/></title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap"
         rel="stylesheet">
-    <title>One Shop || e-Commerce HTML Template</title>
     <link rel="icon" type="image/png" href="${URL}template/images/favicon.png">
 	<link rel="stylesheet" href="${URL}template/css/all.min.css">
 	<link rel="stylesheet" href="${URL}template/css/bootstrap.min.css">
@@ -28,12 +27,41 @@
 	<link rel="stylesheet" href="${URL}template/css/venobox.min.css">
 	<link rel="stylesheet" href="${URL}template/css/style.css">
 	<link rel="stylesheet" href="${URL}template/css/responsive.css">
-	<%-- <link rel="stylesheet" href="${URL}template/css/rtl.css">  --%>
+	<link rel="stylesheet" href="${URL}template/css/product_detail.css">
+	<link rel="stylesheet" href="${URL}template/css/order_manager.css">
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" rel="stylesheet">
+	<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+	
+
 </head>
 <!-- Head END -->
+<%
+    if (session.getAttribute("userRole") == null) {
+        session.setAttribute("userRole", "GUEST");
+    }
+%>
+<!-- BEGIN HEADER -->
 
-    <!-- BEGIN HEADER -->
-    <%@ include file = "/commons/vendor/header.jsp" %>
+    <c:choose>
+        <c:when test="${sessionScope.userRole == 'ROLE_USER'}">
+            <%@ include file = "/commons/user/header.jsp" %>
+        </c:when>
+        <c:when test="${sessionScope.userRole == 'ROLE_VENDOR'}">
+            <%@ include file = "/commons/vendor/header.jsp" %>
+        </c:when>
+        <c:when test="${sessionScope.userRole == 'ROLE_ADMIN'}">
+            <%@ include file = "/commons/admin/header.jsp" %>
+        </c:when>
+        <c:otherwise>
+            <%@ include file = "/commons/web/header.jsp" %>
+        </c:otherwise>
+    </c:choose>
+
+<!-- END HEADER -->
+
     <!-- END HEADER -->
     
     <div class="main"> 
