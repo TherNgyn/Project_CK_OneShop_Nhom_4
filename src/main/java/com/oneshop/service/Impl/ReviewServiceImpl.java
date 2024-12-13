@@ -14,6 +14,7 @@ import com.oneshop.repository.ReviewRepository;
 import com.oneshop.entity.Product;
 import com.oneshop.entity.Review;
 import com.oneshop.entity.Store;
+import com.oneshop.entity.User;
 import com.oneshop.service.IReviewService;
 
 @Service
@@ -104,5 +105,19 @@ public class ReviewServiceImpl implements IReviewService {
 	@Override
 	public List<Review> findByProductId(Integer productId) {
 		return reviewRepository.findByProductId(productId);
+	}
+
+	@Override
+	public long countByProductId(Integer productId) {
+		return reviewRepository.countByProductId(productId);
+	}
+	@Override
+    public Review findByUserAndProduct(User user, Product product) {
+        return reviewRepository.findByUserAndProduct(user, product);
+    }
+
+	@Override
+	public void saveReview(Review review) {
+	    reviewRepository.save(review);
 	}
 }

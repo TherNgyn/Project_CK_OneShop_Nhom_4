@@ -126,47 +126,39 @@ public class ProductUserController{
 	        @RequestParam("id") Integer id,
 	        @RequestParam(value = "page", required = false, defaultValue = "1") int page,
 	        @RequestParam(value = "size", required = false, defaultValue = "4") int size,
-	        @RequestParam(value = "quantity", required = false, defaultValue = "1") int quantity,
 	        Model model) {
-
-	    // Kiểm tra ID sản phẩm
 	    if (id == null) {
 	        throw new IllegalArgumentException("Product ID is required.");
 	    }
 
-	    // Lấy sản phẩm theo ID
+	    // Lấy sản phẩm chi tiết
 	    Product product = productService.getById(id);
 	    if (product == null) {
 	        throw new IllegalArgumentException("Không tìm thấy sản phẩm với ID: " + id);
 	    }
-
-	    // Xử lý hình ảnh sản phẩm
+	    
+	    // Lấy danh sách hình ảnh sản phẩm
 	    List<String> imageUrls = product.getImages().stream()
 	            .map(image -> cloudinary.url().publicId(image.getImageUrl()).generate())
 	            .collect(Collectors.toList());
 	    product.setImageUrls(imageUrls);
 
-	    // Lấy danh sách đánh giá của sản phẩm
+	    // Lấy đánh giá và số lượng
 	    List<Review> reviews = reviewService.findByProductId(product.getId());
+	    long totalReviews = reviewService.countByProductId(product.getId());
 
-	    // Tạo đối tượng phân trang
-	    Pageable pageable = PageRequest.of(page - 1, size, Sort.by(Sort.Direction.ASC, "name"));
+	    // Phân trang sản phẩm liên quan
+	    Pageable pageable = PageRequest.of(page - 1, size, Sort.by("name").ascending());
 	    Page<Product> relatedProductPage = productService.findByCategory(product.getCategory(), pageable);
 
-	    // Xử lý số trang
-	    int totalPages = relatedProductPage.getTotalPages();
-	    List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
+	    List<Integer> pageNumbers = IntStream.rangeClosed(1, relatedProductPage.getTotalPages())
 	            .boxed()
 	            .collect(Collectors.toList());
 
-	    if (totalPages == 0) {
-	        pageNumbers = Collections.emptyList();
-	    }
-
-	    // Gắn các thuộc tính vào Model để hiển thị ở view
 	    model.addAttribute("product", product);
 	    model.addAttribute("relatedProducts", relatedProductPage.getContent());
-	    model.addAttribute("reviews", reviews); // Thêm đánh giá vào Model
+	    model.addAttribute("reviews", reviews);
+	    model.addAttribute("totalReviews", totalReviews);
 	    model.addAttribute("currentPage", page);
 	    model.addAttribute("pageSize", size);
 	    model.addAttribute("pageNumbers", pageNumbers);

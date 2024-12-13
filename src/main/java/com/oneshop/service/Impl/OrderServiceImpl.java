@@ -220,7 +220,6 @@ public class OrderServiceImpl implements IOrderService {
 	}
 	@Override
 	public List<Order> findByUser(User user) {
-		// TODO Auto-generated method stub
 		return orderRepository.findByUser(user);
 	}
 	@Override
@@ -237,6 +236,24 @@ public class OrderServiceImpl implements IOrderService {
     public Order findLatestOrder(User user) {
         return orderRepository.findTopByUserIdOrderByCreateatDesc(user.getId());
     }
+
+	@Override
+	public List<Order> getOrdersByCustomer(Integer userId, String status1, String status2) {
+		// TODO Auto-generated method stub
+		return orderRepository.findOrdersByUserAndStatuses(userId, status1, status2);
+	}
+
+	@Override
+	public List<Order> searchOrdersByProductName(Integer userId, String productName) {
+		// TODO Auto-generated method stub
+		return orderRepository.findOrdersByUserAndProductNameNative(userId, "%" + productName + "%");
+	}
+
+	@Override
+	public List<Order> searchOrdersByProductNameAndStatus(Integer userId, String productName, String status) {
+		// TODO Auto-generated method stub
+		return orderRepository.findOrdersByUserAndProductNameAndStatusNative(userId, "%" + productName + "%", status);
+	}
 
 
 

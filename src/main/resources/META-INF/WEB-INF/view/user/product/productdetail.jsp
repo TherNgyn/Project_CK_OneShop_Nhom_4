@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <head>
 <meta charset="UTF-8">
 <title>Trang chủ</title>
@@ -91,19 +92,19 @@
 
 						</ul>
 						<!-- !-- Social sharing -->
-							<div class="social-icons">
-								<h3>Share with:</h3>
-								<div>
-									<ul>
-										<!-- Social sharing -->
-										<li><a class="facebook" href="javascript:void(0);"
-											onclick="shareOnFacebook()"> <i class="fab fa-facebook-f"></i>
-										</a></li>
+						<div class="social-icons">
+							<h3>Share with:</h3>
+							<div>
+								<ul>
+									<!-- Social sharing -->
+									<li><a class="facebook" href="javascript:void(0);"
+										onclick="shareOnFacebook()"> <i class="fab fa-facebook-f"></i>
+									</a></li>
 
-									</ul>
-								</div>
-
+								</ul>
 							</div>
+
+						</div>
 					</div>
 				</div>
 				<div class="shop-info">
@@ -117,9 +118,8 @@
 							<div class="shop-details">
 								<h4>${store.name}</h4>
 								<div>
-									<a href="/user/chat/${store.id}" class="btn btn-danger">Chat
-										Ngay</a> <a href="/user/store/${store.id}"
-										class="btn btn-outline-secondary">Xem Shop</a>
+									<a href="/user/store/${store.id}" class="btn btn-danger">Xem
+										Shop</a>
 								</div>
 							</div>
 						</div>
@@ -152,7 +152,7 @@
 								href="#tabs-2" role="tab" aria-selected="false">Thông tin</a></li>
 							<li class="nav-item"><a class="nav-link" data-toggle="tab"
 								href="#tabs-3" role="tab" aria-selected="false">Đánh giá<span>
-										(${product.rating} lượt)</span></a></li>
+										(${totalReviews} lượt)</span></a></li>
 						</ul>
 
 						<div class="tab-content">
@@ -168,7 +168,7 @@
 									<p>${product.description}</p>
 								</div>
 							</div>
-							<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+
 							<div class="tab-pane" id="tabs-3" role="tabpanel">
 								<div class="product__details__tab__desc">
 									<h6>ĐÁNH GIÁ SẢN PHẨM</h6>
@@ -222,22 +222,21 @@
 	</section>
 	<!-- Product Details Section End -->
 
+	<!-- Danh sách sản phẩm liên quan -->
 	<section class="related-product">
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-12">
-					<div class="section-title related__product__title">
-						<h2>Sản phẩm liên quan</h2>
-					</div>
+					<h2>Sản phẩm liên quan</h2>
 				</div>
 			</div>
+
 			<div class="row">
-				<!-- Hiển thị danh sách sản phẩm liên quan -->
 				<c:forEach var="pro" items="${relatedProducts}">
 					<div class="col-lg-3 col-md-4 col-sm-6">
 						<div class="product__item">
 							<div class="product__item__pic"
-								style="background-image: url('${pro.imageUrls[0] != null ? pro.imageUrls[0] : 'default-image.jpg'}');">
+								style="background-image: url('${pro.imageUrls[0] != null ? pro.imageUrls[0] : "default-image.jpg"}');">
 								<ul class="product__item__pic__hover">
 									<li><a href="#"><i class="fa fa-heart"></i></a></li>
 									<li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
@@ -245,72 +244,81 @@
 							</div>
 							<div class="product__item__text">
 								<h6>
-									<a href="/user/product/productdetail?id=${pro.id}">${pro.name}</a>
+									<a href="/user/products/productdetail?id=${pro.id}">${pro.name}</a>
 								</h6>
-								<h5>${pro.price}</h5>
+								<h5 class="bold-text">${pro.promotionalPrice}₫</h5>
+								<h5>
+									<s>${pro.price}₫</s>
+								</h5>
 							</div>
 						</div>
 					</div>
 				</c:forEach>
 			</div>
+
 			<!-- Phân trang -->
 			<div class="row">
 				<div class="col-lg-12">
 					<nav aria-label="Page navigation">
 						<ul class="pagination">
-							<!-- Nút Previous -->
+							<!-- Previous Button -->
 							<c:choose>
 								<c:when test="${currentPage == 1}">
-									<li class="page-item disabled"><a class="page-link"
-										href="javascript:void(0);">Previous</a></li>
+									<li class="page-item disabled"><a class="page-link">Previous</a></li>
 								</c:when>
 								<c:otherwise>
 									<li class="page-item"><a class="page-link"
 										href="javascript:void(0);"
-										onclick="loadRelatedProducts(${product.id}, ${currentPage - 1}, ${pageSize});">
-											Previous </a></li>
+										onclick="loadRelatedProducts(${product.id}, ${currentPage - 1}, ${pageSize});">Previous</a>
+									</li>
 								</c:otherwise>
 							</c:choose>
 
-							<!-- Số trang -->
+							<!-- Page Numbers -->
 							<c:forEach var="pageNumber" items="${pageNumbers}">
-								<c:choose>
-									<c:when test="${pageNumber == currentPage}">
-										<li class="page-item active"><a class="page-link"
-											href="javascript:void(0);">${pageNumber}</a></li>
-									</c:when>
-									<c:otherwise>
-										<li class="page-item"><a class="page-link"
-											href="javascript:void(0);"
-											onclick="loadRelatedProducts(${product.id}, ${pageNumber}, ${pageSize});">
-												${pageNumber} </a></li>
-									</c:otherwise>
-								</c:choose>
+								<li
+									class="page-item ${pageNumber == currentPage ? 'active' : ''}">
+									<a class="page-link" href="javascript:void(0);"
+									onclick="loadRelatedProducts(${product.id}, ${pageNumber}, ${pageSize});">
+										${pageNumber} </a>
+								</li>
 							</c:forEach>
 
-							<!-- Nút Next -->
+							<!-- Next Button -->
 							<c:choose>
 								<c:when
 									test="${currentPage == pageNumbers[pageNumbers.size() - 1]}">
-									<li class="page-item disabled"><a class="page-link"
-										href="javascript:void(0);">Next</a></li>
+									<li class="page-item disabled"><a class="page-link">Next</a></li>
 								</c:when>
 								<c:otherwise>
 									<li class="page-item"><a class="page-link"
 										href="javascript:void(0);"
-										onclick="loadRelatedProducts(${product.id}, ${currentPage + 1}, ${pageSize});">
-											Next </a></li>
+										onclick="loadRelatedProducts(${product.id}, ${currentPage + 1}, ${pageSize});">Next</a>
+									</li>
 								</c:otherwise>
 							</c:choose>
 						</ul>
 					</nav>
 				</div>
 			</div>
-
-
 		</div>
 	</section>
 
+<script>
+function loadRelatedProducts(productId, page, size) {
+    const url = `/user/product/productdetail?id=${productId}&page=${page}&size=${size}`;
+    fetch(url, { method: 'GET' })
+        .then(response => response.text())
+        .then(html => {
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(html, 'text/html');
+            const relatedProductSection = doc.querySelector('.related-product');
+            document.querySelector('.related-product').innerHTML = relatedProductSection.innerHTML;
+        })
+        .catch(error => console.error('Error loading related products:', error));
+}
+
+</script>
 
 	<!-- Related Product Section End -->
 
@@ -334,12 +342,12 @@
 	}
 
 	</script>
-	
+
 	<!-- Load the Facebook SDK for JavaScript -->
-<div id="fb-root"></div>
-<script async defer crossorigin="anonymous"
-  src="https://connect.facebook.net/en_US/sdk.js"></script>
-<script>
+	<div id="fb-root"></div>
+	<script async defer crossorigin="anonymous"
+		src="https://connect.facebook.net/en_US/sdk.js"></script>
+	<script>
     window.fbAsyncInit = function() {
         FB.init({
             appId      : '492624269865314', // Thay đổi appId của bạn nếu cần
@@ -357,7 +365,7 @@
     }(document, 'script', 'facebook-jssdk'));
 </script>
 
-<script>
+	<script>
     function shareOnFacebook() {
         FB.ui({
             method: 'share',

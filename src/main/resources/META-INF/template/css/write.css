@@ -1,0 +1,38 @@
+@charset "UTF-8";
+body {
+        background-color: #f8f9fa;
+        font-family: Arial, sans-serif;
+    }
+    .review-container {
+        max-width: 800px;
+        margin: 20px auto;
+        background: #ffffff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    .review-item {
+        margin-bottom: 20px;
+        border: 1px solid #e9ecef;
+        padding: 15px;
+        border-radius: 5px;
+        background-color: #f8f9fa;
+    }
+    .review-item h3 {
+        margin-bottom: 10px;
+    }
+    .btn-submit {
+        width: 100%;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        padding: 10px;
+        border-radius: 5px;
+        font-size: 16px;
+    }
+    .btn-submit:hover {
+        background-color: #0056b3;
+    }
+    textarea {
+        resize: none;
+    }

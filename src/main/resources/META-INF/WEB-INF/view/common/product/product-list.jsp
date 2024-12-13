@@ -97,7 +97,7 @@
 														</c:if>
 													</del>
 												</p>
-												<a class="add_cart" href="#">add to cart</a>
+												<a class="add_cart" href="/common/products/productdetail?id=${product.id}">add to cart</a>
 											</div>
 										</div>
 									</div>
