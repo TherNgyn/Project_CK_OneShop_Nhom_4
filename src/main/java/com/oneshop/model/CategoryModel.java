@@ -20,4 +20,6 @@ public class CategoryModel {
 	private MultipartFile listImageFile;
 	private Boolean isdeleted;
 	private Boolean isEdit = false;
+	private double totalRevenue;
+	private double revenuePercentage;
 }

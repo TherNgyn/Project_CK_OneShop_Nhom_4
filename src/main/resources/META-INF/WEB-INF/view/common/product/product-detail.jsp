@@ -1,6 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <head>
 <meta charset="UTF-8">
 <title>Trang chủ</title>
@@ -39,7 +42,7 @@
 						<div class="product__details__rating">
 							<i class="fa fa-star"></i> <i class="fa fa-star"></i> <i
 								class="fa fa-star"></i> <i class="fa fa-star"></i> <i
-								class="fa fa-star-half-o"></i> <span>(${product.rating}
+								class="fa fa-star-half-o"></i> <span>(${totalReviews}
 								lượt)</span>
 						</div>
 						<div class="product__details__price">
@@ -91,19 +94,19 @@
 
 						</ul>
 						<!-- !-- Social sharing -->
-							<div class="social-icons">
-								<h3>Share with:</h3>
-								<div>
-									<ul>
-										<!-- Social sharing -->
-										<li><a class="facebook" href="javascript:void(0);"
-											onclick="shareOnFacebook()"> <i class="fab fa-facebook-f"></i>
-										</a></li>
+						<div class="social-icons">
+							<h3>Share with:</h3>
+							<div>
+								<ul>
+									<!-- Social sharing -->
+									<li><a class="facebook" href="javascript:void(0);"
+										onclick="shareOnFacebook()"> <i class="fab fa-facebook-f"></i>
+									</a></li>
 
-									</ul>
-								</div>
-
+								</ul>
 							</div>
+
+						</div>
 					</div>
 				</div>
 				<div class="shop-info">
@@ -117,9 +120,8 @@
 							<div class="shop-details">
 								<h4>${store.name}</h4>
 								<div>
-									<a href="/user/chat/${store.id}" class="btn btn-danger">Chat
-										Ngay</a> <a href="/user/store/${store.id}"
-										class="btn btn-outline-secondary">Xem Shop</a>
+									<a href="/store/${store.id}" class="btn btn-danger">Xem
+										Shop</a>
 								</div>
 							</div>
 						</div>
@@ -152,7 +154,7 @@
 								href="#tabs-2" role="tab" aria-selected="false">Thông tin</a></li>
 							<li class="nav-item"><a class="nav-link" data-toggle="tab"
 								href="#tabs-3" role="tab" aria-selected="false">Đánh giá<span>
-										(${product.rating} lượt)</span></a></li>
+										(${totalReviews} lượt)</span></a></li>
 						</ul>
 
 						<div class="tab-content">
@@ -172,28 +174,43 @@
 								<div class="product__details__tab__desc">
 									<h6>ĐÁNH GIÁ SẢN PHẨM</h6>
 									<div class="reviews">
-										<!-- Hiển thị danh sách đánh giá -->
-										<ul>
-											<c:forEach var="review" items="${reviews}">
-												<li>
-													<p>
-														<!-- Hiển thị tên người dùng -->
-														<strong>${review.user.username}</strong>:
-														<!-- Hiển thị nội dung đánh giá -->
-														<span>${review.content}</span> <br />
-														<!-- Hiển thị đánh giá (rating) -->
-														<span>Rating:</span> <span>${review.rating}</span> <br />
-														<!-- Hiển thị ngày tạo -->
-														<small>${review.formattedCreateat}</small>
-													</p>
-												</li>
-											</c:forEach>
-										</ul>
+										<!-- Kiểm tra nếu có đánh giá -->
+										<c:choose>
+											<c:when test="${!empty reviews}">
+												<ul>
+													<c:forEach var="review" items="${reviews}">
+														<li>
+															<p>
+																<!-- Hiển thị tên người dùng -->
+																<strong>${review.user.username}</strong>: <br>
+																<!-- Hiển thị nội dung đánh giá -->
+																<span>${review.content}</span> <br>
+																<!-- Hiển thị đánh giá (rating) -->
+																<span>Rating:</span>
+																<c:forEach begin="1" end="${review.rating}">
+																	<i class="fa fa-star"></i>
+																</c:forEach>
+																<c:forEach begin="${review.rating + 1}" end="5">
+																	<i class="fa fa-star-o"></i>
+																</c:forEach>
+																<br>
+																<!-- Hiển thị ngày tạo (định dạng ngay tại đây) -->
+																<small class="text-muted"> <fmt:formatDate
+																		value="${review.createat}" pattern="dd-MM-yyyy HH:mm" />
+																</small>
+															</p>
+														</li>
+													</c:forEach>
+												</ul>
+											</c:when>
+											<c:otherwise>
+												<!-- Hiển thị khi không có đánh giá -->
+												<p>Chưa có đánh giá nào cho sản phẩm này.</p>
+											</c:otherwise>
+										</c:choose>
 									</div>
 								</div>
 							</div>
-
-
 
 						</div>
 					</div>
@@ -208,74 +225,71 @@
 			<div class="row">
 				<div class="col-lg-12">
 					<div class="section-title related__product__title">
-						<h2>Sản phẩm liên quan</h2>
 					</div>
 				</div>
 			</div>
-			<div class="row">
-				<!-- Hiển thị danh sách sản phẩm liên quan -->
-				<c:forEach var="pro" items="${relatedProducts}">
-					<div class="col-lg-3 col-md-4 col-sm-6">
-						<div class="product__item">
-							<div class="product__item__pic"
-								style="background-image: url('${pro.imageUrls[0] != null ? pro.imageUrls[0] : 'default-image.jpg'}');">
-								<ul class="product__item__pic__hover">
-									<li><a href="#"><i class="fa fa-heart"></i></a></li>
-									<li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
-								</ul>
+			<div class="container mt-5">
+				<h2 class="text-center mb-4">Sản phẩm liên quan</h2>
+				<div id="productCarousel" class="carousel slide"
+					data-bs-ride="carousel">
+					<!-- Carousel Inner -->
+					<div class="carousel-inner">
+						<c:forEach var="chunk" items="${relatedProducts}"
+							varStatus="status">
+							<div class="carousel-item ${status.first ? 'active' : ''}">
+								<div class="row">
+									<c:forEach var="pro" items="${relatedProducts}">
+										<div class="col-lg-3 col-md-4 col-sm-6">
+											<div class="product__item card">
+												<div class="product__item__pic card-img-top"
+													style="background-image: url('${pro.imageUrls[0] != null ? pro.imageUrls[0] : 'default-image.jpg'}');">
+													<ul class="product__item__pic__hover">
+														<li><a href="#"><i class="fa fa-heart"></i></a></li>
+														<li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
+													</ul>
+												</div>
+												<div class="product__item__text card-body">
+													<h6 class="card-title">
+														<a href="/user/product/productdetail?id=${pro.id}">${pro.name}</a>
+													</h6>
+													<h5 class="bold-text"
+														style="color: black; font-weight: bold; font-size: 20px;">
+														${pro.promotionalPrice}</h5>
+													<h5>
+														<s>${pro.price}</s>
+													</h5>
+												</div>
+											</div>
+										</div>
+									</c:forEach>
+
+								</div>
 							</div>
-							<div class="product__item__text">
-								<h6>
-									<a href="/user/product/productdetail?id=${pro.id}">${pro.name}</a>
-								</h6>
-								<h5>${pro.price}</h5>
-							</div>
-						</div>
+						</c:forEach>
 					</div>
-				</c:forEach>
-			</div>
-			<!-- Phân trang -->
-			<div class="row">
-				<div class="col-lg-12">
-					<nav aria-label="Page navigation">
-						<ul class="pagination">
-							<!-- Nút Previous -->
-							<li class="page-item ${currentPage == 1 ? 'disabled' : ''}">
-								<a class="page-link" href="javascript:void(0);"
-								onclick="loadRelatedProducts(${product.id}, ${currentPage - 1}, ${pageSize});">
-									Previous </a>
-							</li>
 
-							<!-- Số trang -->
-							<c:forEach var="pageNumber" items="${pageNumbers}">
-								<li
-									class="page-item ${pageNumber == currentPage ? 'active' : ''}">
-									<a class="page-link" href="javascript:void(0);"
-									onclick="loadRelatedProducts(${product.id}, ${pageNumber}, ${pageSize});">
-										${pageNumber} </a>
-								</li>
-							</c:forEach>
-
-							<!-- Nút Next -->
-							<li
-								class="page-item ${currentPage == pageNumbers[pageNumbers.size() - 1] ? 'disabled' : ''}">
-								<a class="page-link" href="javascript:void(0);"
-								onclick="loadRelatedProducts(${product.id}, ${currentPage + 1}, ${pageSize});">
-									Next </a>
-							</li>
-						</ul>
-					</nav>
-
+					<!-- Controls -->
+					<button class="carousel-control-prev" type="button"
+						data-bs-target="#productCarousel" data-bs-slide="prev">
+						<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+						<span class="visually-hidden">Previous</span>
+					</button>
+					<button class="carousel-control-next" type="button"
+						data-bs-target="#productCarousel" data-bs-slide="next">
+						<span class="carousel-control-next-icon" aria-hidden="true"></span>
+						<span class="visually-hidden">Next</span>
+					</button>
 				</div>
 			</div>
+			</div>
+			</section>
 
-		</div>
-	</section>
 
 
-	<!-- Related Product Section End -->
 
-	<script>
+			<!-- Related Product Section End -->
+
+			<script>
 	function changeMainImage(thumbnail) {
 		const mainImage = document.querySelector('.product__details__pic__item--large');
 		mainImage.src = thumbnail.src;
@@ -296,7 +310,6 @@
 
 	</script>
 	
-	<!-- Load the Facebook SDK for JavaScript -->
 	<!-- Load the Facebook SDK for JavaScript -->
 <div id="fb-root"></div>
 <script async defer crossorigin="anonymous"
@@ -319,11 +332,11 @@
     }(document, 'script', 'facebook-jssdk'));
 </script>
 
-<script>
+			<script>
     function shareOnFacebook() {
         FB.ui({
             method: 'share',
-            href: 'https://9cdb-115-79-219-34.ngrok-free.app/common/products/productdetail?id=<c:out value="${product.id}" />', // Chỉnh sửa cú pháp JSP
+            href: 'https://a066-103-129-191-39.ngrok-free.app/common/products/productdetail?id=<c:out value="${product.id}" />', // Chỉnh sửa cú pháp JSP
         }, function(response) {
             if (response && !response.error_message) {
                 alert('Sharing succeeded.');
@@ -333,7 +346,4 @@
         });
     }
 </script>
-
-
-
 </body>

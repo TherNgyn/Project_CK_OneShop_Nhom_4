@@ -32,4 +32,6 @@ public interface IStoreService {
 	List<Store> findByNameContaining(String name);
 	Integer countByCreateat(Date date);
 	Store findOneByUser(User user);
+	Store findByName(String name);
+	Store findByOwner(User user);
 }
