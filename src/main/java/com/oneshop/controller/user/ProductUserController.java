@@ -131,23 +131,20 @@ public class ProductUserController{
 	        throw new IllegalArgumentException("Product ID is required.");
 	    }
 
-	    // Lấy sản phẩm chi tiết
 	    Product product = productService.getById(id);
 	    if (product == null) {
 	        throw new IllegalArgumentException("Không tìm thấy sản phẩm với ID: " + id);
 	    }
 	    
-	    // Lấy danh sách hình ảnh sản phẩm
 	    List<String> imageUrls = product.getImages().stream()
 	            .map(image -> cloudinary.url().publicId(image.getImageUrl()).generate())
 	            .collect(Collectors.toList());
 	    product.setImageUrls(imageUrls);
-
-	    // Lấy đánh giá và số lượng
+	    
 	    List<Review> reviews = reviewService.findByProductId(product.getId());
 	    long totalReviews = reviewService.countByProductId(product.getId());
-
-	    // Phân trang sản phẩm liên quan
+	    float averageRating = reviewService.calculateAverageRating(product.getId());
+	    
 	    Pageable pageable = PageRequest.of(page - 1, size, Sort.by("name").ascending());
 	    Page<Product> relatedProductPage = productService.findByCategory(product.getCategory(), pageable);
 
@@ -162,7 +159,7 @@ public class ProductUserController{
 	    model.addAttribute("currentPage", page);
 	    model.addAttribute("pageSize", size);
 	    model.addAttribute("pageNumbers", pageNumbers);
-
+	    model.addAttribute("averageRating", averageRating);
 	    return "user/product/productdetail";
 	}
 

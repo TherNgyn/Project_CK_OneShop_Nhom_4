@@ -102,16 +102,17 @@
 </head>
 <body>
 	<!-- Breadcrumb Section Begin -->
-	<section class="breadcrumb-section set-bg"
-		data-setbg="img/breadcrumb.jpg">
-		<div class="container">
-			<div class="row">
-				<div class="col-lg-12 text-center">
-					<div class="breadcrumb__text">
-						<div class="breadcrumb__option">
-							<a href="<c:url value='/user/home'/>">Trang chủ</a> <span>Đặt
-								hàng</span>
-						</div>
+	<section id="wsus__breadcrumb">
+		<div class="wsus_breadcrumb_overlay">
+			<div class="container">
+				<div class="row">
+					<div class="col-12">
+					<h4>Your order</h4>
+						<ul>
+							<li><a href="#">Home</a></li>
+							<li><a href="#">Cart</a></li>
+							<li><a href="#">Order</a></li>
+						</ul>
 					</div>
 				</div>
 			</div>
@@ -125,7 +126,6 @@
 			<div class="row mb-4">
 				<div class="col-lg-12">
 					<form action="<c:url value='/user/order/checkout'/>" method="POST">
-						<h4>Đơn hàng của bạn</h4>
 						<div class="order__table">
 							<table class="table table-hover">
 								<thead class="thead-blue">
@@ -182,7 +182,6 @@
 							</div>
 
 							<!-- Nhập địa chỉ mới -->
-							<h4>Chọn địa chỉ mới</h4>
 							<div id="new-address" class="mt-3" style="display: none;">
 								<div class="form-group">
 									<label for="newAddressLine1">Địa chỉ (Số nhà, tên

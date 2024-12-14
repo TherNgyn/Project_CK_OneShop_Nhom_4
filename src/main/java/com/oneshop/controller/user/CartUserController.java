@@ -40,6 +40,7 @@ import com.oneshop.service.IProductService;
 import com.oneshop.service.IUserService;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 @RestController
@@ -153,6 +154,7 @@ public class CartUserController {
         cartService.save(cart); 
         cartItemService.save(thisItem);
         updateCartModel(model, request);
+        model.addAttribute("updateCartCount", true);
         redirectAttributes.addFlashAttribute("message", "Sản phẩm đã được thêm vào giỏ hàng");
         return new ModelAndView("redirect:/user/cart", model);
     }
@@ -175,6 +177,7 @@ public class CartUserController {
 	public ModelAndView deletetoCart(ModelMap model, @PathVariable("id") Integer id) {
 		cartItemService.deleteById(id);
 		model.addAttribute("message", "Xóa thành công");
+		 model.addAttribute("updateCartCount", true);
 		return new ModelAndView("redirect:/user/cart", model);
 	}
     
@@ -311,6 +314,17 @@ public class CartUserController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                                  .body(Map.of("error", "Lỗi khi lưu đơn hàng: " + e.getMessage()));
         }
+    }
+
+    @GetMapping("/count")
+    @ResponseBody
+    public int getCartItemCount(HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        User user = (User) session.getAttribute("user");
+        if (user == null) {
+            return 0; 
+        }
+        return cartService.getCartItemCountByUserId(user.getId());
     }
 
 
