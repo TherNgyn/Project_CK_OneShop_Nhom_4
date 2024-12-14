@@ -11,62 +11,112 @@
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-pzjw8f+ua7Kw1TIq0v8FqgsKRx2HpFQ2p4qz+JmlVAn03xmIDcK5k5V5/Yo3XtiD" crossorigin="anonymous">
     <!-- Thêm CSS tuỳ chỉnh -->
     <style>
-    	html, body {
-		    margin: 0;
-		    padding: 0;
-		    height: 100%;
-		}
-        body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f8f9fa;
-            padding: 0;
-            margin: 0;
-        }
-        table {
-            margin-top: 20px;
-        }
-        th, td {
-            text-align: center;
-            vertical-align: middle;
-        }
-        .table th, .table td {
-            padding: 15px;
-        }
-        .table-hover tbody tr:hover {
-            background-color: #f1f1f1;
-        }
-        .btn {
-            font-size: 14px;
-            padding: 6px 12px;
-        }
-        .btn-warning {
-            background-color: #ffc107;
-            color: white;
-        }
-        .btn-danger {
-            background-color: #dc3545;
-            color: white;
-        }
-        .btn-warning:hover, .btn-danger:hover {
-            opacity: 0.8;
-        }
-        .table-container {
-            margin-top: 30px;
-        }
-        
-        h2 {
-        	margin-top: 20px;
-            text-align: center;
-            margin-bottom: 20px;
-            color: #343a40;
-        }
-        .no-data {
-            text-align: center;
-            color: #6c757d;
-            font-style: italic;
-        }
-    </style>
-	<h2>DANH SÁCH NGƯỜI DÙNG</h2>
+    html, body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+    }
+    body {
+        font-family: 'Arial', sans-serif;
+        background-color: #f8f9fa;
+        padding: 0;
+        margin: 0;
+    }
+    table {
+        margin-top: 20px;
+    }
+    th, td {
+        text-align: center;
+        vertical-align: middle;
+    }
+    .table th, .table td {
+        padding: 15px;
+    }
+    .table-hover tbody tr:hover {
+        background-color: #f1f1f1;
+    }
+    .btn {
+        font-size: 14px;
+        padding: 6px 12px;
+        border-radius: 4px; /* Rounded corners for the buttons */
+        transition: background-color 0.3s, opacity 0.3s; /* Smooth hover effect */
+    }
+    .btn-primary {
+        background-color: #007bff; /* Blue color */
+        color: white;
+        border: 1px solid #007bff;
+    }
+    .btn-primary:hover {
+        background-color: #0056b3; /* Darker blue on hover */
+        opacity: 0.8;
+    }
+    .btn-secondary {
+        background-color: #ffffff; /* White color */
+        color: #007bff; /* Blue text */
+        border: 1px solid #007bff;
+    }
+    .btn-secondary:hover {
+        background-color: #f1f1f1; /* Light gray on hover */
+        color: #0056b3; /* Darker blue on hover */
+        opacity: 0.8;
+    }
+    .btn-warning {
+        background-color: #00aaff; /* Lighter blue color */
+        color: white;
+        border: 1px solid #00aaff;
+    }
+    .btn-warning:hover {
+        background-color: #007bff; /* Darker blue on hover */
+        opacity: 0.8;
+    }
+    .btn-danger {
+        background-color: #0056b3; /* Blue color */
+        color: white;
+        border: 1px solid #0056b3;
+    }
+    .btn-danger:hover {
+        background-color: #003f6d; /* Darker blue on hover */
+        opacity: 0.8;
+    }
+    .table-container {
+        margin-top: 30px;
+    }
+    .btn-success {
+	    background-color: #007bff; /* Blue color */
+	    color: white;
+	    border: 1px solid #007bff;
+	    border-radius: 4px;
+	    padding: 6px 12px;
+	    font-size: 14px;
+	    transition: background-color 0.3s, opacity 0.3s;
+	}
+	
+	.btn-success:hover {
+	    background-color: #0056b3; /* Darker blue on hover */
+	    opacity: 0.8;
+	}
+    
+
+    h2 {
+        margin-top: 20px;
+        text-align: center;
+        margin-bottom: 20px;
+        color: #343a40;
+    }
+    .no-data {
+        text-align: center;
+        color: #6c757d;
+        font-style: italic;
+    }
+</style>
+
+
+	<div style="text-align: center; margin-bottom: 40px;">
+	    <h2 style="font-size: 36px; font-weight: 600; color: #333; letter-spacing: 1px; font-family: 'Roboto', sans-serif; 
+	               text-transform: uppercase; margin-bottom: 10px;">
+	        DANH SÁCH NGƯỜI DÙNG
+	    </h2>
+	</div>
 	
 	<form action="/admin/users/search" method="post" class="mb-3">
 	    <div class="input-group">

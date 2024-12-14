@@ -200,27 +200,6 @@
 							</div></li> --%>
 						<li><a href="/user/products">product</a></li>
 						<li><a href="/blog">blog</a></li>
-							</div></li>
-						<li><a href="vendor.html">vendor</a></li>
-						<li><a href="/vendor/home">Vendor Channel</a></li>
-						<li><a href="daily_deals.html">campain</a></li>
-						<li class="wsus__relative_li"><a href="#">pages <i
-								class="fas fa-caret-down"></i></a>
-							<ul class="wsus__menu_droapdown">
-								<li><a href="404.html">404</a></li>
-								<li><a href="faqs.html">faq</a></li>
-								<li><a href="invoice.html">invoice</a></li>
-								<li><a href="about_us.html">about</a></li>
-								<li><a href="/user/products">product</a></li>
-								<li><a href="check_out.html">check out</a></li>
-								<li><a href="team.html">team</a></li>
-								<li><a href="change_password.html">change password</a></li>
-								<li><a href="custom_page.html">custom page</a></li>
-								<li><a href="forget_password.html">forget password</a></li>
-								<li><a href="privacy_policy.html">privacy policy</a></li>
-								<li><a href="product_category.html">product category</a></li>
-								<li><a href="brands.html">brands</a></li>
-							</ul></li>
 						<li><a href="/user/delivery">Track Order</a></li>
 					</ul>
 					<ul class="wsus__menu_item wsus__menu_item_right">

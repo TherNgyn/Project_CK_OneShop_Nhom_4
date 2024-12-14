@@ -97,7 +97,7 @@
 						        <a class="nav-link" href="home">Home</a>
 						    </li>    
 						    <li class="nav-item">
-						        <a class="nav-link" href="#">Quản lý sản phẩm</a>
+						        <a class="nav-link" href="stores">Quản lý cửa hàng</a>
 						    </li>
 						    <li class="nav-item">
 						        <a class="nav-link" href="#">Quản lý đơn hàng</a>
@@ -111,9 +111,6 @@
 									<li><a class="nav-link" href="yearly-revenue">Doanh thu theo năm</a></li>
 								</ul>
 							</li>
-						    <li class="nav-item">
-						        <a class="nav-link" href="#">Cài đặt</a>
-						    </li> 
 						    <c:choose>
 						        <c:when test="${not empty sessionScope.userRole && sessionScope.userRole != 'GUEST'}">
 						            <li class="nav-item"><a class="nav-link" href="/logout">Đăng xuất</a></li>

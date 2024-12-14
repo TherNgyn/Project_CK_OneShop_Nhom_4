@@ -119,5 +119,8 @@ public class StoreServiceImpl implements IStoreService {
 	public Store findByName(String name) {
 		return StoreRepository.findByName(name);
 	}
-
+	@Override
+    public Store saveStore(Store store) {
+        return StoreRepository.save(store);
+    }
 }
