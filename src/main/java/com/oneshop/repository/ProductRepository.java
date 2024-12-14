@@ -59,6 +59,7 @@ public interface ProductRepository extends JpaRepository<Product, Integer>, JpaS
 	@Query("SELECT p FROM Product p WHERE p.isSelling = true ORDER BY p.id DESC")
     List<Product> findTop4ByIsSellingTrueOrderByIdDesc();
 	Page<Product> findByIsSelling(Boolean isSelling, Pageable pageable);
+	List<Product> findTop8ByOrderBySoldDesc();
 	
 	
 }

@@ -11,7 +11,6 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
@@ -115,8 +114,8 @@ public class ProductServiceImpl implements IProductService {
 	}
 
 	@Override
-	public List<Product> findTop4ByOrderBySoldDesc() {
-		return productRepository.findTop4ByOrderBySoldDesc();
+	public List<Product> findTop8ByOrderBySoldDesc() {
+		return productRepository.findTop8ByOrderBySoldDesc();
 	}
 
 	@Override
@@ -240,34 +239,6 @@ public class ProductServiceImpl implements IProductService {
         Specification<Product> spec = ProductSpecification.filterByCriteria(name, categoryNames, brand, minPrice, maxPrice);
         return productRepository.findAll(spec, pageable);
     }
-	@Override
-	public List<String> getAllBrands() {
-	    return productRepository.findDistinctBrands();
-	}
-
-	@Override
-    public Page<Product> findByBrand(String brand, Pageable pageable) {
-        return productRepository.findByBrand(brand, pageable);
-    }
-
-	@Override
-	public List<Product> findTop8ByOrderBySoldDesc() {
-		// TODO Auto-generated method stub
-		return productRepository.findTop8ByOrderByIdDesc();
-	}
-
-	@Override
-	public List<Product> findTop4ByOrderByIdDesc() {
-		// TODO Auto-generated method stub
-		return productRepository.findTop4ByOrderBySoldDesc();
-	}
-	public List<Product> findTopProductsByCategory(Integer categoryId) {
-	    return productRepository.findTopProductsByCategoryId(categoryId, PageRequest.of(0, 6)); // Lấy 6 sản phẩm đầu
-	}
-	@Override
-	public List<Product> getTopRatedProducts() {
-        return productRepository.findTopRatedProducts().subList(0, 3); // Lấy top 3
-    }
 	
 	@Override
 	public List<Product> findTop4ByIsSelling(){
@@ -281,32 +252,26 @@ public class ProductServiceImpl implements IProductService {
 	@Override
 	public String updateProductWithImages(Product product, MultipartFile mainImage, MultipartFile[] additionalImages, Integer productId) {
         try {
-            
             Product existingProduct = productRepository.findById(productId).orElse(null);
             if (existingProduct == null) {
                 return "Sản phẩm không tồn tại.";
-            }
-            
+            } 
             existingProduct.setName(product.getName());
             existingProduct.setPrice(product.getPrice());
             existingProduct.setDescription(product.getDescription());
             existingProduct.setCategory(product.getCategory());
+            
             
             ProductImage productImage = new ProductImage();
             productImage.setProduct(existingProduct);
             
             if (mainImage != null && !mainImage.isEmpty()) {
                 String newImageUrl = null;
-                    // Check if the product already has a main image
                     if (existingProduct.getMainImage() == null || existingProduct.getMainImage().getImageUrl() == null) {
-                        // If no main image exists, upload the new image as the main image
-                        newImageUrl = cloudinaryService.uploadFile(mainImage);  // Use uploadFile if it's a new image
-                    } else {
-                        // If a main image exists, update it using the current image URL
+                        newImageUrl = cloudinaryService.uploadFile(mainImage);  
+                    } else { 
                         newImageUrl = cloudinaryService.updateFile(mainImage, existingProduct.getMainImage().getImageUrl());
-                    }
-                    
-                    // Create or update the ProductImage                 
+                    }               
                     productImage.setImageUrl(newImageUrl);
                     productImage.setIsMain(true);
             }
@@ -357,6 +322,42 @@ public class ProductServiceImpl implements IProductService {
 	public void updateProduct(@Valid Product product) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public List<Product> findTop4ByOrderByIdDesc() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<String> getAllBrands() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Page<Product> findByBrand(String brand, Pageable pageable) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Product> findTop4ByOrderBySoldDesc() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Product> findTopProductsByCategory(Integer categoryId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Product> getTopRatedProducts() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
