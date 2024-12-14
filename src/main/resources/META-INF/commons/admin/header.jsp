@@ -26,6 +26,25 @@
 		.wsus__menu_item a {
 		    padding: 5px 5px; /* Thêm padding để tạo không gian xung quanh chữ */
 		}
+		/* Đảm bảo chiều rộng của menu dropdown đủ lớn */
+		.wsus__menu_item .wsus__menu_droapdown {
+		    width: 250px; /* Cập nhật chiều rộng phù hợp với nội dung */
+		    max-width: 100%;
+		    min-width: 220px;
+		}
+		
+		/* Đảm bảo menu không bị tràn */
+		.wsus__menu_item .wsus__menu_droapdown li {
+		    white-space: nowrap; /* Ngăn chặn việc cắt dòng trong menu */
+		}
+		
+		/* Cải thiện chiều rộng của các menu chính */
+		.wsus__menu_item .nav-link {
+		    display: block;
+		    white-space: nowrap; /* Ngăn chặn việc cắt dòng trong các mục chính */
+		    overflow: hidden;
+		    text-overflow: ellipsis;
+		}	
 
 	</style>
 
@@ -88,7 +107,8 @@
 						    </li>
 						    <li class="wsus__relative_li"><a href="#">Thống kê <i class="fas fa-caret-down"></i></a>
 								<ul class="wsus__menu_droapdown">
-									<li><a class="nav-link" href="monthly-revenue">Thống kê doanh thu</a></li>
+									<li><a class="nav-link" href="monthly-revenue">Doanh thu theo tháng</a></li>
+									<li><a class="nav-link" href="yearly-revenue">Doanh thu theo năm</a></li>
 								</ul>
 							</li>
 						    <li class="nav-item">

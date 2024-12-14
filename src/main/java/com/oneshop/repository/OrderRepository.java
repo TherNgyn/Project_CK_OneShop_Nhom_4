@@ -50,4 +50,8 @@ public interface OrderRepository extends JpaRepository<Order, Integer> {
     List<Order> findOrdersByYear(int year);
 	@Query("SELECT COUNT(DISTINCT o.user) FROM Order o WHERE o.user.id IS NOT NULL")
 	int countDistinctUsers();
+	
+	@Query("SELECT DISTINCT YEAR(o.updateat) FROM Order o ORDER BY YEAR(o.updateat) DESC")
+	List<Integer> findDistinctYearsFromUpdateAt();
+
 }

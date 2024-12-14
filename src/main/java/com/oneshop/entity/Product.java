@@ -40,6 +40,9 @@ public class Product {
 
     // Có đang bán hay không
     private Boolean isSelling;
+    
+    @Column(length = 255)
+    private String status;
 
     // Không cần lưu trữ vào cơ sở dữ liệu
     @Transient

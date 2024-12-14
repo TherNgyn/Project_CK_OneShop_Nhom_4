@@ -10,11 +10,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.oneshop.entity.Product;
 import com.oneshop.model.MonthlyRevenue;
+import com.oneshop.model.YearlyRevenue;
 import com.oneshop.service.IOrderService;
 import com.oneshop.service.Impl.OrderServiceImpl;
 import com.oneshop.service.Impl.ProductServiceImpl;
@@ -74,31 +76,62 @@ public class AdminController {
     }
     
     @GetMapping("/monthly-revenue")
-    public String showMonthlyRevenue(Model model) {
-        // Lấy doanh thu theo tháng từ service
-        List<MonthlyRevenue> monthlyRevenues = orderService.calculateMonthlyRevenue(2024);
+    public String showMonthlyRevenue(@RequestParam(value = "year", required = false) Integer year, Model model) {
+    	// Lấy danh sách năm từ OrderService
+        List<Integer> years = orderService.getDistinctYearsFromOrders();
+        
+        // Nếu không có năm được chọn, mặc định lấy năm đầu tiên trong danh sách
+        if (year == null && !years.isEmpty()) {
+            year = years.get(0);
+        }
+        // Lấy dữ liệu doanh thu theo năm
+        List<MonthlyRevenue> monthlyRevenues = orderService.calculateMonthlyRevenue(year);
 
-        // Chuyển đổi thành dữ liệu JSP có thể sử dụng
+        // Chuẩn bị dữ liệu cho biểu đồ
         List<String> labels = new ArrayList<>();
         List<Double> values = new ArrayList<>();
-
         for (MonthlyRevenue revenue : monthlyRevenues) {
             labels.add("Tháng " + revenue.getMonth());
             values.add(revenue.getRevenue());
         }
 
-        // Thêm dữ liệu vào model để sử dụng trong JSP
+        // Truyền dữ liệu vào model
+        model.addAttribute("years", years);
+        model.addAttribute("selectedYear", Integer.valueOf(year));
         try {
 			model.addAttribute("monthlyRevenueLabels", new ObjectMapper().writeValueAsString(labels));
 			model.addAttribute("monthlyRevenueValues", new ObjectMapper().writeValueAsString(values));
 		} catch (JsonProcessingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}     
-        
-        
-        return "admin/chart"; // Trả về tên JSP
+		}   
+        return "admin/chart";
     }
+
+    @GetMapping("/yearly-revenue")
+    public String showYearlyRevenue(Model model) {
+        // Lấy dữ liệu doanh thu theo năm từ service
+        List<YearlyRevenue> yearlyRevenues = orderService.calculateYearlyRevenue();
+
+        // Chuẩn bị dữ liệu cho biểu đồ
+        List<String> labels = new ArrayList<>();
+        List<Double> values = new ArrayList<>();
+        for (YearlyRevenue revenue : yearlyRevenues) {
+            labels.add("Năm " + revenue.getYear());
+            values.add(revenue.getRevenue());
+        }
+
+        // Truyền dữ liệu vào model
+        try {
+            model.addAttribute("yearlyRevenueLabels", new ObjectMapper().writeValueAsString(labels));
+            model.addAttribute("yearlyRevenueValues", new ObjectMapper().writeValueAsString(values));
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+
+        return "admin/chartByYear";
+    }
+
     
     public String formatRevenue(double revenue) {
         DecimalFormat formatter = new DecimalFormat("#,###");  // Định dạng không có phần thập phân và dấu phẩy

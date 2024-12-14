@@ -4,6 +4,7 @@ import java.util.Date;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,6 +21,7 @@ public class ProductModel {
     private Integer quantity;
     private Integer sold;
     private Boolean isselling;
+    private String status;
     private String listimage;
     private MultipartFile listImageFile;
     private Integer categoryid=null;
