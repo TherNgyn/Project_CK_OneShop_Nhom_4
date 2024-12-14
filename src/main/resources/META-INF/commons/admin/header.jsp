@@ -103,7 +103,7 @@
 						        <a class="nav-link" href="#">Quản lý đơn hàng</a>
 						    </li>
 						    <li class="nav-item">
-						        <a class="nav-link" href="#">Quản lý khách hàng</a>
+						        <a class="nav-link" href="users">Quản lý người dùng</a>
 						    </li>
 						    <li class="wsus__relative_li"><a href="#">Thống kê <i class="fas fa-caret-down"></i></a>
 								<ul class="wsus__menu_droapdown">
@@ -116,10 +116,10 @@
 						    </li> 
 						    <c:choose>
 						        <c:when test="${not empty sessionScope.userRole && sessionScope.userRole != 'GUEST'}">
-						            <li class="nav-item"><a class="nav-link" href="/logout">Logout</a></li>
+						            <li class="nav-item"><a class="nav-link" href="/logout">Đăng xuất</a></li>
 						        </c:when>
 						        <c:otherwise>
-						            <li class="nav-item"><a class="nav-link" href="/login">Login</a></li>
+						            <li class="nav-item"><a class="nav-link" href="/login">Đăng nhập</a></li>
 						        </c:otherwise>
 						    </c:choose>
 						</ul>
