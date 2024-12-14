@@ -126,129 +126,134 @@
 			<div class="row mb-4">
 				<div class="col-lg-12">
 					<form action="<c:url value='/user/order/checkout'/>" method="POST">
-						<div class="order__table">
-							<table class="table table-hover">
-								<thead class="thead-blue">
-									<tr>
-										<th class="order__product">Sản phẩm</th>
-										<th>Giá</th>
-										<th>Số lượng</th>
-										<th>Tổng</th>
-										<th>Thời gian</th>
-									</tr>
-								</thead>
-								<tbody>
-									<c:forEach var="item" items="${listcart}">
-										<tr>
-											<td class="order__item"><img
-												src="${item.product.imageUrls[0]}"
-												alt="${item.product.name}">
-												<h5>${item.product.name}</h5></td>
-											<td class="order__price"><fmt:formatNumber
-													value="${item.product.price}" type="currency"
-													currencySymbol="₫" /></td>
-											<td class="order__quantity">${item.count}</td>
-											<td class="order__total"><fmt:formatNumber
-													value="${item.count * item.product.price}" type="currency"
-													currencySymbol="₫" /></td>
-											<td class="order__time">${item.order.formattedCreateAt}</td>
-										</tr>
-									</c:forEach>
-								</tbody>
-							</table>
-						</div>
-						<!-- Chọn địa chỉ giao hàng -->
-						<h4>Chọn địa chỉ giao hàng</h4>
-						<div class="form-group">
-							<input type="radio" name="addressType"
-								id="existing-address-radio" checked onclick="toggleNewAddress()">
-							Chọn địa chỉ có sẵn <input type="radio" name="addressType"
-								id="new-address-radio" onclick="toggleNewAddress()">
-							Nhập địa chỉ mới
+    <div class="order__table">
+        <table class="table table-hover">
+            <thead class="thead-blue">
+                <tr>
+                    <th class="order__product">Sản phẩm</th>
+                    <th>Giá</th>
+                    <th>Số lượng</th>
+                    <th>Tổng</th>
+                    <th>Thời gian</th>
+                </tr>
+            </thead>
+            <tbody>
+                <c:forEach var="item" items="${listcart}">
+                    <tr>
+                        <td class="order__item">
+                            <img src="${item.product.imageUrls[0]}" alt="${item.product.name}">
+                            <h5>${item.product.name}</h5>
+                        </td>
+                        <td class="order__price"><fmt:formatNumber value="${item.product.price}" type="currency" currencySymbol="₫" /></td>
+                        <td class="order__quantity">${item.count}</td>
+                        <td class="order__total"><fmt:formatNumber value="${item.count * item.product.promotionalPrice}" type="currency" currencySymbol="₫" /></td>
+                        <td class="order__time">${item.order.formattedCreateAt}</td>
+                    </tr>
+                </c:forEach>
+            </tbody>
+        </table>
+    </div>
 
-							<!-- Chọn địa chỉ có sẵn -->
-							<div id="existing-address" class="mt-3">
-								<select name="addressId" class="form-control" required>
-									<c:forEach var="address" items="${addresses}">
-										<option value="${address.id}">${address.addressLine1},
-											${address.addressLine2}, ${address.city}</option>
-									</c:forEach>
-								</select>
+    <h4>Chọn địa chỉ giao hàng</h4>
+    <div class="form-group">
+        <label>Địa chỉ giao hàng:</label>
+        <select name="addressId" class="form-control">
+            <option value="" disabled selected>Chọn địa chỉ có sẵn</option>
+            <c:forEach var="address" items="${addresses}">
+                <option value="${address.id}">${address.addressLine1}, ${address.addressLine2}, ${address.city}</option>
+            </c:forEach>
+        </select>
+        <div class="alert alert-danger" style="display: <c:if test='${empty addresses}'>block</c:if>;">Bạn chưa có địa chỉ giao hàng. Vui lòng thêm địa chỉ.</div>
+    </div>
 
-								<c:if test="${empty addresses}">
-									<div class="alert alert-danger">Bạn chưa có địa chỉ giao
-										hàng. Vui lòng thêm địa chỉ.</div>
-								</c:if>
-							</div>
+    <h4>Hoặc nhập địa chỉ mới</h4>
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label for="newAddressLine1">Địa chỉ (Số nhà, tên đường):</label>
+            <input type="text" name="newAddressLine1" id="newAddressLine1" class="form-control">
+        </div>
+        <div class="form-group col-md-6">
+            <label for="newAddressLine2">Địa chỉ (Phường, Quận):</label>
+            <input type="text" name="newAddressLine2" id="newAddressLine2" class="form-control">
+        </div>
+        <div class="form-group col-md-6">
+            <label for="newCity">Thành phố:</label>
+            <input type="text" name="newCity" id="newCity" class="form-control">
+        </div>
+        <div class="form-group col-md-6">
+            <label>
+                <input type="checkbox" name="isPrimary" id="isPrimary" class="form-check-input"> Đánh dấu là địa chỉ chính
+            </label>
+        </div>
+    </div>
 
-							<!-- Nhập địa chỉ mới -->
-							<div id="new-address" class="mt-3" style="display: none;">
-								<div class="form-group">
-									<label for="newAddressLine1">Địa chỉ (Số nhà, tên
-										đường):</label> <input type="text" name="newAddressLine1"
-										id="newAddressLine1" class="form-control" required>
-								</div>
-								<div class="form-group">
-									<label for="newAddressLine2">Địa chỉ (Phường, Quận):</label> <input
-										type="text" name="newAddressLine2" id="newAddressLine2"
-										class="form-control">
-								</div>
-								<div class="form-group">
-									<label for="newCity">Thành phố:</label> <input type="text"
-										name="newCity" id="newCity" class="form-control" required>
-								</div>
-								<div class="form-group">
-									<input type="checkbox" name="isPrimary" id="isPrimary"
-										class="form-check-input"> <label for="isPrimary">Đánh
-										dấu là địa chỉ chính</label>
-								</div>
-							</div>
-						</div>
+    <h4>Chọn đơn vị giao hàng</h4>
+    <div class="form-group">
+        <label>Đơn vị giao hàng:</label>
+        <select name="deliveryId" class="form-control" id="deliverySelect" onchange="updateTotalPrice()">
+            <option value="" disabled selected>Chọn đơn vị giao hàng</option>
+            <c:forEach var="delivery" items="${deliveries}">
+                <option value="${delivery.id}" data-price="${delivery.price}">${delivery.name} - ${delivery.description} (${delivery.price}₫)</option>
+            </c:forEach>
+        </select>
+        <div class="alert alert-danger" style="display: <c:if test='${empty deliveries}'>block</c:if>;">Không có đơn vị giao hàng nào. Vui lòng liên hệ quản trị.</div>
+    </div>
 
-						<!-- Chọn đơn vị giao hàng -->
-						<h4>Chọn đơn vị giao hàng</h4>
-						<div class="form-group">
-							<select name="deliveryId" class="form-control"
-								id="deliverySelect" onchange="updateTotalPrice()">
-								<c:forEach var="delivery" items="${deliveries}">
-									<option value="${delivery.id}" data-price="${delivery.price}">
-										${delivery.name} - ${delivery.description}
-										(${delivery.price}₫)</option>
-								</c:forEach>
-							</select>
-							<c:if test="${empty deliveries}">
-								<div class="alert alert-danger">Không có đơn vị giao hàng
-									nào. Vui lòng liên hệ quản trị.</div>
-							</c:if>
-						</div>
+    <div class="text-right">
+        <h5>Tổng tiền: <span id="total-price">${price}₫</span></h5>
+    </div>
 
-						<!-- Hiển thị tổng tiền -->
-						<div class="text-right">
-							<h5>
-								Tổng tiền: <span id="total-price">${price}₫</span>
-							</h5>
-						</div>
+    <script>
+        function updateTotalPrice() {
+            let basePrice = parseFloat(${price});
+            const deliverySelect = document.getElementById("deliverySelect");
+            const selectedOption = deliverySelect.options[deliverySelect.selectedIndex];
+            const deliveryPrice = parseFloat(selectedOption.getAttribute("data-price")) || 0;
+            const totalPrice = basePrice + deliveryPrice;
+            document.getElementById("total-price").innerText = totalPrice.toLocaleString('vi-VN') + "₫";
+        }
+        
+    </script>
+<script>
+    document.getElementById("deliverySelect").addEventListener("change", updateTotalPrice);
+    document.querySelectorAll('input[name="addressType"]').forEach((radio) => {
+        radio.addEventListener("change", (event) => {
+            const isExisting = event.target.id === "existing-address-radio";
+            document.getElementById("existing-address").style.display = isExisting ? "block" : "none";
+            document.getElementById("new-address").style.display = isExisting ? "none" : "block";
 
-						<script>
-							function updateTotalPrice() {
-							    let basePrice = parseFloat(${price});
-							    const deliverySelect = document.getElementById("deliverySelect");
-							    const selectedOption = deliverySelect.options[deliverySelect.selectedIndex];
-							    const deliveryPrice = parseFloat(selectedOption.getAttribute("data-price")) || 0;
-							    const totalPrice = basePrice + deliveryPrice;
-							    document.getElementById("total-price").innerText = totalPrice.toLocaleString('vi-VN') + "₫";
-							}
-						</script>
+            if (isExisting) {
+                document.querySelector('select[name="addressId"]').required = true;
+                document.getElementById("newAddressLine1").required = false;
+                document.getElementById("newCity").required = false;
+            } else {
+                document.querySelector('select[name="addressId"]').required = false;
+                document.getElementById("newAddressLine1").required = true;
+                document.getElementById("newCity").required = true;
+            }
+        });
+    });
+</script>
+<script>
+    document.querySelectorAll('input[name="addressType"]').forEach((radio) => {
+        radio.addEventListener("change", (event) => {
+            const isExisting = event.target.id === "existing-address-radio";
+            document.getElementById("existing-address").style.display = isExisting ? "block" : "none";
+            document.getElementById("new-address").style.display = isExisting ? "none" : "block";
 
+            document.getElementById("newAddressLine1").required = !isExisting;
+            document.getElementById("newCity").required = !isExisting;
+            document.querySelector('select[name="addressId"]').required = isExisting;
+        });
+    });
+</script>
 
-						<!-- Gửi form -->
-						<div class="order__btns">
-							<button type="submit" class="primary-btn">ĐẶT HÀNG</button>
-							<a href="<c:url value='/user/products'/>" class="primary-btn">TIẾP
-								TỤC MUA SẮM</a>
-						</div>
-						
-					</form>
+    <div class="order__btns">
+        <button type="submit" class="primary-btn">ĐẶT HÀNG</button>
+        <a href="<c:url value='/user/products'/>" class="primary-btn">TIẾP TỤC MUA SẮM</a>
+    </div>
+</form>
+
 				</div>
 			</div>
 		</div>
@@ -265,11 +270,6 @@
 	}
 
 	</script>
-	<!-- Bootstrap JS -->
-	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-	<script
-		src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-	<script
-		src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+	
 </body>
 </html>

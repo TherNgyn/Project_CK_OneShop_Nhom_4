@@ -98,7 +98,10 @@ public class DeliveryUserController {
 
         if (search == null || search.isEmpty()) {
             if ("all".equalsIgnoreCase(status)) {
-                orders = orderService.getAllOrdersByCustomerAndStore(user.getId(), store);
+                orders = orderService.getAllOrdersByCustomerAndStore(user.getId(), store)
+                                     .stream()
+                                     .filter(order -> !"Waiting".equalsIgnoreCase(order.getStatus()))
+                                     .collect(Collectors.toList());
             } else if ("Processing".equalsIgnoreCase(status)) {
                 orders = orderService.getOrdersByCustomer(user.getId(), "Processing_1", "Processing_2");
             } else if ("Preparing".equalsIgnoreCase(status)) {
@@ -106,10 +109,16 @@ public class DeliveryUserController {
             } else if ("In Transit".equalsIgnoreCase(status)) {
                 orders = orderService.getOrdersByCustomer(user.getId(), "In Transit_1", "In Transit_2");
             } else {
-                orders = orderService.getOrdersByCustomer(user.getId(), status);
+                orders = orderService.getOrdersByCustomer(user.getId(), status)
+                                     .stream()
+                                     .filter(order -> !"Waiting".equalsIgnoreCase(order.getStatus()))
+                                     .collect(Collectors.toList());
             }
         } else {
-            orders = orderService.searchOrdersByProductNameAndStatus(user.getId(), search, status);
+            orders = orderService.searchOrdersByProductNameAndStatus(user.getId(), search, status)
+                                 .stream()
+                                 .filter(order -> !"Waiting".equalsIgnoreCase(order.getStatus()))
+                                 .collect(Collectors.toList());
         }
 
         orders.forEach(order -> {
@@ -130,12 +139,13 @@ public class DeliveryUserController {
             order.setStoreGroupedOrderItems(storeGroupedOrderItems);
         });
 
-
         model.addAttribute("orders", orders);
         model.addAttribute("store", store);
         model.addAttribute("search", search); 
         return "/user/delivery/order_manager";
     }
+
+
     @PostMapping("/cancel")
     public ResponseEntity<String> cancelOrder(@RequestBody Map<String, Integer> requestBody) {
         Integer orderId = requestBody.get("orderId");
@@ -171,7 +181,10 @@ public class DeliveryUserController {
             return "redirect:/login";
         }
 
-        List<Order> orders = orderService.searchOrdersByProductName(user.getId(), search);
+        List<Order> orders = orderService.searchOrdersByProductName(user.getId(), search)
+                                         .stream()
+                                         .filter(order -> !"Waiting".equalsIgnoreCase(order.getStatus()))
+                                         .collect(Collectors.toList());
 
         enrichOrderData(orders);
 

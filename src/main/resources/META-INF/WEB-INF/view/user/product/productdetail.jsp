@@ -94,7 +94,7 @@
 										onclick="incrementQuantity()">+</button>
 								</div>
 							</div>
-							<button type="submit" class="primary-btn">THÊM VÀO GIỎ</button>
+							<button type="submit" class="primary-btn">ADD TO CART</button>
 						</form>
 
 

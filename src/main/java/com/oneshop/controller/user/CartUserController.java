@@ -242,41 +242,31 @@ public class CartUserController {
     @ResponseBody
     public ResponseEntity<?> saveCartTotal(@RequestBody Map<String, Object> requestBody, HttpServletRequest request) {
         try {
-            // Lấy thông tin người dùng từ session
             User user = (User) request.getSession().getAttribute("user");
             if (user == null) {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                                      .body(Map.of("error", "Người dùng chưa đăng nhập."));
             }
-
-            // Lấy tổng tiền và kiểm tra tính hợp lệ
             Number totalNumber = (Number) requestBody.get("total");
             if (totalNumber == null || totalNumber.doubleValue() <= 0) {
                 return ResponseEntity.badRequest()
                                      .body(Map.of("error", "Tổng tiền không hợp lệ."));
             }
             Double total = totalNumber.doubleValue();
-
-            // Lấy danh sách các sản phẩm đã chọn
             List<Map<String, Object>> selectedItems = (List<Map<String, Object>>) requestBody.get("selectedItems");
             if (selectedItems == null || selectedItems.isEmpty()) {
                 return ResponseEntity.badRequest()
                                      .body(Map.of("error", "Không có sản phẩm nào được chọn."));
             }
-
-            // Tạo đơn hàng mới
             Order order = new Order();
             order.setUser(user);
             order.setPrice(total.floatValue());
             order.setPhone(user.getPhone());
             order.setCreateat(java.time.LocalDateTime.now());
-            order.setStatus("Pending");
+            order.setStatus("Waiting");
             orderService.save(order);
-
-            // Lưu các sản phẩm vào đơn hàng
             for (Map<String, Object> item : selectedItems) {
                 try {
-                    // Lấy productId từ item và chuyển đổi thành Integer một cách an toàn
                     String productIdStr = (String) item.get("productId");
                     if (productIdStr == null) {
                         return ResponseEntity.badRequest()
@@ -284,13 +274,13 @@ public class CartUserController {
                     }
                     Integer productId = null;
                     try {
-                        productId = Integer.parseInt(productIdStr);  // Chuyển đổi chuỗi thành Integer
+                        productId = Integer.parseInt(productIdStr);  
                     } catch (NumberFormatException e) {
                         return ResponseEntity.badRequest()
                                              .body(Map.of("error", "ID sản phẩm không hợp lệ."));
                     }
 
-                    Product product = productService.getById(productId); // Lấy sản phẩm từ DB
+                    Product product = productService.getById(productId);
                     if (product != null) {
                         OrderItem orderItem = new OrderItem();
                         orderItem.setOrder(order);

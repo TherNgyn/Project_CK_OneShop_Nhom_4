@@ -131,7 +131,14 @@
 										</div>
 									</div>
 									<ul class="wsus__button_area">
-										<li><a class="add_cart" href="#">add to cart</a></li>
+										<li><form action="/user/cart/add/${product.id}"
+												method="POST">
+												<input type="hidden" name="_csrf" value="${_csrf.token}">
+												<input type="hidden" name="quantity" value="1"> <a
+													class="add_cart" href="#"
+													onclick="this.closest('form').submit(); return false;">ADD
+													TO CART</a>
+											</form></li>
 										<li><a class="buy_now" href="#">buy now</a></li>
 										<li><a href="#"><i class="fal fa-heart"></i></a></li>
 										<li><a href="#"><i class="far fa-random"></i></a></li>
@@ -269,7 +276,13 @@
 										<del>$${product.promotionalPrice}</del>
 									</c:if>
 								</p>
-								<a class="add_cart" href="#">add to cart</a>
+								<form action="/user/cart/add/${product.id}" method="POST">
+									<input type="hidden" name="_csrf" value="${_csrf.token}">
+									<input type="hidden" name="quantity" value="1"> <a
+										class="add_cart" href="#"
+										onclick="this.closest('form').submit(); return false;">ADD
+										TO CART</a>
+								</form>
 							</div>
 						</div>
 					</div>
@@ -398,12 +411,6 @@
        MONTHLY TOP PRODUCT END
     ==============================-->
 
-			<section id="divider_section">
-				<div class="container">
-					<h2 class="divider_title"></h2>
-					<p class="divider_text"></p>
-				</div>
-			</section>
 
 
 			<!--============================
@@ -590,8 +597,14 @@
 										</p>
 										<p class="wsus__details">${product.description}</p>
 										<ul>
-											<li><a class="add_cart"
-												href="add_to_cart?id=${product.id}">add to cart</a></li>
+											<li><form action="/user/cart/add/${product.id}"
+													method="POST">
+													<input type="hidden" name="_csrf" value="${_csrf.token}">
+													<input type="hidden" name="quantity" value="1"> <a
+														class="add_cart" href="#"
+														onclick="this.closest('form').submit(); return false;">ADD
+														TO CART</a>
+												</form></li>
 											<li><a href="#"><i class="far fa-heart"></i></a></li>
 											<li><a href="#"><i class="far fa-random"></i></a></li>
 										</ul>
@@ -681,8 +694,8 @@
 						<c:forEach var="blog" items="${latestBlogs}">
 							<div class="col-xl-3">
 								<div class="wsus__single_blog wsus__single_blog_2">
-									<a class="wsus__blog_img" href="/blog/${blog.id}">
-										<img src="${blog.imageUrl}" alt="${blog.title}"
+									<a class="wsus__blog_img" href="/blog/${blog.id}"> <img
+										src="${blog.imageUrl}" alt="${blog.title}"
 										class="img-fluid w-100">
 									</a>
 									<div class="wsus__blog_text">
