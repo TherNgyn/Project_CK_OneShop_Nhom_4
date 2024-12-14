@@ -1,153 +1,183 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-
+	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jstl/fmt_rt" prefix="fmt"%>
 <title>Manage Products</title>
 
 <body class="page-header-fixed page-quick-sidebar-over-content ">
-<!-- BEGIN HEADER -->
-<div class="page-header navbar navbar-fixed-top">
+	<!-- BEGIN HEADER -->
+	<div class="page-header navbar navbar-fixed-top"></div>
+	<!-- END HEADER -->
+	<div class="clearfix"></div>
+	<!-- BEGIN CONTAINER -->
+	<div class="page-container">
+		<!-- BEGIN CONTENT -->
+		<div class="page-content-wrapper">
+			<div class="page-content">
+				<!-- BEGIN PAGE CONTENT-->
+				<div class="row">
+					<div class="col-md-12">
+						<!-- Begin: life time stats -->
+						<div class="portlet">
+							<div class="portlet-title">
+								<div class="caption">
+									<i class="fa fa-gift"></i>Sản phẩm
+								</div>
+							</div>
 
-</div>
-<!-- END HEADER -->
-<div class="clearfix">
-</div>
-<!-- BEGIN CONTAINER -->
-<div class="page-container">
-	<!-- BEGIN CONTENT -->
-	<div class="page-content-wrapper">
-		<div class="page-content">			
-			<!-- BEGIN PAGE CONTENT-->
-			<div class="row">
-				<div class="col-md-12">
-					<!-- Begin: life time stats -->
-					<div class="portlet">
-						<div class="portlet-title">
-							<div class="caption">
-								<i class="fa fa-gift"></i>Sản phẩm
-							</div>
-							<div class="actions">
-								<div class="btn-group">
-									<a class="btn default yellow-stripe dropdown-toggle" href="#" data-toggle="dropdown">
-									<i class="fa fa-share"></i> Công cụ <i class="fa fa-angle-down"></i>
-									</a>
-									<ul class="dropdown-menu pull-right">
-										<li>
-											<a href="#">
-											Xuất Excel </a>
-										</li>
-										<li>
-											<a href="#">
-											Xuất CSV </a>
-										</li>
-									</ul>
+							<div class="portlet-body">
+								<div class="table-container" style="">
+									<div id="datatable_products_wrapper"
+										class="dataTables_wrapper dataTables_extended_wrapper no-footer">
+										<div id="prefix_480614921548"
+											class="Metronic-alerts alert alert-danger fade in">
+											<button type="button" class="close" data-dismiss="alert"
+												aria-hidden="true"></button>
+											<i class="fa-lg fa fa-warning"></i> ${message }
+										</div>
+										<div class="row">
+											<div class="col-md-8 col-sm-12">
+												<div class="dataTables_paginate paging_bootstrap_extended"
+													id="datatable_products_paginate"></div>
+												<div class="dataTables_length"
+													id="datatable_products_length"></div>
+												<div class="dataTables_info" id="datatable_products_info"
+													role="status" aria-live="polite"></div>
+											</div>
+											<div class="col-md-4 col-sm-12">
+												<div class="table-group-actions pull-right">
+													<span> </span>
+
+												</div>
+											</div>
+										</div>
+										<div class="container mt-5">
+											<h3>Thêm sản phẩm</h3>
+											<form action="/vendor/manageproduct/save " method="post"
+												enctype="multipart/form-data">
+												<table class="table table-bordered">
+													<tbody>
+														<tr>
+															<th>ID Sản phẩm:</th>
+															<td><input type="text" class="form-control"
+																name="id" value="${product.id}" readonly></td>
+														</tr>
+														<tr>
+															<th>Tên sản phẩm:</th>
+															<td><input type="text" class="form-control"
+																name="name" value="${product.name}" required></td>
+														</tr>
+														<tr>
+															<th>Danh mục:</th>
+															<td><select class="form-control" name="category.id"
+																required>
+																	<c:forEach var="category" items="${categories}">
+																		<option value="${category.id}"
+																			${product.category.id == category.id ? 'selected' : ''}>
+																			${category.name}</option>
+																	</c:forEach>
+															</select></td>
+														</tr>
+														<tr>
+															<th>Giá:</th>
+															<td><input type="number" class="form-control"
+																name="price" value="${product.price}" required></td>
+														</tr>
+														<tr>
+															<th>Số lượng:</th>
+															<td><input type="number" class="form-control"
+																name="quantity" value="${product.quantity}" required></td>
+														</tr>
+														<tr>
+															<th>Thương hiệu:</th>
+															<td><select class="form-control" name="category.id"
+																required>
+																	<c:forEach var="brands" items="${brands}">
+																		<option value="${brands}">${brands}</option>
+																	</c:forEach>
+															</select> <input type="text" class="form-control" name="brand"
+																value="${product.brand}" required></td>
+														</tr>
+														<tr>
+															<th>Mô tả:</th>
+															<td><textarea class="form-control"
+																	name="description" rows="4">${product.description}</textarea></td>
+														</tr>
+														<tr>
+															<th>Hình ảnh chính:</th>
+															<td><input type="file" class="form-control-file"
+																name="image" id="mainImage"
+																onchange="previewImage(event, 'mainImagePreview')">
+																<img id="mainImagePreview"
+																src="${product.imageUrls != null && !product.imageUrls.isEmpty() ? product.imageUrls[0] : '#'}"
+																alt="${product.name}" class="img-thumbnail mt-2"
+																width="150"></td>
+														</tr>
+														<tr>
+															<th>Các hình ảnh khác:</th>
+															<td><input type="file" class="form-control-file"
+																name="additionalImages" multiple id="additionalImages"
+																onchange="previewAdditionalImages(event)">
+																<div id="additionalImagesPreview">
+																	<!-- Additional images will be displayed here after file selection -->
+																	<c:forEach var="image" items="${product.imageUrls}"
+																		begin="1">
+																		<img src="${image}" alt="${product.name}"
+																			class="img-thumbnail mt-2" width="150">
+																	</c:forEach>
+																</div></td>
+														</tr>
+													</tbody>
+												</table>
+												<div class="text-right">
+													<button type="submit" class="btn btn-primary">Lưu
+														và chờ duyệt</button>
+													<a href="/vendor/manageproduct" class="btn btn-secondary">Hủy</a>
+												</div>
+											</form>
+										</div>
+
+
+									</div>
 								</div>
 							</div>
 						</div>
-						
-						<div class="portlet-body">
-							<div class="table-container" style="">
-								
-								<div id="datatable_products_wrapper" class="dataTables_wrapper dataTables_extended_wrapper no-footer"><div id="prefix_480614921548" class="Metronic-alerts alert alert-danger fade in"><button type="button" class="close" data-dismiss="alert" aria-hidden="true"></button><i class="fa-lg fa fa-warning"></i>  Please select an action</div><div class="row"><div class="col-md-8 col-sm-12"><div class="dataTables_paginate paging_bootstrap_extended" id="datatable_products_paginate"><div class="pagination-panel"> Page <a href="#" class="btn btn-sm default prev disabled" title="Prev"><i class="fa fa-angle-left"></i></a><input type="text" class="pagination-panel-input form-control input-mini input-inline input-sm" maxlenght="5" style="text-align:center; margin: 0 5px;"><a href="#" class="btn btn-sm default next disabled" title="Next"><i class="fa fa-angle-right"></i></a> of <span class="pagination-panel-total"></span></div></div><div class="dataTables_length" id="datatable_products_length"><label><span class="seperator">|</span>View <select name="datatable_products_length" aria-controls="datatable_products" class="form-control input-xsmall input-sm input-inline"><option value="10">10</option><option value="20">20</option><option value="50">50</option><option value="100">100</option><option value="150">150</option></select> records</label></div><div class="dataTables_info" id="datatable_products_info" role="status" aria-live="polite"></div></div><div class="col-md-4 col-sm-12"><div class="table-group-actions pull-right">
-									<span>
-									</span>
-									<select class="table-group-action-input form-control input-inline input-small input-sm">
-										<option value="">Chọn...</option>
-										<option value="publish">Publish</option>
-										<option value="unpublished">Un-publish</option>
-										<option value="delete">Delete</option>
-									</select>
-									<button class="btn btn-sm yellow table-group-action-submit"><i class="fa fa-check"></i> Chọn</button>
-								</div></div></div><div class="table-scrollable"><table class="table table-striped table-bordered table-hover dataTable no-footer" id="datatable_products" aria-describedby="datatable_products_info" role="grid">
-								<thead>
-								<tr role="row" class="heading"><th width="1%" class="sorting_disabled" rowspan="1" colspan="1">
-										<div class="checker"><span><input type="checkbox" class="group-checkable"></span></div>
-									</th><th width="10%" class="sorting" tabindex="0" aria-controls="datatable_products" rowspan="1" colspan="1">
-										 ID
-									</th><th width="15%" class="sorting" tabindex="0" aria-controls="datatable_products" rowspan="1" colspan="1">
-										 Tên&nbsp;Sản phẩm
-									</th><th width="15%" class="sorting" tabindex="0" aria-controls="datatable_products" rowspan="1" colspan="1">
-										 Danh mục
-									</th><th width="10%" class="sorting" tabindex="0" aria-controls="datatable_products" rowspan="1" colspan="1">
-										 Giá
-									</th><th width="10%" class="sorting" tabindex="0" aria-controls="datatable_products" rowspan="1" colspan="1">
-										 Số lượng
-									</th><th width="15%" class="sorting" tabindex="0" aria-controls="datatable_products" rowspan="1" colspan="1">
-										 Thương hiệu
-									</th><th width="10%" class="sorting" tabindex="0" aria-controls="datatable_products" rowspan="1" colspan="1">
-										 Trạng thái
-									</th><th width="10%" class="sorting" tabindex="0" aria-controls="datatable_products" rowspan="1" colspan="1">
-										 Hành động
-									</th></tr>
-								<tr role="row" class="filter"><td rowspan="1" colspan="1">
-									</td><td rowspan="1" colspan="1">
-										<input type="text" class="form-control form-filter input-sm" name="product_id">
-									</td><td rowspan="1" colspan="1">
-										<input type="text" class="form-control form-filter input-sm" name="product_name">
-									</td><td rowspan="1" colspan="1">
-										<select name="product_category" class="form-control form-filter input-sm">
-											<option value="">Select...</option>
-											<option value="1">Mens</option>
-											<option value="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Footwear</option>
-											<option value="3">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Clothing</option>
-											<option value="4">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Accessories</option>
-											<option value="5">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Fashion Outlet</option>
-											<option value="6">Football Shirts</option>
-											<option value="7">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Premier League</option>
-											<option value="8">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Football League</option>
-											<option value="9">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Serie A</option>
-											<option value="10">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Bundesliga</option>
-											<option value="11">Brands</option>
-											<option value="12">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Adidas</option>
-											<option value="13">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nike</option>
-											<option value="14">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Airwalk</option>
-											<option value="15">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;USA Pro</option>
-											<option value="16">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Kangol</option>
-										</select>
-									</td><td rowspan="1" colspan="1">
-										<div class="margin-bottom-5">
-											<input type="text" class="form-control form-filter input-sm" name="product_price_from" placeholder="From">
-										</div>
-										<input type="text" class="form-control form-filter input-sm" name="product_price_to" placeholder="To">
-									</td><td rowspan="1" colspan="1">
-										<div class="margin-bottom-5">
-											<input type="text" class="form-control form-filter input-sm" name="product_quantity_from" placeholder="From">
-										</div>
-										<input type="text" class="form-control form-filter input-sm" name="product_quantity_to" placeholder="To">
-									</td><td rowspan="1" colspan="1">
-										<select name="product_status" class="form-control form-filter input-sm">
-											<option value="">Select...</option>
-											<option value="published">Published</option>
-											<option value="notpublished">Not Published</option>
-											<option value="deleted">Deleted</option>
-										</select>
-									</td><td rowspan="1" colspan="1">
-										<select name="product_status" class="form-control form-filter input-sm">
-											<option value="">Select...</option>
-											<option value="published">Published</option>
-											<option value="notpublished">Not Published</option>
-											<option value="deleted">Deleted</option>
-										</select>
-									</td><td rowspan="1" colspan="1">
-										<div class="margin-bottom-5">
-											<button class="btn btn-sm yellow filter-submit margin-bottom"><i class="fa fa-search"></i> Cập nhật</button>
-										</div>
-										<button class="btn btn-sm red filter-cancel"><i class="fa fa-times"></i> Xóa</button>
-									</td></tr>
-								</thead>
-								<tbody>
-								</tbody>
-								</table></div>
-								</div>
-							</div>
-						</div>
+						<!-- End: life time stats -->
 					</div>
-					<!-- End: life time stats -->
 				</div>
+				<!-- END PAGE CONTENT-->
 			</div>
-			<!-- END PAGE CONTENT-->
 		</div>
+		<!-- END CONTENT -->
 	</div>
-	<!-- END CONTENT -->
-</div>
+	<script>
+		function previewImage(event, previewId) {
+			var reader = new FileReader();
+			reader.onload = function() {
+				var output = document.getElementById(previewId);
+				output.src = reader.result; // Set the image preview to the selected file
+			};
+			reader.readAsDataURL(event.target.files[0]);
+		}
 
+		// Function to handle the preview of additional images
+		function previewAdditionalImages(event) {
+			var previewContainer = document
+					.getElementById('additionalImagesPreview');
+			previewContainer.innerHTML = ''; // Clear the previous previews
+
+			// Loop through the selected files
+			for (var i = 0; i < event.target.files.length; i++) {
+				var reader = new FileReader();
+				reader.onload = function(e) {
+					var img = document.createElement('img');
+					img.src = e.target.result; // Set the image source to the FileReader result (the image content)
+					img.classList.add('img-thumbnail', 'mt-2');
+					img.width = 150;
+					previewContainer.appendChild(img); // Add the new image to the preview container
+				};
+				reader.readAsDataURL(event.target.files[i]); // Read the file as a Data URL
+			}
+		}
+	</script>
 </body>

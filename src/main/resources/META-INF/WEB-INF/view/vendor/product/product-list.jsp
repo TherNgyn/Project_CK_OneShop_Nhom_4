@@ -36,14 +36,21 @@
                                     </div>
                                 </div>
                             </div>
-
+							
                             <div class="portlet-body">
                                 <div class="table-container">
                                     <div id="datatable_products_wrapper" class="dataTables_wrapper dataTables_extended_wrapper no-footer">
-                                        <div id="prefix_480614921548" class="Metronic-alerts alert alert-danger fade in">
-                                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true"></button>
-                                            <i class="fa-lg fa fa-warning"></i> Please select an action
-                                        </div>
+										<c:if test="${not empty message}">
+											<div id="prefix_480614921548"
+												class="Metronic-alerts alert alert-success fade in">
+												<button type="button" class="close" data-dismiss="alert"
+													aria-hidden="true"></button>
+												<i class="fa-lg fa fa-check-circle"></i> ${message}
+											</div>
+										</c:if>
+										<a href="/vendor/manageproduct/add" class="btn yellow">
+                                                                        <i class="fa fa-tag"></i> Thêm sản phẩm
+                                                                    </a>
                                         <form action="/vendor/manageproduct/paginated" method="GET">
                                             <div class="row">
                                                 <div class="col-md-8 col-sm-12">

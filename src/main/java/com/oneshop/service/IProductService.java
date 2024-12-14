@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.oneshop.entity.Category;
 import com.oneshop.entity.Product;
@@ -58,4 +59,5 @@ public interface IProductService {
 	Page<Product> findByStatus(Boolean status, Pageable pageable);
 
 	void updateProduct(@Valid Product product);
+	String updateProductWithImages(Product product, MultipartFile mainImage, MultipartFile[] additionalImages, Integer productId);
 }

@@ -51,7 +51,8 @@ public class Product {
     @Transient
     private int quantity;
 
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
+    // Lưu ProductImage
+    @OneToMany(mappedBy = "product")
     @ToString.Exclude // Ngăn tham chiếu lặp trong Lombok
     private List<ProductImage> images;
 

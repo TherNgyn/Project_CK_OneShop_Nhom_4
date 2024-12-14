@@ -1,6 +1,8 @@
 package com.oneshop.entity;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
@@ -13,7 +15,8 @@ import lombok.NoArgsConstructor;
 @Data
 public class Inventory {
 
-    @Id
+	@Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;  // Thêm khóa chính cho class Inventory
 
     @ManyToOne  // Mối quan hệ Many-to-One với Product

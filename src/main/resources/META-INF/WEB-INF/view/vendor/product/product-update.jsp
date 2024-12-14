@@ -53,7 +53,7 @@
 										</div>
 										<div class="container mt-5">
 											<h3>Cập nhật sản phẩm</h3>
-											<form action="/vendor/manageproduct/update" method="post"
+											<form action="/vendor/manageproduct/updatesave/${product.id} " method="post"
 												enctype="multipart/form-data">
 												<table class="table table-bordered">
 													<tbody>

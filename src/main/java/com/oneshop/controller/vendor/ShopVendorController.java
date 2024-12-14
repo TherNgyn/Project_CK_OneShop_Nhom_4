@@ -42,19 +42,16 @@ public class ShopVendorController {
                            @RequestParam("storeImage") MultipartFile storeImage,
                            RedirectAttributes redirectAttributes) {
 
-        // Fetch the store
         Store store = storeService.getById(storeId);
         if (store == null) {
             redirectAttributes.addFlashAttribute("error", "Không tìm thấy thông tin cửa hàng.");
             return "redirect:/user/storedetail/" + storeId;
         }
 
-        // Update store details
         store.setName(storeName);
         store.setBio(storeDescription);
         store.setIsactive("active".equalsIgnoreCase(storeStatus));
 
-        // Handle image upload if a new image is provided
         if (storeImage != null && !storeImage.isEmpty()) {
             try {
                 String imageUrl = cloudinaryService.uploadFile(storeImage);
@@ -65,7 +62,6 @@ public class ShopVendorController {
             }
         }
 
-        // Save the store
         storeService.save(store);
         redirectAttributes.addFlashAttribute("message", "Cập nhật thông tin thành công!");
 

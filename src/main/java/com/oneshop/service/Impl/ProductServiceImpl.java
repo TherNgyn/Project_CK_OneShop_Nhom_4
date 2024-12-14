@@ -1,7 +1,12 @@
 package com.oneshop.service.Impl;
 
+import java.io.IOException;
+import java.sql.Date;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
@@ -9,22 +14,38 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.oneshop.repository.ProductImageRepository;
 import com.oneshop.repository.ProductRepository;
+import com.oneshop.entity.CartItem;
 import com.oneshop.entity.Category;
+import com.oneshop.entity.Inventory;
 import com.oneshop.entity.Order;
 import com.oneshop.entity.Product;
+import com.oneshop.entity.ProductImage;
 import com.oneshop.entity.ProductSpecification;
+import com.oneshop.entity.Review;
 import com.oneshop.entity.Store;
 import com.oneshop.service.IProductService;
 
 import jakarta.validation.Valid;
+import lombok.Data;
 
 @Service
 public class ProductServiceImpl implements IProductService {
 
 	@Autowired
 	ProductRepository productRepository;
+	
+	@Autowired
+	ProductImageRepository productImageRepository;
+	
+	@Autowired
+	InventoryService inventoryService;
+	
+	@Autowired
+	private CloudinaryService cloudinaryService;
 
 	@Override
 	public List<Product> findBynameContaining(String name) {
@@ -228,20 +249,85 @@ public class ProductServiceImpl implements IProductService {
 	public Page<Product> findByStatus(Boolean status, Pageable pageable) {
 		return productRepository.findByIsSelling(status, pageable);
 	}
+	@Override
+	public String updateProductWithImages(Product product, MultipartFile mainImage, MultipartFile[] additionalImages, Integer productId) {
+        try {
+            
+            Product existingProduct = productRepository.findById(productId).orElse(null);
+            if (existingProduct == null) {
+                return "Sản phẩm không tồn tại.";
+            }
+            
+            existingProduct.setName(product.getName());
+            existingProduct.setPrice(product.getPrice());
+            existingProduct.setDescription(product.getDescription());
+            existingProduct.setCategory(product.getCategory());
+            
+            ProductImage productImage = new ProductImage();
+            productImage.setProduct(existingProduct);
+            
+            if (mainImage != null && !mainImage.isEmpty()) {
+                String newImageUrl = null;
+                    // Check if the product already has a main image
+                    if (existingProduct.getMainImage() == null || existingProduct.getMainImage().getImageUrl() == null) {
+                        // If no main image exists, upload the new image as the main image
+                        newImageUrl = cloudinaryService.uploadFile(mainImage);  // Use uploadFile if it's a new image
+                    } else {
+                        // If a main image exists, update it using the current image URL
+                        newImageUrl = cloudinaryService.updateFile(mainImage, existingProduct.getMainImage().getImageUrl());
+                    }
+                    
+                    // Create or update the ProductImage                 
+                    productImage.setImageUrl(newImageUrl);
+                    productImage.setIsMain(true);
+            }
 
-	public void updateProduct(@Valid Product product) {
-        // Kiểm tra xem sản phẩm có tồn tại không trước khi cập nhật
-        Product existingProduct = productRepository.findById(product.getId())
-            .orElseThrow(() -> new RuntimeException("Không tìm thấy sản phẩm với ID: " + product.getId()));
+            // Handle additional images upload
+            if (additionalImages != null && additionalImages.length > 0) {
+                List<ProductImage> productImages = Arrays.stream(additionalImages)
+                    .map(file -> {
+                        try {
+                            String imageUrl = cloudinaryService.uploadFile(file);
+                           
+                            productImage.setProduct(existingProduct);
+                            productImage.setImageUrl(imageUrl);
+                            productImage.setIsMain(false);
+                            return productImage;
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                            return null;
+                        }
+                    })
+                    .filter(Objects::nonNull)
+                    .collect(Collectors.toList());
+                existingProduct.setImages(productImages);
+            }
+            
+            productImageRepository.save(productImage);
 
-        // Cập nhật các trường của sản phẩm
-        existingProduct.setName(product.getName());
-        existingProduct.setPrice(product.getPrice());
-        existingProduct.setDescription(product.getDescription());
-        existingProduct.setBrand(product.getBrand());
-        existingProduct.setCategory(product.getCategory());
-        existingProduct.setQuantity(product.getQuantity());
+            // Save the updated product
+            productRepository.save(existingProduct);
 
-        productRepository.save(existingProduct);
+            Inventory inventory = inventoryService.getQuantityByProductId(existingProduct.getId());
+            if (inventory == null) {
+                inventory = new Inventory();
+                inventory.setProduct(existingProduct);
+            }
+            inventory.setQuantity(product.getQuantity());
+            inventoryService.save(inventory);
+
+            return "Sản phẩm đã được cập nhật thành công.";
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            return "Lỗi khi tải lên hình ảnh.";
+        }
     }
+
+	@Override
+	public void updateProduct(@Valid Product product) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

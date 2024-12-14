@@ -18,4 +18,9 @@ public class InventoryService implements IInventoryService{
 	public Inventory getQuantityByProductId(Integer productId) {
 		return inventoryRepository.findByProductId(productId);
     }
+
+	@Override
+	public <S extends Inventory> S save(S entity) {
+		return inventoryRepository.save(entity);
+	}
 }
