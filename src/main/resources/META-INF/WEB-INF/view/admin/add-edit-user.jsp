@@ -10,7 +10,7 @@
 </head>
 <body>
     <div class="container mt-5">
-        <h1 class="text-center">Thêm/Sửa Người Dùng</h1>
+        <h1 class="text-center">THÊM SỬA NGƯỜI DÙNG</h1>
 
         <!-- Hiển thị thông báo lỗi nếu có -->
         <div class="alert alert-warning" role="alert" style="${error != null && error.trim().length() > 0 ? '' : 'display: none;'}">
