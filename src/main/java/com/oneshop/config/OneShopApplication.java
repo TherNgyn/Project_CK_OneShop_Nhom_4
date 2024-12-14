@@ -11,4 +11,3 @@ public class OneShopApplication {
         SpringApplication.run(OneShopApplication.class, args);
     }
 }
-

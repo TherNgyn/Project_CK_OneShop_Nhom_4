@@ -216,4 +216,9 @@ public class ProductServiceImpl implements IProductService {
         Specification<Product> spec = ProductSpecification.filterByCriteria(name, categoryNames, brand, minPrice, maxPrice);
         return productRepository.findAll(spec, pageable);
     }
+	
+	@Override
+	public List<Product> findTop4ByIsSelling(){
+		return productRepository.findTop4ByIsSellingTrueOrderByIdDesc();
+	}
 }
