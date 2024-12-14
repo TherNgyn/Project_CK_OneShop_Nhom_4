@@ -25,6 +25,7 @@ import com.oneshop.entity.OrderItem;
 import com.oneshop.entity.Store;
 import com.oneshop.entity.User;
 import com.oneshop.model.MonthlyRevenue;
+import com.oneshop.model.YearlyRevenue;
 import com.oneshop.repository.OrderItemRepository;
 import com.oneshop.repository.OrderRepository;
 import com.oneshop.service.IOrderService;
@@ -290,7 +291,7 @@ public class OrderServiceImpl implements IOrderService {
 
         // Process each order to accumulate revenue by month
         for (Order order : orders) {
-            if (order.getPrice() != null && order.getCreateat() != null) {
+            if (order.getPrice() != null && order.getCreateat() != null && order.getStatus().equals("Completed")) {
                 int month = order.getCreateat().getMonthValue(); // Get month from createat (1-12)
                 monthlySales[month - 1] += order.getPrice(); // Accumulate revenue for the month
             }
@@ -305,5 +306,38 @@ public class OrderServiceImpl implements IOrderService {
         return monthlyRevenues;
     }
     
+	@Override
+	public List<Integer> getDistinctYearsFromOrders() {
+        // Lấy các năm từ updateat và loại bỏ các giá trị trùng lặp
+        return orderRepository.findAll().stream()
+                .map(order -> order.getUpdateat().getYear())
+                .distinct()
+                .sorted((y1, y2) -> Integer.compare(y2, y1)) // Sắp xếp giảm dần
+                .collect(Collectors.toList());
+    }
+	
+	@Override
+	public List<YearlyRevenue> calculateYearlyRevenue() {
+	    List<Integer> years = getDistinctYearsFromOrders();
+
+	    List<YearlyRevenue> yearlyRevenues = new ArrayList<>();
+	    
+	    for (Integer year : years) {
+	        List<Order> orders = orderRepository.findOrdersByYear(year);
+
+	        double totalRevenue = 0;
+
+	        for (Order order : orders) {
+	            if (order.getPrice() != null && order.getCreateat() != null && order.getStatus().equals("Completed")) {
+	                totalRevenue += order.getPrice(); 
+	            }
+	        }
+
+	        yearlyRevenues.add(new YearlyRevenue(year, totalRevenue));
+	    }
+
+	    return yearlyRevenues;
+	}
+
 
 }
