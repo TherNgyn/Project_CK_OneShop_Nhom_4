@@ -34,4 +34,5 @@ public interface IReviewService {
     long countByProductId(Integer productId);
     Review findByUserAndProduct(User user, Product product);
 	void saveReview(Review review);
+	float calculateAverageRating(Integer id);
 }

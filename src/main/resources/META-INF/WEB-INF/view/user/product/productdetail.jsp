@@ -7,6 +7,23 @@
 <title>Trang chủ</title>
 </head>
 <body>
+	<section id="wsus__breadcrumb">
+		<div class="wsus_breadcrumb_overlay">
+			<div class="container">
+				<div class="row">
+					<div class="col-12">
+						<h4>products details</h4>
+						<ul>
+							<li><a href="/user/home">home</a></li>
+							<li><a href="/user/products">product</a></li>
+							<li><a href="/user/products/productdetail?id=${product.id}">product
+									details</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
 	<!-- Product Details Section Begin -->
 	<section class="product-details spad">
 		<div class="container">
@@ -38,11 +55,25 @@
 					<div class="product__details__text">
 						<h3>${product.name }</h3>
 						<div class="product__details__rating">
-							<i class="fa fa-star"></i> <i class="fa fa-star"></i> <i
-								class="fa fa-star"></i> <i class="fa fa-star"></i> <i
-								class="fa fa-star-half-o"></i> <span>(${product.rating}
-								lượt)</span>
+							<c:forEach var="i" begin="1" end="5">
+								<c:choose>
+									<c:when test="${i <= averageRating}">
+										<i class="fa fa-star"></i>
+										<!-- Sao đầy -->
+									</c:when>
+									<c:when test="${i - averageRating <= 0.5}">
+										<i class="fa fa-star-half-o"></i>
+										<!-- Sao nửa -->
+									</c:when>
+									<c:otherwise>
+										<i class="fa fa-star-o"></i>
+										<!-- Sao trống -->
+									</c:otherwise>
+								</c:choose>
+							</c:forEach>
+							<span>(${totalReviews} lượt)</span>
 						</div>
+
 						<div class="product__details__price">
 							<span class="current-price">${product.promotionalPrice}</span> <span
 								class="original-price">${product.price}</span>
@@ -63,7 +94,7 @@
 										onclick="incrementQuantity()">+</button>
 								</div>
 							</div>
-							<button type="submit" class="primary-btn">THÊM VÀO GIỎ</button>
+							<button type="submit" class="primary-btn">ADD TO CART</button>
 						</form>
 
 
@@ -228,33 +259,61 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-12">
-					<h2>Sản phẩm liên quan</h2>
 				</div>
 			</div>
 
-			<div class="row">
-				<c:forEach var="pro" items="${relatedProducts}">
-					<div class="col-lg-3 col-md-4 col-sm-6">
-						<div class="product__item">
-							<div class="product__item__pic"
-								style="background-image: url('${pro.imageUrls[0] != null ? pro.imageUrls[0] : "default-image.jpg"}');">
-								<ul class="product__item__pic__hover">
-									<li><a href="#"><i class="fa fa-heart"></i></a></li>
-									<li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
-								</ul>
+			<div class="container mt-5">
+				<h2 class="text-center mb-4">Sản phẩm liên quan</h2>
+				<div id="productCarousel" class="carousel slide"
+					data-bs-ride="carousel">
+					<!-- Carousel Inner -->
+					<div class="carousel-inner">
+						<c:forEach var="chunk" items="${relatedProducts}"
+							varStatus="status">
+							<div class="carousel-item ${status.first ? 'active' : ''}">
+								<div class="row">
+									<c:forEach var="pro" items="${relatedProducts}">
+										<div class="col-lg-3 col-md-4 col-sm-6">
+											<div class="product__item card">
+												<div class="product__item__pic card-img-top"
+													style="background-image: url('${pro.imageUrls[0] != null ? pro.imageUrls[0] : 'default-image.jpg'}');">
+													<ul class="product__item__pic__hover">
+														<li><a href="#"><i class="fa fa-heart"></i></a></li>
+														<li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
+													</ul>
+												</div>
+												<div class="product__item__text card-body">
+													<h6 class="card-title">
+														<a href="/user/product/productdetail?id=${pro.id}">${pro.name}</a>
+													</h6>
+													<h5 class="bold-text"
+														style="color: black; font-weight: bold; font-size: 20px;">
+														${pro.promotionalPrice}</h5>
+													<h5>
+														<s>${pro.price}</s>
+													</h5>
+												</div>
+											</div>
+										</div>
+									</c:forEach>
+
+								</div>
 							</div>
-							<div class="product__item__text">
-								<h6>
-									<a href="/user/products/productdetail?id=${pro.id}">${pro.name}</a>
-								</h6>
-								<h5 class="bold-text">${pro.promotionalPrice}₫</h5>
-								<h5>
-									<s>${pro.price}₫</s>
-								</h5>
-							</div>
-						</div>
+						</c:forEach>
 					</div>
-				</c:forEach>
+
+					<!-- Controls -->
+					<button class="carousel-control-prev" type="button"
+						data-bs-target="#productCarousel" data-bs-slide="prev">
+						<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+						<span class="visually-hidden">Previous</span>
+					</button>
+					<button class="carousel-control-next" type="button"
+						data-bs-target="#productCarousel" data-bs-slide="next">
+						<span class="carousel-control-next-icon" aria-hidden="true"></span>
+						<span class="visually-hidden">Next</span>
+					</button>
+				</div>
 			</div>
 
 			<!-- Phân trang -->
@@ -262,42 +321,6 @@
 				<div class="col-lg-12">
 					<nav aria-label="Page navigation">
 						<ul class="pagination">
-							<!-- Previous Button -->
-							<c:choose>
-								<c:when test="${currentPage == 1}">
-									<li class="page-item disabled"><a class="page-link">Previous</a></li>
-								</c:when>
-								<c:otherwise>
-									<li class="page-item"><a class="page-link"
-										href="javascript:void(0);"
-										onclick="loadRelatedProducts(${product.id}, ${currentPage - 1}, ${pageSize});">Previous</a>
-									</li>
-								</c:otherwise>
-							</c:choose>
-
-							<!-- Page Numbers -->
-							<c:forEach var="pageNumber" items="${pageNumbers}">
-								<li
-									class="page-item ${pageNumber == currentPage ? 'active' : ''}">
-									<a class="page-link" href="javascript:void(0);"
-									onclick="loadRelatedProducts(${product.id}, ${pageNumber}, ${pageSize});">
-										${pageNumber} </a>
-								</li>
-							</c:forEach>
-
-							<!-- Next Button -->
-							<c:choose>
-								<c:when
-									test="${currentPage == pageNumbers[pageNumbers.size() - 1]}">
-									<li class="page-item disabled"><a class="page-link">Next</a></li>
-								</c:when>
-								<c:otherwise>
-									<li class="page-item"><a class="page-link"
-										href="javascript:void(0);"
-										onclick="loadRelatedProducts(${product.id}, ${currentPage + 1}, ${pageSize});">Next</a>
-									</li>
-								</c:otherwise>
-							</c:choose>
 						</ul>
 					</nav>
 				</div>
@@ -305,7 +328,7 @@
 		</div>
 	</section>
 
-<script>
+	<script>
 function loadRelatedProducts(productId, page, size) {
     const url = `/user/product/productdetail?id=${productId}&page=${page}&size=${size}`;
     fetch(url, { method: 'GET' })

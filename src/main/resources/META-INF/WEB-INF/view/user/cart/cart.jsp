@@ -8,13 +8,6 @@
 <head>
 <meta charset="UTF-8">
 <title>Giỏ hàng</title>
-<!-- Bootstrap CSS -->
-<link
-	href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
-	rel="stylesheet">
-<!-- Font Awesome -->
-<link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 <!-- Custom CSS -->
 <style>
 .breadcrumb-section {
@@ -86,16 +79,15 @@
 </head>
 <body>
 	<!-- Breadcrumb Section Begin -->
-	<section class="breadcrumb-section set-bg"
-		data-setbg="img/breadcrumb.jpg">
-		<div class="container">
-			<div class="row">
-				<div class="col-lg-12 text-center">
-					<div class="breadcrumb__text">
-						<div class="breadcrumb__option">
-							<a href="<c:url value='/user/home'/>">Trang chủ</a> <span>Giỏ
-								hàng</span>
-						</div>
+	<section id="wsus__breadcrumb">
+		<div class="wsus_breadcrumb_overlay">
+			<div class="container">
+				<div class="row">
+					<div class="col-12">
+						<ul>
+							<li><a href="user/home">Home</a></li>
+							<li><a href="user/cart">Cart</a></li>
+						</ul>
 					</div>
 				</div>
 			</div>
@@ -129,12 +121,10 @@
 										<tr id="row-${item.id}">
 											<td><input type="checkbox" class="store-${entry.key.id}"
 												onclick="updateTotal()"></td>
-											<td class="shoping__cart__item"><img
-												src="${item.product.imageUrls[0]}"
-												alt="${item.product.name}">
+											<td class="shoping__cart__item"><img src="${item.product.imageUrls[0]}" alt="${item.product.name}" style="width: 100px; height: auto;">
 												<h5 data-product-id="${item.product.id}">${item.product.name}</h5></td>
 											<td class="shoping__cart__price"><fmt:formatNumber
-													value="${item.product.price}" type="currency"
+													value="${item.product.promotionalPrice}" type="currency"
 													currencySymbol="₫" /></td>
 											<td class="shoping__cart__quantity">
 												<div class="quantity">
@@ -380,5 +370,6 @@
 		src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
 	<script
 		src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+		
 </body>
 </html>
