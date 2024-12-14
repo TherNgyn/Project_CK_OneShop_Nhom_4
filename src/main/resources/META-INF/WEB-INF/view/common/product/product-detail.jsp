@@ -113,20 +113,20 @@
 					<div class="row align-items-center">
 						<!-- Logo và tên shop -->
 						<div class="col-lg-2 col-md-3 col-sm-4 text-center">
-							<img src="${store.avatar}" alt="Shop Logo" class="shop-logo">
+							<img src="${product.store.avatar}" alt="Shop Logo" class="shop-logo">
 						</div>
 						<div class="col-lg-10 col-md-9 col-sm-8">
 							<!-- Thông tin shop -->
 							<div class="shop-details">
-								<h4>${store.name}</h4>
+								<h4>${product.store.name}</h4>
 								<div>
-									<a href="/store/${store.id}" class="btn btn-danger">Xem
-										Shop</a>
+									<a href="/user/chat/${product.store.id}" class="btn btn-danger">Chat
+										Ngay</a> <a href="/user/storedetail/${product.store.id}"
+										class="btn btn-outline-secondary">Xem Shop</a>
 								</div>
 							</div>
 						</div>
 					</div>
-
 					<div class="row shop-stats">
 						<!-- Đánh Giá -->
 						<div class="col-lg-3 col-md-4 col-sm-6">

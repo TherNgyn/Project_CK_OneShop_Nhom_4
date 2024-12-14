@@ -18,6 +18,8 @@ import com.oneshop.entity.ProductSpecification;
 import com.oneshop.entity.Store;
 import com.oneshop.service.IProductService;
 
+import jakarta.validation.Valid;
+
 @Service
 public class ProductServiceImpl implements IProductService {
 
@@ -221,4 +223,25 @@ public class ProductServiceImpl implements IProductService {
 	public List<Product> findTop4ByIsSelling(){
 		return productRepository.findTop4ByIsSellingTrueOrderByIdDesc();
 	}
+
+	@Override
+	public Page<Product> findByStatus(Boolean status, Pageable pageable) {
+		return productRepository.findByIsSelling(status, pageable);
+	}
+
+	public void updateProduct(@Valid Product product) {
+        // Kiểm tra xem sản phẩm có tồn tại không trước khi cập nhật
+        Product existingProduct = productRepository.findById(product.getId())
+            .orElseThrow(() -> new RuntimeException("Không tìm thấy sản phẩm với ID: " + product.getId()));
+
+        // Cập nhật các trường của sản phẩm
+        existingProduct.setName(product.getName());
+        existingProduct.setPrice(product.getPrice());
+        existingProduct.setDescription(product.getDescription());
+        existingProduct.setBrand(product.getBrand());
+        existingProduct.setCategory(product.getCategory());
+        existingProduct.setQuantity(product.getQuantity());
+
+        productRepository.save(existingProduct);
+    }
 }

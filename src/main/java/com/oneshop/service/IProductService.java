@@ -11,6 +11,8 @@ import com.oneshop.entity.Category;
 import com.oneshop.entity.Product;
 import com.oneshop.entity.Store;
 
+import jakarta.validation.Valid;
+
 
 public interface IProductService {
 	void deleteAll();
@@ -53,4 +55,7 @@ public interface IProductService {
 	// Lọc sản phẩm
 	Page<Product> findByCriteria(String name, List<String> categoryName, List<String> brand, Double maxPrice, Double minPrice, Pageable page);
 	List<Product> findTop4ByIsSelling();
+	Page<Product> findByStatus(Boolean status, Pageable pageable);
+
+	void updateProduct(@Valid Product product);
 }
