@@ -102,7 +102,7 @@
 						</c:forEach>
 					</div>
 
-					<!-- Nút xử lý theo trạng thái -->
+					<!-- Nút xử lý theo trạng thái hủy-->
 					<div class="order-actions">
 						<c:choose>
 							<c:when test="${order.status == 'Completed' && !order.reviewed}">
@@ -116,8 +116,6 @@
 							</c:when>
 						</c:choose>
 					</div>
-
-
 					<script>
 document.addEventListener('DOMContentLoaded', () => {
     // Xử lý nút "Đánh giá đơn hàng"
@@ -167,6 +165,45 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 });
+</script>
+<!-- Nút Hủy đơn hàng -->
+<c:choose>
+    <c:when test="${order.status == 'Processing_1' || order.status == 'Processing_2'}">
+        <button class="btn btn-danger btn-cancel" data-order-id="${order.id}">Hủy đơn hàng</button>
+    </c:when>
+    <c:otherwise>
+        <p class="text-muted">Đơn hàng không thể hủy</p>
+    </c:otherwise>
+</c:choose>
+
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$(document).ready(function () {
+    // Đảm bảo sự kiện không bị gắn lặp lại
+    $(document).off('click', '.btn-cancel').on('click', '.btn-cancel', function () {
+        const orderId = $(this).data('order-id'); // Lấy ID đơn hàng từ thuộc tính data-order-id
+        if (confirm("Bạn có chắc chắn muốn hủy đơn hàng này?")) {
+            // Gửi yêu cầu hủy đơn hàng qua AJAX
+            $.ajax({
+                url: '/user/delivery/cancel',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({ orderId: orderId }),
+                success: function (response) {
+                    alert("Đơn hàng đã được hủy thành công!");
+                    $(`button[data-order-id="${orderId}"]`).replaceWith('<p class="text-muted">Đơn hàng đã bị hủy</p>');
+                },
+                error: function (xhr) {
+                    console.error("Lỗi khi hủy đơn hàng:", xhr.responseText);
+                    alert("Đã xảy ra lỗi: " + (xhr.responseText || 'Không có thông tin chi tiết.'));
+                }
+            });
+        }
+    });
+});
+
 </script>
 
 

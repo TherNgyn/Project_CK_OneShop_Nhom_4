@@ -2004,7 +2004,8 @@ MONTHLY TOP PRODUCT START
 }
 
 .wsus__monthly_top_banner_img img {
-  height: 100%;
+  width: 100%;
+  height: auto;
   object-fit: cover;
 }
 
@@ -2062,11 +2063,12 @@ MONTHLY TOP PRODUCT START
 
 .grid .wsus__hot_deals__single_img {
   width: 35%;
-  height: 100%;
+  height: auto;
 }
 
 .grid .wsus__hot_deals__single_img img {
-  height: 100%;
+  width: 100%;
+  height: auto;
   object-fit: cover;
 }
 
@@ -2105,6 +2107,13 @@ MONTHLY TOP PRODUCT START
 #wsus__hot_deals .nxt_arr:hover,
 #wsus__hot_deals .prv_arr:hover {
   background: #045c9f;
+}
+.grid .col-lg-3 {
+    display: none; /* Ẩn sản phẩm mặc định */
+}
+
+.grid .col-lg-3.active {
+    display: block; /* Hiển thị sản phẩm khi thuộc danh mục được chọn */
 }
 
 /*======================

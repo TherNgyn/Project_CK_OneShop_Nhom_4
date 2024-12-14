@@ -12,4 +12,5 @@ public interface IBlogService {
 	List<Blog> getAllBlogs();
 	Blog getBlogById(Integer id);
 	Page<Blog> getBlogsPaginated(Pageable pageable);
+	List<Blog> getTop4LatestBlogs();
 }

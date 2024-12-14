@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
@@ -91,8 +92,8 @@ public class ProductServiceImpl implements IProductService {
 	}
 
 	@Override
-	public List<Product> findTop8ByOrderBySoldDesc() {
-		return productRepository.findTop8ByOrderBySoldDesc();
+	public List<Product> findTop4ByOrderBySoldDesc() {
+		return productRepository.findTop4ByOrderBySoldDesc();
 	}
 
 	@Override
@@ -224,5 +225,24 @@ public class ProductServiceImpl implements IProductService {
 	@Override
     public Page<Product> findByBrand(String brand, Pageable pageable) {
         return productRepository.findByBrand(brand, pageable);
+    }
+
+	@Override
+	public List<Product> findTop8ByOrderBySoldDesc() {
+		// TODO Auto-generated method stub
+		return productRepository.findTop8ByOrderByIdDesc();
+	}
+
+	@Override
+	public List<Product> findTop4ByOrderByIdDesc() {
+		// TODO Auto-generated method stub
+		return productRepository.findTop4ByOrderBySoldDesc();
+	}
+	public List<Product> findTopProductsByCategory(Integer categoryId) {
+	    return productRepository.findTopProductsByCategoryId(categoryId, PageRequest.of(0, 6)); // Lấy 6 sản phẩm đầu
+	}
+	@Override
+	public List<Product> getTopRatedProducts() {
+        return productRepository.findTopRatedProducts().subList(0, 3); // Lấy top 3
     }
 }

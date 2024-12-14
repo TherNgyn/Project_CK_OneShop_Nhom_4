@@ -3,10 +3,12 @@ package com.oneshop.repository;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.oneshop.entity.Category;
@@ -16,7 +18,7 @@ import com.oneshop.entity.Store;
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Integer>, JpaSpecificationExecutor<Product> {
 	List<Product> findBynameContaining(String name);
-	List<Product> findTop8ByOrderBySoldDesc();
+	List<Product> findTop4ByOrderBySoldDesc();
 	List<Product> findTop8ByOrderByIdDesc();
 	List<Product> findTop8ByOrderByRatingDesc();
 	List<Product> findProductByStore(Store store);
@@ -42,4 +44,13 @@ public interface ProductRepository extends JpaRepository<Product, Integer>, JpaS
 	 @Query("SELECT DISTINCT p.brand FROM Product p WHERE p.brand IS NOT NULL")
 	    List<String> findDistinctBrands();
 	Page<Product> findByBrand(String brand, Pageable pageable);
+	List<Product> findTopProductsByCategoryId(Integer categoryId, PageRequest of);
+	@Query("SELECT p FROM Product p WHERE p.category.id = :categoryId ORDER BY p.rating DESC")
+	List<Product> findTopProductsByCategoryId(@Param("categoryId") Integer categoryId, Pageable pageable);
+	@Query("SELECT p FROM Product p " +
+		       "JOIN p.reviews r " +
+		       "GROUP BY p " +
+		       "ORDER BY AVG(r.rating) DESC")
+		List<Product> findTopRatedProducts();
+
 }

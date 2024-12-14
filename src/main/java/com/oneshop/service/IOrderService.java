@@ -82,4 +82,5 @@ public interface IOrderService {
   
 	void update(Order order);
 
+	Order savestatuscancel(Order order);
 }

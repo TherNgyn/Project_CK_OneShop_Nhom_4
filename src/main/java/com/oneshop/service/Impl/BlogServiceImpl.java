@@ -31,7 +31,10 @@ public class BlogServiceImpl implements IBlogService {
     public Page<Blog> getBlogsPaginated(Pageable pageable) {
         return blogRepository.findAll(pageable);
     }
-
+    @Override
+    public List<Blog> getTop4LatestBlogs() {
+        return blogRepository.findTop4ByOrderByCreatedAtDesc();
+    }
 
 }
 

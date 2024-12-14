@@ -28,6 +28,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.cloudinary.Cloudinary;
 import com.oneshop.config.CloudinaryService;
+import com.oneshop.entity.Blog;
 import com.oneshop.entity.Cart;
 import com.oneshop.entity.CartItem;
 import com.oneshop.entity.Category;
@@ -36,6 +37,7 @@ import com.oneshop.entity.Product;
 import com.oneshop.entity.User;
 import com.oneshop.model.ProductModel;
 import com.oneshop.model.UserModel;
+import com.oneshop.service.IBlogService;
 import com.oneshop.service.ICartItemService;
 import com.oneshop.service.ICartService;
 import com.oneshop.service.ICategoryService;
@@ -67,6 +69,8 @@ public class HomeUserController {
 	@Autowired
 	ICategoryService categoryService;
 	@Autowired
+	IBlogService blogService;
+	@Autowired
 	private CloudinaryService cloudinaryService;
 	@PostMapping("/upload-avatar")
 	public ResponseEntity<String> uploadAvatar(@RequestParam("file") MultipartFile file) {
@@ -79,21 +83,27 @@ public class HomeUserController {
 	}
 	@GetMapping("home")
 	public String home(ModelMap model, HttpServletRequest request) {
-		
-		model.addAttribute("user", getSessionUser(request));
-		List<Product> listNew = productService.findTop8ByOrderByIdDesc();
-		model.addAttribute("products", listNew);
-		
-		List<Product> listRate = productService.findTop8ByOrderByRatingDesc();
-		model.addAttribute("productr", listRate);
-		
-		List<Product> listAll = productService.findAll();
-		model.addAttribute("productAll", listAll);
-		
-		List<Category> listCate = categoryService.findAll();
-		model.addAttribute("listcate", listCate);
-		
-		return "user/home";
+	    model.addAttribute("user", getSessionUser(request));
+	    List<Product> listNew = productService.findTop4ByOrderByIdDesc();
+	    model.addAttribute("products", listNew);
+	    List<Category> categories = categoryService.findAll();
+	    categories.forEach(category -> {
+	        List<Product> topProducts = productService.findTopProductsByCategory(category.getId());
+	        category.setTopProducts(topProducts);
+	    });
+	    model.addAttribute("categories", categories);
+	    List<Product> listRate = productService.findTop8ByOrderByRatingDesc();
+	    model.addAttribute("productr", listRate);
+	    List<Product> listAll = productService.findAll();
+	    model.addAttribute("productAll", listAll);
+	    List<Category> listCate = categoryService.findAll();
+	    model.addAttribute("listcate", listCate);
+	    List<Product> topRatedProducts = productService.getTopRatedProducts();
+	    model.addAttribute("topRatedProducts", topRatedProducts);
+	    List<Blog> latestBlogs = blogService.getTop4LatestBlogs();
+	    model.addAttribute("latestBlogs", latestBlogs);
+
+	    return "user/home";
 	}
 
 	public User getSessionUser(HttpServletRequest request) {

@@ -40,6 +40,7 @@
     <link rel="stylesheet" href="${URL}template/css/responsive.css">
 	<%-- <link rel="stylesheet" href="${URL}template/css/rtl.css">  --%>
 	<%--Home --%>
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
 	
 </head>
 <!-- Head END -->

@@ -2,6 +2,7 @@ package com.oneshop.controller.user;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -131,9 +133,32 @@ public class DeliveryUserController {
 
         model.addAttribute("orders", orders);
         model.addAttribute("store", store);
-        model.addAttribute("search", search); // Truyền từ khóa tìm kiếm lại cho giao diện
+        model.addAttribute("search", search); 
         return "/user/delivery/order_manager";
     }
+    @PostMapping("/cancel")
+    public ResponseEntity<String> cancelOrder(@RequestBody Map<String, Integer> requestBody) {
+        Integer orderId = requestBody.get("orderId");
+        if (orderId == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Order ID is required.");
+        }
+
+        Optional<Order> orderOpt = orderService.findById(orderId);
+        if (orderOpt.isPresent()) {
+            Order order = orderOpt.get();
+            if ("Processing_1".equals(order.getStatus()) || "Processing_2".equals(order.getStatus())) {
+                order.setStatus("Cancelled");
+                orderService.save(order);
+                return ResponseEntity.ok("Order cancelled successfully");
+            } else {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                        .body("Cannot cancel order with status: " + order.getStatus());
+            }
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Order not found.");
+    }
+
+
     
     @GetMapping("/search")
     public String searchOrders(
