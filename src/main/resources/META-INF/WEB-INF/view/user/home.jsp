@@ -224,15 +224,14 @@
 	<section id="wsus__flash_sell" class="wsus__flash_sell_2">
 		<div class=" container">
 			<div class="row">
-				<div class="col-xl-12">
+				<div class="col-xl-12"><!-- 
 					<div class="offer_time"
 						style="background: url(https://haycafe.vn/wp-content/uploads/2022/03/background-banner-de-thuong.jpg)">
 						<div class="wsus__flash_coundown">
 							<span class="end_text"></span>
 							<div class="simply-countdown simply-countdown-one"></div>
-							<i class="fas fa-caret-right"></i>
 						</div>
-					</div>
+					</div> -->
 				</div>
 			</div>
 			<div class="row flash_sell_slider">
@@ -391,7 +390,7 @@
 			<div class="row">
 				<div class="col-xl-12">
 					<div class="wsus__section_header for_md">
-						<h3>Top Categories Of The Month</h3>
+						<h3>Top Categories</h3>
 						<div class="monthly_top_filter">
 							<button class=" active" data-filter="*">music</button>
 							<button data-filter=".cloth">clothing</button>
@@ -529,128 +528,6 @@
 								</div>
 							</a>
 						</div>
-						<div class="col-xl-2 col-6 col-sm-6 col-md-4 col-lg-3  elec spk">
-							<a class="wsus__hot_deals__single" href="#">
-								<div class="wsus__hot_deals__single_img">
-									<img src="template/images/pro2.jpg" alt="bag"
-										class="img-fluid w-100">
-								</div>
-								<div class="wsus__hot_deals__single_text">
-									<h5>men's shoes</h5>
-									<p class="wsus__rating">
-										<i class="fas fa-star"></i> <i class="fas fa-star"></i> <i
-											class="fas fa-star"></i> <i class="fas fa-star"></i> <i
-											class="fas fa-star-half-alt"></i>
-									</p>
-									<p class="wsus__tk">
-										$120.20
-										<del>130.00</del>
-									</p>
-								</div>
-							</a>
-						</div>
-						<div
-							class="col-xl-2 col-6 col-sm-6 col-md-4 col-lg-3  cloth cam wat">
-							<a class="wsus__hot_deals__single" href="#">
-								<div class="wsus__hot_deals__single_img">
-									<img src="template/images/pro10.jpg" alt="bag"
-										class="img-fluid w-100">
-								</div>
-								<div class="wsus__hot_deals__single_text">
-									<h5>MSI gaming chair</h5>
-									<p class="wsus__rating">
-										<i class="fas fa-star"></i> <i class="fas fa-star"></i> <i
-											class="fas fa-star"></i> <i class="fas fa-star"></i> <i
-											class="fas fa-star-half-alt"></i>
-									</p>
-									<p class="wsus__tk">
-										$120.20
-										<del>130.00</del>
-									</p>
-								</div>
-							</a>
-						</div>
-						<div
-							class="col-xl-2 col-6 col-sm-6 col-md-4 col-lg-3  elec cam wat">
-							<a class="wsus__hot_deals__single" href="#">
-								<div class="wsus__hot_deals__single_img">
-									<img src="template/images/pro8_8.jpg" alt="bag"
-										class="img-fluid w-100">
-								</div>
-								<div class="wsus__hot_deals__single_text">
-									<h5>wemen's one pcs</h5>
-									<p class="wsus__rating">
-										<i class="fas fa-star"></i> <i class="fas fa-star"></i> <i
-											class="fas fa-star"></i> <i class="fas fa-star"></i> <i
-											class="fas fa-star-half-alt"></i>
-									</p>
-									<p class="wsus__tk">
-										$120.20
-										<del>130.00</del>
-									</p>
-								</div>
-							</a>
-						</div>
-						<div class="col-xl-2 col-6 col-sm-6 col-md-4 col-lg-3  cloth spk">
-							<a class="wsus__hot_deals__single" href="#">
-								<div class="wsus__hot_deals__single_img">
-									<img src="template/images/pro4_4.jpg" alt="bag"
-										class="img-fluid w-100">
-								</div>
-								<div class="wsus__hot_deals__single_text">
-									<h5>men's casual watch</h5>
-									<p class="wsus__rating">
-										<i class="fas fa-star"></i> <i class="fas fa-star"></i> <i
-											class="fas fa-star"></i> <i class="fas fa-star"></i> <i
-											class="fas fa-star-half-alt"></i>
-									</p>
-									<p class="wsus__tk">
-										$120.20
-										<del>130.00</del>
-									</p>
-								</div>
-							</a>
-						</div>
-						<div class="col-xl-2 col-6 col-sm-6 col-md-4 col-lg-3  elec wat">
-							<a class="wsus__hot_deals__single" href="#">
-								<div class="wsus__hot_deals__single_img">
-									<img src="template/images/pro9.jpg" alt="bag"
-										class="img-fluid w-100">
-								</div>
-								<div class="wsus__hot_deals__single_text">
-									<h5>men's sholder bag</h5>
-									<p class="wsus__rating">
-										<i class="fas fa-star"></i> <i class="fas fa-star"></i> <i
-											class="fas fa-star"></i> <i class="fas fa-star"></i> <i
-											class="fas fa-star-half-alt"></i>
-									</p>
-									<p class="wsus__tk">
-										$120.20
-										<del>130.00</del>
-									</p>
-								</div>
-							</a>
-						</div>
-						<div class="col-xl-2 col-6 col-sm-6 col-md-4 col-lg-3  cloth spk">
-							<a class="wsus__hot_deals__single" href="#">
-								<div class="wsus__hot_deals__single_img">
-									<img src="template/images/pro9_9.jpg" alt="bag"
-										class="img-fluid w-100">
-								</div>
-								<div class="wsus__hot_deals__single_text">
-									<h5>men's sholder bag</h5>
-									<p class="wsus__rating">
-										<i class="fas fa-star"></i> <i class="fas fa-star"></i> <i
-											class="fas fa-star"></i> <i class="fas fa-star"></i> <i
-											class="fas fa-star-half-alt"></i>
-									</p>
-									<p class="wsus__tk">
-										$120.20
-										<del>130.00</del>
-									</p>
-								</div>
-							</a>
-						</div>
 					</div>
 				</div>
 			</div>
@@ -730,33 +607,33 @@
 	</section>
 
 	<script>
-    $(document).ready(function () {
-        $('.brand_slider').slick({
-            slidesToShow: 5,
-            slidesToScroll: 1,
-            autoplay: true,
-            autoplaySpeed: 2000,
-            arrows: true,
-            prevArrow: '<div class="prv_arr"><i class="fas fa-chevron-left"></i></div>',
-            nextArrow: '<div class="nxt_arr"><i class="fas fa-chevron-right"></i></div>',
-            responsive: [
-                {
-                    breakpoint: 768,
-                    settings: {
-                        slidesToShow: 3,
-                    }
-                },
-                {
-                    breakpoint: 480,
-                    settings: {
-                        slidesToShow: 2,
-                    }
-                }
-            ]
-        });
-    });
-
-    </script>
+		$(document)
+				.ready(
+						function() {
+							$('.brand_slider')
+									.slick(
+											{
+												slidesToShow : 5,
+												slidesToScroll : 1,
+												autoplay : true,
+												autoplaySpeed : 2000,
+												arrows : true,
+												prevArrow : '<div class="prv_arr"><i class="fas fa-chevron-left"></i></div>',
+												nextArrow : '<div class="nxt_arr"><i class="fas fa-chevron-right"></i></div>',
+												responsive : [ {
+													breakpoint : 768,
+													settings : {
+														slidesToShow : 3,
+													}
+												}, {
+													breakpoint : 480,
+													settings : {
+														slidesToShow : 2,
+													}
+												} ]
+											});
+						});
+	</script>
 	<!--============================
         BRAND SLIDER END
     ==============================-->
@@ -771,8 +648,9 @@
 				<div class="col-xl-6 col-lg-6">
 					<div class="wsus__single_banner_content">
 						<div class="wsus__single_banner_img">
-							<img src="https://res.cloudinary.com/dl0bk0sgl/image/upload/v1734151451/z6129009465372_8d89fb304a13850c7e0adefe5d616fd5_grqym8.jpg" alt="banner"
-								class="img-fluid w-100">
+							<img
+								src="https://res.cloudinary.com/dl0bk0sgl/image/upload/v1734151451/z6129009465372_8d89fb304a13850c7e0adefe5d616fd5_grqym8.jpg"
+								alt="banner" class="img-fluid w-100">
 						</div>
 						<div class="wsus__single_banner_text">
 							<h6>
@@ -786,8 +664,9 @@
 				<div class="col-xl-6 col-lg-6">
 					<div class="wsus__single_banner_content single_banner_2">
 						<div class="wsus__single_banner_img">
-							<img src="https://res.cloudinary.com/dl0bk0sgl/image/upload/v1734147785/z6128873503763_d69634535847a555e5fe4fe3168924fa_narf5i.jpg" alt="banner"
-								class="img-fluid w-100">
+							<img
+								src="https://res.cloudinary.com/dl0bk0sgl/image/upload/v1734147785/z6128873503763_d69634535847a555e5fe4fe3168924fa_narf5i.jpg"
+								alt="banner" class="img-fluid w-100">
 						</div>
 						<div class="wsus__single_banner_text">
 							<h6>New Collection</h6>
@@ -1159,8 +1038,9 @@
 						<div class="col-xl-6 col-lg-6">
 							<div class="wsus__single_banner_content banner_1">
 								<div class="wsus__single_banner_img">
-									<img src="https://res.cloudinary.com/dl0bk0sgl/image/upload/v1734147785/z6128873532662_64f5166450d9f483bac1c8a22df682b9_x2iwyy.jpg" alt="banner"
-										class="img-fluid w-100">
+									<img
+										src="https://res.cloudinary.com/dl0bk0sgl/image/upload/v1734147785/z6128873532662_64f5166450d9f483bac1c8a22df682b9_x2iwyy.jpg"
+										alt="banner" class="img-fluid w-100">
 								</div>
 								<div class="wsus__single_banner_text">
 									<h6>
@@ -1176,17 +1056,19 @@
 								<div class="col-12">
 									<div class="wsus__single_banner_content single_banner_2">
 										<div class="wsus__single_banner_img">
-											<img src="https://res.cloudinary.com/dl0bk0sgl/image/upload/v1734147785/z6128873532659_aa766d2a7768e5ba20ed3c0960fb1d98_jawzb7.jpg" alt="banner"
-												class="img-fluid w-100">
+											<img
+												src="https://res.cloudinary.com/dl0bk0sgl/image/upload/v1734147785/z6128873532659_aa766d2a7768e5ba20ed3c0960fb1d98_jawzb7.jpg"
+												alt="banner" class="img-fluid w-100">
 										</div>
-										
+
 									</div>
 								</div>
 								<div class="col-12 mt-lg-4">
 									<div class="wsus__single_banner_content">
 										<div class="wsus__single_banner_img">
-											<img src="https://res.cloudinary.com/dl0bk0sgl/image/upload/v1734147785/z6128873532660_e610fa3673d99762584f509a4a9d06c8_r4gxzq.jpg" alt="banner"
-												class="img-fluid w-100">
+											<img
+												src="https://res.cloudinary.com/dl0bk0sgl/image/upload/v1734147785/z6128873532660_e610fa3673d99762584f509a4a9d06c8_r4gxzq.jpg"
+												alt="banner" class="img-fluid w-100">
 										</div>
 									</div>
 								</div>
@@ -1196,427 +1078,149 @@
 				</div>
 			</section>
 
-			<div class="wsus__hot_small_item wsus__hot_small_item_2">
-				<div class="row">
-					<div class="col-xl-2 col-6 col-sm-6 col-md-4 col-lg-3">
-						<a class="wsus__hot_deals__single" href="#">
-							<div class="wsus__hot_deals__single_img">
-								<img src="template/images/pro4_4.jpg" alt="bag"
-									class="img-fluid w-100">
-							</div>
-							<div class="wsus__hot_deals__single_text">
-								<h5>men's casual watch</h5>
-								<p class="wsus__rating">
-									<i class="fas fa-star"></i> <i class="fas fa-star"></i> <i
-										class="fas fa-star"></i> <i class="fas fa-star"></i> <i
-										class="fas fa-star-half-alt"></i>
-								</p>
-								<p class="wsus__tk">
-									$120.20
-									<del>130.00</del>
-								</p>
-							</div>
-						</a>
-					</div>
-					<div class="col-xl-2 col-6 col-sm-6 col-md-4 col-lg-3">
-						<a class="wsus__hot_deals__single" href="#">
-							<div class="wsus__hot_deals__single_img">
-								<img src="template/images/pro9.jpg" alt="bag"
-									class="img-fluid w-100">
-							</div>
-							<div class="wsus__hot_deals__single_text">
-								<h5>men's sholder bag</h5>
-								<p class="wsus__rating">
-									<i class="fas fa-star"></i> <i class="fas fa-star"></i> <i
-										class="fas fa-star"></i> <i class="fas fa-star"></i> <i
-										class="fas fa-star-half-alt"></i>
-								</p>
-								<p class="wsus__tk">
-									$120.20
-									<del>130.00</del>
-								</p>
-							</div>
-						</a>
-					</div>
-					<div class="col-xl-2 col-6 col-sm-6 col-md-4 col-lg-3">
-						<a class="wsus__hot_deals__single" href="#">
-							<div class="wsus__hot_deals__single_img">
-								<img src="template/images/pro9_9.jpg" alt="bag"
-									class="img-fluid w-100">
-							</div>
-							<div class="wsus__hot_deals__single_text">
-								<h5>men's sholder bag</h5>
-								<p class="wsus__rating">
-									<i class="fas fa-star"></i> <i class="fas fa-star"></i> <i
-										class="fas fa-star"></i> <i class="fas fa-star"></i> <i
-										class="fas fa-star-half-alt"></i>
-								</p>
-								<p class="wsus__tk">
-									$120.20
-									<del>130.00</del>
-								</p>
-							</div>
-						</a>
-					</div>
-					<div class="col-xl-2 col-6 col-sm-6 col-md-4 col-lg-3">
-						<a class="wsus__hot_deals__single" href="#">
-							<div class="wsus__hot_deals__single_img">
-								<img src="template/images/pro10.jpg" alt="bag"
-									class="img-fluid w-100">
-							</div>
-							<div class="wsus__hot_deals__single_text">
-								<h5>MSI gaming chair</h5>
-								<p class="wsus__rating">
-									<i class="fas fa-star"></i> <i class="fas fa-star"></i> <i
-										class="fas fa-star"></i> <i class="fas fa-star"></i> <i
-										class="fas fa-star-half-alt"></i>
-								</p>
-								<p class="wsus__tk">
-									$120.20
-									<del>130.00</del>
-								</p>
-							</div>
-						</a>
-					</div>
-					<div class="col-xl-2 col-6 col-sm-6 col-md-4 col-lg-3">
-						<a class="wsus__hot_deals__single" href="#">
-							<div class="wsus__hot_deals__single_img">
-								<img src="template/images/pro2.jpg" alt="bag"
-									class="img-fluid w-100">
-							</div>
-							<div class="wsus__hot_deals__single_text">
-								<h5>men's shoes</h5>
-								<p class="wsus__rating">
-									<i class="fas fa-star"></i> <i class="fas fa-star"></i> <i
-										class="fas fa-star"></i> <i class="fas fa-star"></i> <i
-										class="fas fa-star-half-alt"></i>
-								</p>
-								<p class="wsus__tk">
-									$120.20
-									<del>130.00</del>
-								</p>
-							</div>
-						</a>
-					</div>
-					<div class="col-xl-2 col-6 col-sm-6 col-md-4 col-lg-3">
-						<a class="wsus__hot_deals__single" href="#">
-							<div class="wsus__hot_deals__single_img">
-								<img src="template/images/pro2.jpg" alt="bag"
-									class="img-fluid w-100">
-							</div>
-							<div class="wsus__hot_deals__single_text">
-								<h5>men's shoes</h5>
-								<p class="wsus__rating">
-									<i class="fas fa-star"></i> <i class="fas fa-star"></i> <i
-										class="fas fa-star"></i> <i class="fas fa-star"></i> <i
-										class="fas fa-star-half-alt"></i>
-								</p>
-								<p class="wsus__tk">
-									$120.20
-									<del>130.00</del>
-								</p>
-							</div>
-						</a>
-					</div>
-					<div class="col-xl-2 col-6 col-sm-6 col-md-4 col-lg-3">
-						<a class="wsus__hot_deals__single" href="#">
-							<div class="wsus__hot_deals__single_img">
-								<img src="template/images/pro2.jpg" alt="bag"
-									class="img-fluid w-100">
-							</div>
-							<div class="wsus__hot_deals__single_text">
-								<h5>men's shoes</h5>
-								<p class="wsus__rating">
-									<i class="fas fa-star"></i> <i class="fas fa-star"></i> <i
-										class="fas fa-star"></i> <i class="fas fa-star"></i> <i
-										class="fas fa-star-half-alt"></i>
-								</p>
-								<p class="wsus__tk">
-									$120.20
-									<del>130.00</del>
-								</p>
-							</div>
-						</a>
-					</div>
-					<div class="col-xl-2 col-6 col-sm-6 col-md-4 col-lg-3">
-						<a class="wsus__hot_deals__single" href="#">
-							<div class="wsus__hot_deals__single_img">
-								<img src="template/images/pro2.jpg" alt="bag"
-									class="img-fluid w-100">
-							</div>
-							<div class="wsus__hot_deals__single_text">
-								<h5>men's shoes</h5>
-								<p class="wsus__rating">
-									<i class="fas fa-star"></i> <i class="fas fa-star"></i> <i
-										class="fas fa-star"></i> <i class="fas fa-star"></i> <i
-										class="fas fa-star-half-alt"></i>
-								</p>
-								<p class="wsus__tk">
-									$120.20
-									<del>130.00</del>
-								</p>
-							</div>
-						</a>
-					</div>
-					<div class="col-xl-2 col-6 col-sm-6 col-md-4 col-lg-3">
-						<a class="wsus__hot_deals__single" href="#">
-							<div class="wsus__hot_deals__single_img">
-								<img src="template/images/pro10.jpg" alt="bag"
-									class="img-fluid w-100">
-							</div>
-							<div class="wsus__hot_deals__single_text">
-								<h5>MSI gaming chair</h5>
-								<p class="wsus__rating">
-									<i class="fas fa-star"></i> <i class="fas fa-star"></i> <i
-										class="fas fa-star"></i> <i class="fas fa-star"></i> <i
-										class="fas fa-star-half-alt"></i>
-								</p>
-								<p class="wsus__tk">
-									$120.20
-									<del>130.00</del>
-								</p>
-							</div>
-						</a>
-					</div>
-					<div class="col-xl-2 col-6 col-sm-6 col-md-4 col-lg-3">
-						<a class="wsus__hot_deals__single" href="#">
-							<div class="wsus__hot_deals__single_img">
-								<img src="template/images/pro9_9.jpg" alt="bag"
-									class="img-fluid w-100">
-							</div>
-							<div class="wsus__hot_deals__single_text">
-								<h5>men's sholder bag</h5>
-								<p class="wsus__rating">
-									<i class="fas fa-star"></i> <i class="fas fa-star"></i> <i
-										class="fas fa-star"></i> <i class="fas fa-star"></i> <i
-										class="fas fa-star-half-alt"></i>
-								</p>
-								<p class="wsus__tk">
-									$120.20
-									<del>130.00</del>
-								</p>
-							</div>
-						</a>
-					</div>
-					<div class="col-xl-2 col-6 col-sm-6 col-md-4 col-lg-3">
-						<a class="wsus__hot_deals__single" href="#">
-							<div class="wsus__hot_deals__single_img">
-								<img src="template/images/pro9.jpg" alt="bag"
-									class="img-fluid w-100">
-							</div>
-							<div class="wsus__hot_deals__single_text">
-								<h5>men's sholder bag</h5>
-								<p class="wsus__rating">
-									<i class="fas fa-star"></i> <i class="fas fa-star"></i> <i
-										class="fas fa-star"></i> <i class="fas fa-star"></i> <i
-										class="fas fa-star-half-alt"></i>
-								</p>
-								<p class="wsus__tk">
-									$120.20
-									<del>130.00</del>
-								</p>
-							</div>
-						</a>
-					</div>
-					<div class="col-xl-2 col-6 col-sm-6 col-md-4 col-lg-3">
-						<a class="wsus__hot_deals__single" href="#">
-							<div class="wsus__hot_deals__single_img">
-								<img src="template/images/pro4_4.jpg" alt="bag"
-									class="img-fluid w-100">
-							</div>
-							<div class="wsus__hot_deals__single_text">
-								<h5>men's casual watch</h5>
-								<p class="wsus__rating">
-									<i class="fas fa-star"></i> <i class="fas fa-star"></i> <i
-										class="fas fa-star"></i> <i class="fas fa-star"></i> <i
-										class="fas fa-star-half-alt"></i>
-								</p>
-								<p class="wsus__tk">
-									$120.20
-									<del>130.00</del>
-								</p>
-							</div>
-						</a>
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>
-	<!--============================
+			<!--============================
         HOT DEALS END  
     ==============================-->
 
 
-	<!--============================
+			<!--============================
         ELECTRONIC PART START  
     ==============================-->
-	<section id="wsus__electronic">
-		<div class="container"></div>
-	</section>
-	<!--============================
+			<section id="wsus__electronic">
+				<div class="container"></div>
+			</section>
+			<!--============================
         ELECTRONIC PART END  
     ==============================-->
 
 
-	<!--============================
-        ELECTRONIC PART START  
-    ==============================-->
-	<section id="wsus__electronic2">
-		<div class="container"></div>
-	</section>
-	<!--============================
-        ELECTRONIC PART END  
-    ==============================-->
 
-
-	<!--============================
-        LARGE BANNER  START  
-    ==============================-->
-	<section id="wsus__large_banner">
-		<div class="container"></div>
-	</section>
-	<!--============================
-        LARGE BANNER  END  
-    ==============================-->
-
-
-	<!--============================
-        WEEKLY BEST ITEM START  
-    ==============================-->
-	<section id="wsus__weekly_best" class="home2_wsus__weekly_best_2 ">
-		<div class="container"></div>
-	</section>
-	<!--============================
-        WEEKLY BEST ITEM END 
-    ==============================-->
-
-
-	<!--============================
+			<!--============================
       HOME SERVICES START
     ==============================-->
-	<section id="wsus__home_services" class="home_service_2">
-		<div class="container">
-			<div class="row">
-				<div class="col-xl-3 col-sm-6 col-lg-3 pe-lg-0">
-					<div
-						class="wsus__home_services_single home_service_single_2 border_left">
-						<i class="fal fa-truck"></i>
-						<h5>Free Worldwide Shipping</h5>
-						<p>Free shipping coast for all country</p>
+			<section id="wsus__home_services" class="home_service_2">
+				<div class="container">
+					<div class="row">
+						<div class="col-xl-3 col-sm-6 col-lg-3 pe-lg-0">
+							<div
+								class="wsus__home_services_single home_service_single_2 border_left">
+								<i class="fal fa-truck"></i>
+								<h5>Free Worldwide Shipping</h5>
+								<p>Free shipping coast for all country</p>
+							</div>
+						</div>
+						<div class="col-xl-3 col-sm-6 col-lg-3 pe-lg-0">
+							<div class="wsus__home_services_single home_service_single_2">
+								<i class="fal fa-headset"></i>
+								<h5>24/7 Customer Support</h5>
+								<p>Friendly 24/7 customer support</p>
+							</div>
+						</div>
+						<div class="col-xl-3 col-sm-6 col-lg-3 pe-lg-0">
+							<div class="wsus__home_services_single home_service_single_2">
+								<i class="far fa-exchange-alt"></i>
+								<h5>Money Back Guarantee</h5>
+								<p>We return money within 30 days</p>
+							</div>
+						</div>
+						<div class="col-xl-3 col-sm-6 col-lg-3">
+							<div class="wsus__home_services_single home_service_single_2">
+								<i class="fal fa-credit-card"></i>
+								<h5>Secure Online Payment</h5>
+								<p>We posess SSL / Secure Certificate</p>
+							</div>
+						</div>
 					</div>
 				</div>
-				<div class="col-xl-3 col-sm-6 col-lg-3 pe-lg-0">
-					<div class="wsus__home_services_single home_service_single_2">
-						<i class="fal fa-headset"></i>
-						<h5>24/7 Customer Support</h5>
-						<p>Friendly 24/7 customer support</p>
-					</div>
-				</div>
-				<div class="col-xl-3 col-sm-6 col-lg-3 pe-lg-0">
-					<div class="wsus__home_services_single home_service_single_2">
-						<i class="far fa-exchange-alt"></i>
-						<h5>Money Back Guarantee</h5>
-						<p>We return money within 30 days</p>
-					</div>
-				</div>
-				<div class="col-xl-3 col-sm-6 col-lg-3">
-					<div class="wsus__home_services_single home_service_single_2">
-						<i class="fal fa-credit-card"></i>
-						<h5>Secure Online Payment</h5>
-						<p>We posess SSL / Secure Certificate</p>
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>
-	<!--============================
+			</section>
+			<!--============================
         HOME SERVICES END
     ==============================-->
 
 
-	<!--============================
+			<!--============================
         HOME BLOGS START
     ==============================-->
-	<section id="wsus__blogs" class="home_blogs">
-		<div class="container">
-			<div class="row">
-				<div class="col-xl-12">
-					<div class="wsus__section_header">
-						<h3>recent blogs</h3>
-						<a class="see_btn" href="#">see more <i
-							class="fas fa-caret-right"></i></a>
-					</div>
-				</div>
-			</div>
-			<div class="row home_blog_slider">
-				<div class="col-xl-3">
-					<div class="wsus__single_blog wsus__single_blog_2">
-						<a class="wsus__blog_img" href="#"> <img
-							src="template/images/blog_1.jpg" alt="blog"
-							class="img-fluid w-100">
-						</a>
-						<div class="wsus__blog_text">
-							<a class="blog_top red" href="#">women's</a>
-							<div class="wsus__blog_text_center">
-								<a href="blog_details.html">New found the women’s shirt for
-									summer season</a>
-								<p class="date">nov 04 2021</p>
+			<section id="wsus__blogs" class="home_blogs">
+				<div class="container">
+					<div class="row">
+						<div class="col-xl-12">
+							<div class="wsus__section_header">
+								<h3>recent blogs</h3>
+								<a class="see_btn" href="#">see more <i
+									class="fas fa-caret-right"></i></a>
 							</div>
 						</div>
 					</div>
-				</div>
-				<div class="col-xl-3">
-					<div class="wsus__single_blog wsus__single_blog_2">
-						<a class="wsus__blog_img" href="#"> <img
-							src="template/images/blog_2.jpg" alt="blog"
-							class="img-fluid w-100">
-						</a>
-						<div class="wsus__blog_text">
-							<a class="blog_top blue" href="#">lifestyle</a>
-							<div class="wsus__blog_text_center">
-								<a href="blog_details.html">Fusce lacinia arcuet nulla
-									menasious</a>
-								<p class="date">nov 04 2021</p>
+					<div class="row home_blog_slider">
+						<div class="col-xl-3">
+							<div class="wsus__single_blog wsus__single_blog_2">
+								<a class="wsus__blog_img" href="#"> <img
+									src="template/images/blog_1.jpg" alt="blog"
+									class="img-fluid w-100">
+								</a>
+								<div class="wsus__blog_text">
+									<a class="blog_top red" href="#">women's</a>
+									<div class="wsus__blog_text_center">
+										<a href="blog_details.html">New found the women’s shirt
+											for summer season</a>
+										<p class="date">nov 04 2021</p>
+									</div>
+								</div>
 							</div>
 						</div>
-					</div>
-				</div>
-				<div class="col-xl-3">
-					<div class="wsus__single_blog wsus__single_blog_2">
-						<a class="wsus__blog_img" href="#"> <img
-							src="template/images/blog_3.jpg" alt="blog"
-							class="img-fluid w-100">
-						</a>
-						<div class="wsus__blog_text">
-							<a class="blog_top orange" href="#">lifestyle</a>
-							<div class="wsus__blog_text_center">
-								<a href="blog_details.html">found the men’s shirt for summer
-									season</a>
-								<p class="date">nov 04 2021</p>
+						<div class="col-xl-3">
+							<div class="wsus__single_blog wsus__single_blog_2">
+								<a class="wsus__blog_img" href="#"> <img
+									src="template/images/blog_2.jpg" alt="blog"
+									class="img-fluid w-100">
+								</a>
+								<div class="wsus__blog_text">
+									<a class="blog_top blue" href="#">lifestyle</a>
+									<div class="wsus__blog_text_center">
+										<a href="blog_details.html">Fusce lacinia arcuet nulla
+											menasious</a>
+										<p class="date">nov 04 2021</p>
+									</div>
+								</div>
 							</div>
 						</div>
-					</div>
-				</div>
-				<div class="col-xl-3">
-					<div class="wsus__single_blog wsus__single_blog_2">
-						<a class="wsus__blog_img" href="#"> <img
-							src="template/images/blog_4.jpg" alt="blog"
-							class="img-fluid w-100">
-						</a>
-						<div class="wsus__blog_text">
-							<a class="blog_top orange" href="#">fashion</a>
-							<div class="wsus__blog_text_center">
-								<a href="blog_details.html">winter collection for women’s</a>
-								<p class="date">nov 04 2021</p>
+						<div class="col-xl-3">
+							<div class="wsus__single_blog wsus__single_blog_2">
+								<a class="wsus__blog_img" href="#"> <img
+									src="template/images/blog_3.jpg" alt="blog"
+									class="img-fluid w-100">
+								</a>
+								<div class="wsus__blog_text">
+									<a class="blog_top orange" href="#">lifestyle</a>
+									<div class="wsus__blog_text_center">
+										<a href="blog_details.html">found the men’s shirt for
+											summer season</a>
+										<p class="date">nov 04 2021</p>
+									</div>
+								</div>
 							</div>
 						</div>
-					</div>
-				</div>
+						<div class="col-xl-3">
+							<div class="wsus__single_blog wsus__single_blog_2">
+								<a class="wsus__blog_img" href="#"> <img
+									src="template/images/blog_4.jpg" alt="blog"
+									class="img-fluid w-100">
+								</a>
+								<div class="wsus__blog_text">
+									<a class="blog_top orange" href="#">fashion</a>
+									<div class="wsus__blog_text_center">
+										<a href="blog_details.html">winter collection for women’s</a>
+										<p class="date">nov 04 2021</p>
+									</div>
+								</div>
+							</div>
+						</div>
 
-			</div>
-		</div>
-	</section>
-	<!--============================
+					</div>
+				</div>
+			</section>
+			<!--============================
         HOME BLOGS END
     ==============================-->
 </body>
