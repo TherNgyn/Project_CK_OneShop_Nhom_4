@@ -34,5 +34,8 @@ public interface IUserService {
     User getByResetPasswordToken(String token);
     User findByEmail(String email);
     User findByPhone(String phone);
+    int countCustomer();
+	List<User> findUsers(String search, String role);
+	void deleteUser(Integer userId);
 }
 

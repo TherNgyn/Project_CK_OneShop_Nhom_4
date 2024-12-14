@@ -5,8 +5,12 @@ import java.sql.Date;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -20,6 +24,8 @@ import com.oneshop.entity.Order;
 import com.oneshop.entity.OrderItem;
 import com.oneshop.entity.Store;
 import com.oneshop.entity.User;
+import com.oneshop.model.MonthlyRevenue;
+import com.oneshop.model.YearlyRevenue;
 import com.oneshop.repository.OrderItemRepository;
 import com.oneshop.repository.OrderRepository;
 import com.oneshop.service.IOrderService;
@@ -272,5 +278,62 @@ public class OrderServiceImpl implements IOrderService {
     public Order savestatuscancel(Order order) {
         return orderRepository.save(order);
     }
+	public List<MonthlyRevenue> calculateMonthlyRevenue(int year) {
+        // Fetch orders for the specified year
+        List<Order> orders = orderRepository.findOrdersByYear(year);
+
+        // Array to store total revenue for each month (12 months)
+        double[] monthlySales = new double[12];
+
+        // Process each order to accumulate revenue by month
+        for (Order order : orders) {
+            if (order.getPrice() != null && order.getCreateat() != null && order.getStatus().equals("Completed")) {
+                int month = order.getCreateat().getMonthValue(); // Get month from createat (1-12)
+                monthlySales[month - 1] += order.getPrice(); // Accumulate revenue for the month
+            }
+        }
+
+        // Convert monthlySales array into MonthlyRevenue objects
+        List<MonthlyRevenue> monthlyRevenues = new ArrayList<>();
+        for (int i = 0; i < 12; i++) {
+            monthlyRevenues.add(new MonthlyRevenue(i + 1, monthlySales[i]));
+        }
+
+        return monthlyRevenues;
+    }
+    
+	@Override
+	public List<Integer> getDistinctYearsFromOrders() {
+        // Lấy các năm từ updateat và loại bỏ các giá trị trùng lặp
+        return orderRepository.findAll().stream()
+                .map(order -> order.getUpdateat().getYear())
+                .distinct()
+                .sorted((y1, y2) -> Integer.compare(y2, y1)) // Sắp xếp giảm dần
+                .collect(Collectors.toList());
+    }
+	
+	@Override
+	public List<YearlyRevenue> calculateYearlyRevenue() {
+	    List<Integer> years = getDistinctYearsFromOrders();
+
+	    List<YearlyRevenue> yearlyRevenues = new ArrayList<>();
+	    
+	    for (Integer year : years) {
+	        List<Order> orders = orderRepository.findOrdersByYear(year);
+
+	        double totalRevenue = 0;
+
+	        for (Order order : orders) {
+	            if (order.getPrice() != null && order.getCreateat() != null && order.getStatus().equals("Completed")) {
+	                totalRevenue += order.getPrice(); 
+	            }
+	        }
+
+	        yearlyRevenues.add(new YearlyRevenue(year, totalRevenue));
+	    }
+
+	    return yearlyRevenues;
+	}
+
 
 }

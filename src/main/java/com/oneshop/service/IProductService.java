@@ -58,7 +58,6 @@ public interface IProductService {
 	List<Product> findTop4ByOrderBySoldDesc();
 	List<Product> findTopProductsByCategory(Integer categoryId);
 	List<Product> getTopRatedProducts();
-	
-	
 
+	List<Product> findTop4ByIsSelling();
 }

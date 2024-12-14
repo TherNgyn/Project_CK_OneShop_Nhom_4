@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import com.oneshop.entity.Product;
 import com.oneshop.entity.Store;
 import com.oneshop.entity.User;
 
@@ -24,5 +25,6 @@ public interface StoreRepository extends JpaRepository<Store, Integer> {
 	Integer countByCreateat(Date date);
 	Store findOneByUser(User user);
 	Store findByUserId(Integer userId);
-	
+	Store findByName(String name);
+	boolean existsByUserId(Integer userId);
 }

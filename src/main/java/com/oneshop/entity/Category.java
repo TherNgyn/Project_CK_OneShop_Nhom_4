@@ -30,7 +30,7 @@ public class Category {
     private Date updateat;
     private Boolean isDeleted;
 
-    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
     @ToString.Exclude // Ngăn vòng lặp khi dùng Lombok
     
     private List<Product> products;

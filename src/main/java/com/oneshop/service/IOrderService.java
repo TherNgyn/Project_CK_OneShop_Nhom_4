@@ -14,6 +14,8 @@ import com.oneshop.entity.Order;
 import com.oneshop.entity.OrderItem;
 import com.oneshop.entity.Store;
 import com.oneshop.entity.User;
+import com.oneshop.model.MonthlyRevenue;
+import com.oneshop.model.YearlyRevenue;
 
 public interface IOrderService {
 	void deleteAll();
@@ -83,4 +85,8 @@ public interface IOrderService {
 	void update(Order order);
 
 	Order savestatuscancel(Order order);
+	List<Integer> getDistinctYearsFromOrders();
+
+	List<YearlyRevenue> calculateYearlyRevenue();
+
 }

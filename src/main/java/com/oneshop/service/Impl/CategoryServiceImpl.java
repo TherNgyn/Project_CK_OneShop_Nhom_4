@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import com.oneshop.repository.CategoryRepository;
 import com.oneshop.entity.Category;
 import com.oneshop.entity.Product;
+import com.oneshop.model.CategoryModel;
 import com.oneshop.service.ICategoryService;
 
 @Service
@@ -39,7 +40,7 @@ public class CategoryServiceImpl implements ICategoryService {
 		return categoryRepository.findByNameContaining(name, pageable);
 	}
 	
-
+	
 	public <S extends Category> S save(S entity) {
 		return categoryRepository.save(entity);
 	}

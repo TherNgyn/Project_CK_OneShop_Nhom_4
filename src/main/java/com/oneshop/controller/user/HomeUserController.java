@@ -14,6 +14,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -43,6 +44,7 @@ import com.oneshop.service.ICartService;
 import com.oneshop.service.ICategoryService;
 import com.oneshop.service.IProductService;
 import com.oneshop.service.IUserService;
+import com.oneshop.service.Impl.CloudinaryService;
 
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.http.HttpServletRequest;
@@ -72,6 +74,8 @@ public class HomeUserController {
 	IBlogService blogService;
 	@Autowired
 	private CloudinaryService cloudinaryService;
+	@Autowired
+	PasswordEncoder passwordEncoder;
 	@PostMapping("/upload-avatar")
 	public ResponseEntity<String> uploadAvatar(@RequestParam("file") MultipartFile file) {
 	    try {
@@ -195,8 +199,7 @@ public class HomeUserController {
 				return new ModelAndView("redirect:/user/profile", model);
 
 			} else {
-				user.setPassword(newpassword);
-				userService.save(user);
+				userService.updatePassword(user, passwordEncoder.encode(newpassword.trim()));
 				session.setAttribute("message", "Mật khẩu đã được cập nhập");
 				return new ModelAndView("redirect:/user/profile", model);
 

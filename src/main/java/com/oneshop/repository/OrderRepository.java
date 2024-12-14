@@ -29,7 +29,7 @@ public interface OrderRepository extends JpaRepository<Order, Integer> {
 	List<Order> findAllByUserIdAndStoreAndStatus(Integer userId, Store store, String status);
 
 	Order findTopByUserIdOrderByCreateatDesc(Integer id);
-
+  
 	@Query("SELECT o FROM Order o WHERE o.user.id = :userId AND (o.status = :status1 OR o.status = :status2)")
 	List<Order> findOrdersByUserAndStatuses(@Param("userId") Integer userId, @Param("status1") String status1,
 			@Param("status2") String status2);
@@ -45,5 +45,14 @@ public interface OrderRepository extends JpaRepository<Order, Integer> {
 			+ "WHERE o.userid = :userId AND p.name LIKE %:productName% AND o.status = :status", nativeQuery = true)
 	List<Order> findOrdersByUserAndProductNameAndStatusNative(@Param("userId") Integer userId,
 			@Param("productName") String productName, @Param("status") String status);
-
+  
+	@Query("SELECT o FROM Order o WHERE YEAR(o.createat) = :year")
+    List<Order> findOrdersByYear(int year);
+	@Query("SELECT COUNT(DISTINCT o.user) FROM Order o WHERE o.user.id IS NOT NULL")
+	int countDistinctUsers();
+	
+	@Query("SELECT DISTINCT YEAR(o.updateat) FROM Order o ORDER BY YEAR(o.updateat) DESC")
+	List<Integer> findDistinctYearsFromUpdateAt();
+	
+	boolean existsByUserId(Integer userId);
 }

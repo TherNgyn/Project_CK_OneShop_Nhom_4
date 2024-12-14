@@ -245,4 +245,9 @@ public class ProductServiceImpl implements IProductService {
 	public List<Product> getTopRatedProducts() {
         return productRepository.findTopRatedProducts().subList(0, 3); // Lấy top 3
     }
+	
+	@Override
+	public List<Product> findTop4ByIsSelling(){
+		return productRepository.findTop4ByIsSellingTrueOrderByIdDesc();
+	}
 }

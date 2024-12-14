@@ -52,5 +52,7 @@ public interface ProductRepository extends JpaRepository<Product, Integer>, JpaS
 		       "GROUP BY p " +
 		       "ORDER BY AVG(r.rating) DESC")
 		List<Product> findTopRatedProducts();
-
+	@Query("SELECT p FROM Product p WHERE p.isSelling = true ORDER BY p.id DESC")
+    List<Product> findTop4ByIsSellingTrueOrderByIdDesc();
+	
 }

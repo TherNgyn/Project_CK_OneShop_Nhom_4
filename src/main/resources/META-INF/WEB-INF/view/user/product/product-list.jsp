@@ -244,9 +244,6 @@
 				</nav>
 			</section>
 		</div>
-
-		</div>
-		</div>
 	</section>
 	<!--============================
        VENDORS DETAILA END
