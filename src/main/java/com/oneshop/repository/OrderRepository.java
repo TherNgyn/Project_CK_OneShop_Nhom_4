@@ -53,5 +53,6 @@ public interface OrderRepository extends JpaRepository<Order, Integer> {
 	
 	@Query("SELECT DISTINCT YEAR(o.updateat) FROM Order o ORDER BY YEAR(o.updateat) DESC")
 	List<Integer> findDistinctYearsFromUpdateAt();
-
+	
+	boolean existsByUserId(Integer userId);
 }
