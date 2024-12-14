@@ -137,9 +137,6 @@
             <div class="row">
                 <div class="col-xl-12">
                     <div class="relative_contect d-flex">
-                        <div class="wsus_menu_category_bar">
-                            <i class="far fa-bars"></i>
-                        </div>
                         <ul class="wsus_menu_cat_item show_home toggle_menu">
                             <li><a href="#"><i class="fas fa-star"></i> hot promotions</a></li>
                             <li><a class="wsus__droap_arrow" href="#"><i class="fal fa-tshirt"></i> Fashion </a>
@@ -415,7 +412,7 @@
                                 </div>
                             </li>
                             <li><a href="vendor.html">vendor</a></li>
-                            <li><a href="blog.html">blog</a></li>
+                            <li><a href="/blog">blog</a></li>
                             <li><a href="daily_deals.html">campain</a></li>
                             <li class="wsus__relative_li"><a href="#">pages <i class="fas fa-caret-down"></i></a>
                                 <ul class="wsus__menu_droapdown">

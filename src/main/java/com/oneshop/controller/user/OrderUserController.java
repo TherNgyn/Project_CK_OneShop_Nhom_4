@@ -1,5 +1,6 @@
 package com.oneshop.controller.user;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -103,16 +104,19 @@ public class OrderUserController {
             selectedAddress = addressService.findById(addressId).orElse(null);
         }
 
-        if ((newAddressLine1 != null && !newAddressLine1.trim().isEmpty()) && (newCity != null && !newCity.trim().isEmpty())) {
-            Address newAddress = new Address();
-            newAddress.setUser(user);
-            newAddress.setAddressLine1(newAddressLine1.trim());
-            newAddress.setAddressLine2(newAddressLine2 != null ? newAddressLine2.trim() : "");
-            newAddress.setCity(newCity.trim());
-            newAddress.setIsPrimary(isPrimary != null && isPrimary);
-            addressService.save(newAddress);
-            selectedAddress = newAddress;
-        }
+        if (newAddressLine1 != null && !newAddressLine1.trim().isEmpty() && 
+        	    newCity != null && !newCity.trim().isEmpty()) {
+        	    System.out.println("Received new address: " + newAddressLine1 + ", " + newCity);
+        	    Address newAddress = new Address();
+        	    newAddress.setUser(user);
+        	    newAddress.setAddressLine1(newAddressLine1.trim());
+        	    newAddress.setAddressLine2(newAddressLine2 != null ? newAddressLine2.trim() : "");
+        	    newAddress.setCity(newCity.trim());
+        	    newAddress.setIsPrimary(isPrimary != null && isPrimary);
+        	    addressService.save(newAddress); // Save new address
+        	    selectedAddress = newAddress;
+        	}
+
 
         if (selectedAddress == null) {
             model.addAttribute("error", "Vui lòng chọn hoặc nhập địa chỉ giao hàng!");

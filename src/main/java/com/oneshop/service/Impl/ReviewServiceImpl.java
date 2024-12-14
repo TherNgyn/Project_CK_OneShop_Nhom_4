@@ -120,4 +120,20 @@ public class ReviewServiceImpl implements IReviewService {
 	public void saveReview(Review review) {
 	    reviewRepository.save(review);
 	}
+
+	@Override
+	public float calculateAverageRating(Integer productId) {
+	    List<Review> reviews = reviewRepository.findByProductId(productId);
+	    if (reviews.isEmpty()) {
+	        return 0;
+	    }
+	    float totalRating = 0;
+	    for (Review review : reviews) {
+	        totalRating += review.getRating();
+	    }
+	    return totalRating / reviews.size();
+	}
+
+	
+	
 }

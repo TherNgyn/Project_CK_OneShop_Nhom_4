@@ -84,6 +84,7 @@ public interface IOrderService {
   
 	void update(Order order);
 
+	Order savestatuscancel(Order order);
 	List<Integer> getDistinctYearsFromOrders();
 
 	List<YearlyRevenue> calculateYearlyRevenue();

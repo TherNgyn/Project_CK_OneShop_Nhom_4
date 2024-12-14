@@ -618,3 +618,12 @@ input#count {
     font-size: 18px;
 }
 
+.product__details__video {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.product__details__video video {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}

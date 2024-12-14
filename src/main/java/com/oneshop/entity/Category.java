@@ -34,4 +34,7 @@ public class Category {
     @ToString.Exclude // Ngăn vòng lặp khi dùng Lombok
     
     private List<Product> products;
+    
+    @Transient
+    private List<Product> topProducts;
 }

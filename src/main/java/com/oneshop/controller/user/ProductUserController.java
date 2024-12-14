@@ -25,10 +25,12 @@ import org.springframework.web.servlet.ModelAndView;
 import java.util.Collections;
 
 import com.cloudinary.Cloudinary;
+import com.oneshop.entity.Category;
 import com.oneshop.entity.Product;
 import com.oneshop.entity.Review;
 import com.oneshop.entity.Store;
 import com.oneshop.model.ProductModel;
+import com.oneshop.service.ICategoryService;
 import com.oneshop.service.IProductService;
 import com.oneshop.service.IReviewService;
 import com.oneshop.service.IStoreService;
@@ -44,7 +46,8 @@ public class ProductUserController{
 	private IStoreService storeService;
 	@Autowired
 	private Cloudinary cloudinary;
-
+	@Autowired
+    private ICategoryService categoryService;
 	private String message;
 	@RequestMapping("")
 	public String allProducts(Model model, 
@@ -77,50 +80,6 @@ public class ProductUserController{
 	}
 
 
-	@GetMapping("/search")
-	public String search(ModelMap model, 
-	                     @RequestParam(name = "name", required = false) String name,
-	                     @RequestParam("page") Optional<Integer> page, 
-	                     @RequestParam("size") Optional<Integer> size) {
-	    int currentPage = page.orElse(1);
-	    if (currentPage < 1) {
-	        currentPage = 1; // Đảm bảo giá trị hợp lệ
-	    }
-
-	    int pageSize = size.orElse(12);
-	    if (pageSize <= 0) {
-	        pageSize = 12; // Đảm bảo giá trị hợp lệ
-	    }
-
-	    Pageable pageable = PageRequest.of(currentPage - 1, pageSize, Sort.by("name"));
-	    Page<Product> resultPage;
-
-	    if (StringUtils.hasText(name)) {
-	        resultPage = productService.findByNameContainingIgnoreCase(name, pageable);
-	        model.addAttribute("name", name);
-	    } else {
-	        resultPage = productService.findAll(pageable);
-	    }
-
-	    int totalPages = resultPage.getTotalPages();
-	    if (totalPages > 0) {
-	        List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages).boxed().collect(Collectors.toList());
-	        model.addAttribute("pageNumbers", pageNumbers);
-	    }
-
-	    resultPage.forEach(product -> {
-	        List<String> imageUrls = product.getImages().stream()
-	                                       .map(image -> cloudinary.url().publicId(image.getImageUrl()).generate())
-	                                       .collect(Collectors.toList());
-	        product.setImageUrls(imageUrls);
-	    });
-
-	    model.addAttribute("productPage", resultPage);
-	    model.addAttribute("currentPage", currentPage);
-	    model.addAttribute("pageSize", pageSize);
-	    return "user/product/product-search-result";
-	}
-
 	@GetMapping("/productdetail")
 	public String getProductDetail(
 	        @RequestParam("id") Integer id,
@@ -131,23 +90,20 @@ public class ProductUserController{
 	        throw new IllegalArgumentException("Product ID is required.");
 	    }
 
-	    // Lấy sản phẩm chi tiết
 	    Product product = productService.getById(id);
 	    if (product == null) {
 	        throw new IllegalArgumentException("Không tìm thấy sản phẩm với ID: " + id);
 	    }
 	    
-	    // Lấy danh sách hình ảnh sản phẩm
 	    List<String> imageUrls = product.getImages().stream()
 	            .map(image -> cloudinary.url().publicId(image.getImageUrl()).generate())
 	            .collect(Collectors.toList());
 	    product.setImageUrls(imageUrls);
-
-	    // Lấy đánh giá và số lượng
+	    
 	    List<Review> reviews = reviewService.findByProductId(product.getId());
 	    long totalReviews = reviewService.countByProductId(product.getId());
-
-	    // Phân trang sản phẩm liên quan
+	    float averageRating = reviewService.calculateAverageRating(product.getId());
+	    
 	    Pageable pageable = PageRequest.of(page - 1, size, Sort.by("name").ascending());
 	    Page<Product> relatedProductPage = productService.findByCategory(product.getCategory(), pageable);
 
@@ -162,15 +118,136 @@ public class ProductUserController{
 	    model.addAttribute("currentPage", page);
 	    model.addAttribute("pageSize", size);
 	    model.addAttribute("pageNumbers", pageNumbers);
-
+	    model.addAttribute("averageRating", averageRating);
 	    return "user/product/productdetail";
 	}
+	@GetMapping("/search")
+    public String search(ModelMap model, @RequestParam(name = "searchname", required = false) String name,
+                         Pageable pageable) {
+    	int currentPage = (pageable.getPageNumber() > 0) ? pageable.getPageNumber() - 1 : 0;
+   
+        Page<Product> productPage = productService.findAll(PageRequest.of(currentPage, pageable.getPageSize(), Sort.by("name")));
+        List<Category> categories = categoryService.findAll();
 
+        String message = null; 
 
+        if (StringUtils.hasText(name)) {
+            productPage = productService.findByNameContainingIgnoreCase(name, pageable);
 
+            if (productPage.hasContent()) {
+                message = "Tìm thấy " + productPage.getTotalElements() + " sản phẩm ";
+            } else {
+                message = "Không tìm thấy sản phẩm";
+            }
 
+            model.addAttribute("name", name);
+        } else {
+            productPage = productService.findAll(pageable);
+        }
+        productPage.forEach(product -> {
+            // Lặp qua tất cả các hình ảnh của sản phẩm và tạo URL cho chúng
+            List<String> imageUrls = product.getImages().stream()
+                                           .map(image -> cloudinary.url().publicId(image.getImageUrl()).generate())
+                                           .collect(Collectors.toList());
+            product.setImageUrls(imageUrls);
+        });
+        
+        // Lọc danh sách các thương hiệu duy nhất
+        List<String> uniqueBrands = getUniqueBrands();
+       
+        model.addAttribute("searchName", name);
+        model.addAttribute("productPage", productPage);
+        model.addAttribute("categories", categories);
+        model.addAttribute("brands", uniqueBrands);
+        model.addAttribute("message", message); // Truyền message xuống view
+        return "common/product/product-search-result";
+    }
+	@RequestMapping("/filter")
+    public String getProducts(@RequestParam(name = "name", required = false) String name,
+                              @RequestParam(name = "categoryName", required = false) List<String> categoryName,  
+                              @RequestParam(value = "brand", required = false) List<String> brand,
+                              @RequestParam(value = "minPrice", required = false) Double minPrice,
+                              @RequestParam(value = "maxPrice", required = false) Double maxPrice,
+                              Pageable pageable,
+                              ModelMap model) {
 
+        Page<Product> productPage;
+        String message = null;
 
+        int currentPage = (pageable.getPageNumber() > 0) ? pageable.getPageNumber() - 1 : 0;
+        Pageable page = PageRequest.of(currentPage, pageable.getPageSize(), Sort.by("name"));
 
+        if (StringUtils.hasText(name)) {
+            productPage = productService.findByNameContainingIgnoreCase(name, page);
+            
+            if (!productPage.isEmpty()) {
+                if ((categoryName != null && !categoryName.isEmpty()) ||
+                    (brand != null && !brand.isEmpty()) ||
+                    minPrice != null || maxPrice != null) {
+                    productPage = productService.findByCriteria(name,categoryName, brand, minPrice, maxPrice, page);
+                    message = "Tìm thấy " + productPage.getTotalElements() + " sản phẩm";
+                }
+            } else {
+                productPage = Page.empty(page);
+                message = "Không tìm thấy sản phẩm phù hợp, vui lòng chọn loại sản phẩm khác";
+            }
+        } else {
+            if ((categoryName != null && !categoryName.isEmpty()) ||
+                (brand != null && !brand.isEmpty()) ||
+                minPrice != null || maxPrice != null) {
+                productPage = productService.findByCriteria(null,categoryName, brand, minPrice, maxPrice, page);
+                message = "Tìm thấy " + productPage.getTotalElements() + " sản phẩm";
+            } else {
+                productPage = productService.findAll(page);
+                message = "Không tìm thấy sản phẩm phù hợp, vui lòng chọn loại sản phẩm khác";
+            }
+        }
+
+        List<Category> categories = categoryService.findAll();
+        List<String> uniqueBrand = getUniqueBrands();
+
+        productPage.forEach(product -> {
+            List<String> imageUrls = product.getImages().stream()
+                                           .map(image -> cloudinary.url().publicId(image.getImageUrl()).generate())
+                                           .collect(Collectors.toList());
+            product.setImageUrls(imageUrls);
+        });
+        
+        addPaginationAttributes(model, page, productPage);
+
+        model.addAttribute("action", "filter");
+        model.addAttribute("searchName", name);
+        model.addAttribute("brand", brand);
+        model.addAttribute("categoryName", categoryName);
+        model.addAttribute("maxPrice", maxPrice);
+        model.addAttribute("minPrice", minPrice);
+        model.addAttribute("brands", uniqueBrand);
+        model.addAttribute("categories", categories);
+        model.addAttribute("productPage", productPage);
+        model.addAttribute("message", message);
+
+        return "user/product/product-search-result";
+    }
+	
+	private void addPaginationAttributes(ModelMap model, Pageable pageable, Page<Product> productPage) {
+        int currentPage = pageable.getPageNumber();
+        int totalPages = productPage.getTotalPages();
+        if (totalPages > 0) {
+            int start = Math.max(1, currentPage - 2);
+            int end = Math.min(currentPage + 2, totalPages);
+            List<Integer> pageNumbers = IntStream.rangeClosed(start, end)
+                    .boxed()
+                    .collect(Collectors.toList());
+            model.addAttribute("pageNumbers", pageNumbers);
+        }
+    }
+
+	private List<String> getUniqueBrands() {
+        List<Product> productList = productService.findAll();
+        return productList.stream()
+                .map(Product::getBrand)
+                .distinct()
+                .collect(Collectors.toList());
+    }
 
 }
