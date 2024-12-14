@@ -26,17 +26,22 @@
 
 <!-- Breadcrumb Section Begin -->
 <section class="breadcrumb-section set-bg" data-setbg="img/breadcrumb.jpg">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12 text-center">
-                <div class="breadcrumb__text">
-                    <div class="breadcrumb__option">
-                        <a href="<c:url value='/user/home'/>">Trang chủ</a> <span>Xác nhận Đặt hàng</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    <section id="wsus__breadcrumb">
+		<div class="wsus_breadcrumb_overlay">
+			<div class="container">
+				<div class="row">
+					<div class="col-12">
+					<h4>Your order</h4>
+						<ul>
+							<li><a href="#">Home</a></li>
+							<li><a href="#">Cart</a></li>
+							<li><a href="#">Order</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
 </section>
 <!-- Breadcrumb Section End -->
 

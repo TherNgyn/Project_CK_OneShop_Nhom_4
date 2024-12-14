@@ -9,5 +9,5 @@ import com.oneshop.entity.User;
 public interface IAddressService {
 	Optional<Address> findById(Integer addressId);
 	List<Address> findByUser(User user);
-	void save(Address newAddress);
+	Address save(Address address);
 }

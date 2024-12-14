@@ -25,9 +25,9 @@ public class AddressServiceImpl implements IAddressService {
     public List<Address> findByUser(User user) {
         return addressRepository.findByUser(user); 
     }
-
-	public void save(Address newAddress) {
-		addressRepository.save(newAddress);
-	}
+	@Override
+	public Address save(Address address) {
+        return addressRepository.save(address);
+    }
    
 }

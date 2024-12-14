@@ -68,16 +68,21 @@ public class User {
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     private List<Review> reviews;
-
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    @ToString.Exclude
-    @EqualsAndHashCode.Exclude
-    private List<Transaction> transactions;
     
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
-    private List<Address> addresses; 
+    private List<Address> addresses;
+
+	@Override
+	public String toString() {
+		return "User [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email
+				+ ", phone=" + phone + ", username=" + username + ", password=" + password + ", address=" + address
+				+ ", avatar=" + avatar + ", role=" + role + ", isActive=" + isActive + ", resetpasswordtoken="
+				+ resetpasswordtoken + ", createat=" + createat + ", updateat=" + updateat + "]";
+	} 
+    
+    
 }
 
 

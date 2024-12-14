@@ -103,4 +103,9 @@ public class CartServiceImpl implements ICartService {
     public Store getStoreByUserId(Integer userId) {
         return storeRepository.findByUserId(userId);
     }
+	@Override
+    public int getCartItemCountByUserId(Integer userId) {
+        Integer count = CartRepository.countCartItemsByUserId(userId);
+        return count == null ? 0 : count; 
+    }
 }

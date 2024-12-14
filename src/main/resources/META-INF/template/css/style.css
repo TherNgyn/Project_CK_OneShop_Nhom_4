@@ -868,27 +868,31 @@ header {
 	color: #fff;
 }
 
+.wsus__call_text {
+  text-align: center;
+}
+
 .wsus__call_text p {
-	text-transform: capitalize;
-	font-weight: 500;
-	font-size: 15px;
-	color: #fff;
+  text-transform: capitalize;
+  font-weight: 500;
+  font-size: 15px;
+  color: #fff;
+  margin: 0; /* Loại bỏ khoảng cách mặc định của thẻ <p> */
+  line-height: 1.4; /* Điều chỉnh khoảng cách dòng */
 }
 
 .wsus__call_text a {
-	color: #0b2c3d;
-	font-size: 17px;
-	font-weight: 700;
-	transition: all linear 0.3s;
-	-webkit-transition: all linear 0.3s ease;
-	-moz-transition: all linear 0.3s ease;
-	-ms-transition: all linear 0.3s ease;
-	-o-transition: all linear 0.3s ease;
+  color: #0b2c3d;
+  font-size: 17px;
+  font-weight: 700;
+  transition: all linear 0.3s;
+
 }
 
 .wsus__call_text a:hover {
 	color: #007aff;
 }
+
 
 .wsus__icon_area {
 	display: flex;
@@ -1839,6 +1843,7 @@ PRODUCT MODAL VIEW START
 PRODUCT MODAL VIEW END
 ===========================*/
 
+
 /*======================
 	BANNER PART START
 ========================*/
@@ -1916,11 +1921,12 @@ PRODUCT MODAL VIEW END
 	BANNER PART END
 ========================*/
 .alert {
-	padding: 15px;
-	margin-top: 10px;
-	border-radius: 5px;
-	font-size: 14px;
-	text-align: center;
+    padding: 15px;
+    margin-top: 10px;
+    margin-bottom: 25px;
+    border-radius: 5px;
+    font-size: 14px;
+    text-align: center;
 }
 
 .alert-success {
@@ -2420,8 +2426,9 @@ MONTHLY TOP PRODUCT START
 }
 
 .wsus__monthly_top_banner_img img {
-	height: 100%;
-	object-fit: cover;
+  width: 100%;
+  height: auto;
+  object-fit: cover;
 }
 
 .wsus__monthly_top_banner_img span {
@@ -2477,13 +2484,20 @@ MONTHLY TOP PRODUCT START
 }
 
 .grid .wsus__hot_deals__single_img {
-	width: 35%;
-	height: 100%;
+  width: 35%;
+  height: auto;
 }
 
 .grid .wsus__hot_deals__single_img img {
-	height: 100%;
-	object-fit: cover;
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+.grid .wsus__hot_deals__single_text {
+  width: 65%;
+  padding-left: 20px;
+	
 }
 
 .grid .wsus__hot_deals__single_text {
@@ -2520,10 +2534,25 @@ MONTHLY TOP PRODUCT START
 #wsus__hot_deals .nxt_arr:hover, #wsus__hot_deals .prv_arr:hover {
 	background: #045c9f;
 }
+.grid .col-lg-3 {
+    display: none; /* Ẩn sản phẩm mặc định */
+}
+
+.grid .col-lg-3.active {
+    display: block; /* Hiển thị sản phẩm khi thuộc danh mục được chọn */
+}
 
 /*======================
 MONTHLY TOP PRODUCT END
 ========================*/
+#divider_section {
+  padding: 40px 0;
+  text-align: center;
+  border-top: 1px ; /* Đường viền mỏng trên */
+  border-bottom: 1px ; /* Đường viền mỏng dưới */
+  margin-bottom: 45px; /* Tạo khoảng cách với các phần khác */
+}
+
 
 /*======================
 ELECTRONIC PART START
@@ -2581,12 +2610,13 @@ HOME BLOGS END
 }
 
 .wsus__single_banner_text h6 {
-	color: #fff;
-	font-size: 20px;
-	font-weight: 600;
-	text-transform: capitalize;
-	display: flex;
-	align-items: center;
+
+  color: #08c;
+  font-size: 20px;
+  font-weight: 600;
+  text-transform: capitalize;
+  display: flex;
+  align-items: center;
 }
 
 .wsus__single_banner_text h6 span {
@@ -2597,11 +2627,11 @@ HOME BLOGS END
 }
 
 .wsus__single_banner_text h3 {
-	text-transform: capitalize;
-	color: #fff;
-	font-weight: 700;
-	font-size: 30px;
-	margin: 7px 0px 15px 0px;
+  text-transform: capitalize;
+  color: #08c;
+  font-weight: 700;
+  font-size: 30px;
+  margin: 7px 0px 15px 0px;
 }
 
 .single_banner_2 h6, .single_banner_2 h3, .single_banner_2 .shop_btn {
@@ -2610,9 +2640,9 @@ HOME BLOGS END
 }
 
 .single_banner_2 .shop_btn:hover {
-	color: #fff;
-	background: #08c;
-	border-color: #08c;
+  color: #2d2d2d;
+  background: #c0c0c0;
+  border-color: #c0c0c0;
 }
 
 /*======================
@@ -6460,91 +6490,70 @@ WISHLIST PAGE START
 }
 
 .wsus__single_blog {
-	border-radius: 5px;
-	overflow: hidden;
-	position: relative;
-	box-shadow: rgba(50, 50, 93, 0.15) 0px 0px 5px 0px;
-	-webkit-border-radius: 5px;
-	-moz-border-radius: 5px;
-	-ms-border-radius: 5px;
-	-o-border-radius: 5px;
-	margin-top: 25px;
-	width: 100%;
-	/* height: 203px; */
+  border-radius: 5px;
+  overflow: hidden;
+  position: relative;
+  box-shadow: rgba(50, 50, 93, 0.15) 0px 0px 5px 0px;
+  margin-top: 25px;
+  width: 100%;
+  height: auto; /* Điều chỉnh chiều cao để tự động phù hợp với nội dung */
+  display: flex;
+  flex-direction: column;
 }
 
 .wsus__single_blog img {
-	height: 100%;
-	object-fit: cover;
+  width: 100%;
+  height: 200px; /* Cố định chiều cao để hình ảnh đồng nhất */
+  object-fit: cover;
 }
 
 .wsus__blog_text {
-	position: absolute;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-	/* background: rgb(11, 44, 61); */
-	/* background: linear-gradient(0deg,
-      rgba(11, 44, 61, 0.68) 20%,
-      transparent 100%); */
+  position: relative;
+  width: 100%;
 }
 
 .wsus__blog_text_center {
-	width: 100%;
-	position: static;
-	background: #fff;
-	padding: 17px 20px 10px 20px;
+  background: #fff;
+  padding: 17px 20px 10px 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .wsus__blog_text_center a {
-	display: block;
-	color: #353535;
-	font-size: 18px;
-	text-transform: capitalize;
-	font-weight: 500;
-	margin-bottom: 5px;
-	line-height: 25px;
-	transition: all linear 0.3s;
-	-webkit-transition: all linear 0.3s ease;
-	-moz-transition: all linear 0.3s ease;
-	-ms-transition: all linear 0.3s ease;
-	-o-transition: all linear 0.3s ease;
+  display: block;
+  color: #353535;
+  font-size: 18px;
+  text-transform: capitalize;
+  font-weight: 500;
+  margin-bottom: 5px;
+  line-height: 25px;
+  transition: all linear 0.3s;
+}
+
+.wsus__blog_text_center a:hover {
+  color: #08c;
 }
 
 .wsus__blog_text_center .date {
-	color: #818181;
-	text-transform: capitalize;
-	font-size: 13px;
-	display: flex;
-	justify-content: space-between;
-	flex-wrap: wrap;
-}
-
-.wsus__blog_text_center .date span {
-	color: #08c;
-	text-transform: capitalize;
-	font-size: 13px;
-	font-weight: 400;
-	margin-right: 10px;
+  color: #818181;
+  text-transform: capitalize;
+  font-size: 13px;
+  margin-top: auto; /* Đẩy phần ngày xuống đáy của container */
 }
 
 .wsus__single_blog .blog_top {
-	position: absolute;
-	top: 15px;
-	left: 15px;
-	color: #fff;
-	padding: 5px 10px;
-	font-size: 14px;
-	font-weight: 600;
-	text-transform: capitalize;
-	border-radius: 3px;
-	z-index: 1;
-	transition: all linear 0.3s;
-	-webkit-transition: all linear 0.3s ease;
-	-moz-transition: all linear 0.3s ease;
-	-ms-transition: all linear 0.3s ease;
-	-o-transition: all linear 0.3s ease;
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  color: #fff;
+  padding: 5px 10px;
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: capitalize;
+  border-radius: 3px;
+  z-index: 1;
+  transition: all linear 0.3s;
 }
 
 .wsus__single_blog .red {
@@ -6562,9 +6571,40 @@ WISHLIST PAGE START
 .wsus__single_blog .blog_top:hover {
 	transform: scale(1.05);
 }
+.wsus__blog_list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+
+.wsus__blog_list li {
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+}
+
+.wsus__blog_thumb {
+    width: 50px;
+    height: 50px;
+    margin-right: 10px;
+    border-radius: 5px;
+    object-fit: cover;
+}
+
+.wsus__blog_link {
+    text-decoration: none;
+    color: #353535;
+    font-size: 14px;
+    transition: color 0.3s;
+}
+
+.wsus__blog_link:hover {
+    color: #08c;
 
 .wsus__blog_text_center a:hover {
 	color: #08c;
+
 }
 
 /*========================
@@ -9258,10 +9298,10 @@ header .wsus__call_text a:hover {
 }
 
 .banner_1 .wsus__single_banner_text h6 span {
-	font-size: 67px;
-	font-weight: 900;
-	color: #08c;
-	margin-left: 10px;
+  font-size: 67px;
+  font-weight: 900;
+  color: #fbfbfb;
+  margin-left: 10px;
 }
 
 .banner_1 .wsus__single_banner_text h3 {

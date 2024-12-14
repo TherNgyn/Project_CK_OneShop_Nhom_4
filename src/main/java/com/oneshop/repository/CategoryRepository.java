@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jdbc.repository.query.Query;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.oneshop.entity.Category;
@@ -21,4 +22,6 @@ public interface CategoryRepository extends JpaRepository<Category, Integer> {
 	// Tìm kiếm và Phân trang
 	// Ham phan trang
 	Page<Category> findByNameContaining(String name, Pageable pageable);
+	@Query("SELECT c FROM Category c LEFT JOIN FETCH c.products p ORDER BY p.sold DESC")
+    List<Category> findTop6CategoriesWithProducts(Pageable pageable);
 }

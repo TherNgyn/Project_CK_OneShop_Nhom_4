@@ -42,7 +42,7 @@
 								<div class="wsus__contact_single">
 									<i class="fal fa-envelope"></i>
 									<h5>mail address</h5>
-									<a href="mailto:example@gmail.com">example@gmail.com</a> <span><i
+									<a href="mailto:oneshop@gmail.com">oneshop@gmail.com</a> <span><i
 										class="fal fa-envelope"></i></span>
 								</div>
 							</div>
@@ -50,7 +50,7 @@
 								<div class="wsus__contact_single">
 									<i class="far fa-phone-alt"></i>
 									<h5>phone number</h5>
-									<a href="macallto:+69522145000001">+69522145000001</a> <span><i
+									<a href="macallto:+09427823551">+0942782355</a> <span><i
 										class="far fa-phone-alt"></i></span>
 								</div>
 							</div>
@@ -58,7 +58,7 @@
 								<div class="wsus__contact_single">
 									<i class="fal fa-map-marker-alt"></i>
 									<h5>contact address</h5>
-									<a href="mailto:example@gmail.com">example@gmail.com</a> <span><i
+									<a href="mailto:oneshop@gmail.com">oneshop@gmail.com</a> <span><i
 										class="fal fa-map-marker-alt"></i></span>
 								</div>
 							</div>

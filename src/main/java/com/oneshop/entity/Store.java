@@ -55,10 +55,5 @@ public class Store {
     @OneToMany(mappedBy = "store", cascade = CascadeType.ALL)
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
-    private List<Transaction> transactions;
-
-    @OneToMany(mappedBy = "store", cascade = CascadeType.ALL)
-    @ToString.Exclude
-    @EqualsAndHashCode.Exclude
     private List<Order> orders;
 }
