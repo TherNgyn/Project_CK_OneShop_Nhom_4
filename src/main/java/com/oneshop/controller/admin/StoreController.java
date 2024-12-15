@@ -1,6 +1,7 @@
 package com.oneshop.controller.admin;
 
 import com.oneshop.entity.Product;
+import com.oneshop.entity.ProductImage;
 import com.oneshop.entity.Store;
 import com.oneshop.model.ProductModel;
 import com.oneshop.service.IProductService;
@@ -115,7 +116,13 @@ public class StoreController {
 
         // Lấy danh sách sản phẩm dựa trên storeId, status, và searchTerm
         List<Product> products = productService.findProducts(storeId, status, searchTerm); // Cập nhật phương thức findProducts
-
+        // Thêm URL hình ảnh chính vào từng sản phẩm
+        for (Product product : products) {
+            ProductImage mainImage = product.getMainImage();
+            if (mainImage != null) {
+                product.setImageUrls(List.of(mainImage.getImageUrl())); // Sử dụng thuộc tính `imageUrls` để lưu URL hình ảnh chính
+            }
+        }
         // Truyền dữ liệu vào model
         model.addAttribute("products", products);
         model.addAttribute("status", status);

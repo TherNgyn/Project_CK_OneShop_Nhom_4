@@ -58,6 +58,7 @@ public interface OrderRepository extends JpaRepository<Order, Integer> {
 	
 	boolean existsByUserId(Integer userId);
 
+<<<<<<< HEAD
 	long countByStatus(String status);
 	
 	@Query("SELECT DISTINCT o FROM Order o JOIN o.orderItems oi JOIN oi.product p WHERE p.store.id = :storeId")
@@ -84,5 +85,16 @@ public interface OrderRepository extends JpaRepository<Order, Integer> {
     Double findTodayRevenue(LocalDateTime startOfDay, LocalDateTime endOfDay);
 	@Query("SELECT o FROM Order o WHERE o.status IN ('In Transit_1', 'In Transit_2')")
     List<Order> findOrdersInTransit();
+=======
+	List<Order> findByStatusIgnoreCase(String status);
+    List<Order> findByStatusIgnoreCaseAndPhoneContainingIgnoreCase(String status, String phone);
+
+	List<Order> findByStatusIgnoreCaseAndPhoneContainingIgnoreCaseOrUserFirstNameContainingIgnoreCaseOrUserLastNameContainingIgnoreCase(
+			String status, String searchTerm, String searchTerm2, String searchTerm3);
+
+	List<Order> findByPhoneContainingIgnoreCaseOrUserFirstNameContainingIgnoreCaseOrUserLastNameContainingIgnoreCase(
+			String searchTerm, String searchTerm2, String searchTerm3);
+
+>>>>>>> 00b73af36c1b4ff6b1ac3ec10dd6d40e5cb899c6
 }
 

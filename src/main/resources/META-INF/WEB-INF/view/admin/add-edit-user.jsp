@@ -2,20 +2,51 @@
 
 <!DOCTYPE html>
 <html lang="en">
-<head>
+<body>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Thêm/Sửa Người Dùng</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.0/css/bootstrap.min.css">
-</head>
-<body>
-    <div class="container mt-5">
-	    <div style="text-align: center; margin-bottom: 40px;">
-		    <h2 style="font-size: 36px; font-weight: 600; color: #333; letter-spacing: 1px; font-family: 'Roboto', sans-serif; 
-		               text-transform: uppercase; margin-bottom: 10px;">
-		        THÔNG TIN NGƯỜI DÙNG
-		    </h2>
-		</div>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+
+    <style>
+    	html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: 'Open Sans', sans-serif;
+            background-color: #f8f9fa;
+        }
+    	.section-title {
+	        text-align: center;
+	        font-size: 2.5rem;
+	        font-weight: bold;
+	        background: linear-gradient(90deg, #007BFF, #00C6FF);
+	        -webkit-background-clip: text;
+	        color: transparent;
+	        text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+	        margin-bottom: 30px;
+	        margin-top: 50px;
+	        text-transform: uppercase;
+	        letter-spacing: 3px;
+	        position: relative;
+	    }
+	
+	    .section-title::after {
+	        content: "";
+	        display: block;
+	        width: 120px;
+	        height: 4px;
+	        background: linear-gradient(90deg, #007BFF, #00C6FF);
+	        margin: 10px auto 0;
+	        border-radius: 2px;
+	    }
+	
+	    .section-title:hover {
+	        transform: scale(1.05);
+	        transition: transform 0.3s ease-in-out;
+	    }
+	</style>
+		<h2 class="section-title">THÔNG TIN NGƯỜI DÙNG</h2>
 
         <!-- Hiển thị thông báo lỗi nếu có -->
         <div class="alert alert-warning" role="alert" style="${error != null && error.trim().length() > 0 ? '' : 'display: none;'}">

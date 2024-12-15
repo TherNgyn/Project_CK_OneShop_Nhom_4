@@ -90,5 +90,8 @@ public class Product {
                      .orElse(null); // Trả về null nếu không có hình ảnh chính
     }
 
+<<<<<<< HEAD
 	
+=======
+>>>>>>> 00b73af36c1b4ff6b1ac3ec10dd6d40e5cb899c6
 }

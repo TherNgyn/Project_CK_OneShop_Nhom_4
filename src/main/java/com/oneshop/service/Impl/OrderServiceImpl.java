@@ -20,6 +20,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import com.oneshop.entity.Order;
 import com.oneshop.entity.OrderItem;
@@ -338,6 +339,7 @@ public class OrderServiceImpl implements IOrderService {
 	}
 	
 	@Override
+<<<<<<< HEAD
 	public long countPendingOrders() {
         return orderRepository.countByStatus("processing_1");
     }
@@ -383,4 +385,27 @@ public class OrderServiceImpl implements IOrderService {
         order.setStatus(status);
         orderRepository.save(order);
     }
+=======
+	public List<Order> findOrders(String status, String searchTerm) {
+	    // Cả status và searchTerm đều null, trả về tất cả đơn hàng
+	    if (!StringUtils.hasText(status) && !StringUtils.hasText(searchTerm)) {
+	        return orderRepository.findAll();
+	    }
+
+	    // Nếu status null, tìm kiếm theo searchTerm (số điện thoại hoặc tên khách hàng)
+	    if (!StringUtils.hasText(status)) {
+	        return orderRepository.findByPhoneContainingIgnoreCaseOrUserFirstNameContainingIgnoreCaseOrUserLastNameContainingIgnoreCase(searchTerm, searchTerm, searchTerm);
+	    }
+
+	    // Nếu searchTerm null, tìm kiếm theo status
+	    if (!StringUtils.hasText(searchTerm)) {
+	        return orderRepository.findByStatusIgnoreCase(status);
+	    }
+
+	    // Nếu cả hai đều có giá trị, tìm theo cả status và searchTerm (số điện thoại hoặc tên khách hàng)
+	    return orderRepository.findByStatusIgnoreCaseAndPhoneContainingIgnoreCaseOrUserFirstNameContainingIgnoreCaseOrUserLastNameContainingIgnoreCase(status, searchTerm, searchTerm, searchTerm);
+	}
+
+
+>>>>>>> 00b73af36c1b4ff6b1ac3ec10dd6d40e5cb899c6
 }
