@@ -107,10 +107,13 @@
 								</ul>
 						    </li>
 						    <li class="nav-item">
-						        <a class="nav-link" href="/admin/orders">Quản lý đơn hàng</a>
+						        <a class="nav-link" href="/admin/orders">Đơn hàng</a>
 						    </li>
 						    <li class="nav-item">
-						        <a class="nav-link" href="/admin/users">Quản lý người dùng</a>
+						        <a class="nav-link" href="/admin/users">Người dùng</a>
+						    </li>
+						    <li class="nav-item">
+						        <a class="nav-link" href="/admin/deliveries">Vận chuyển</a>
 						    </li>
 						    <li class="wsus__relative_li">Thống kê <i class="fas fa-caret-down"></i>
 								<ul class="wsus__menu_droapdown">

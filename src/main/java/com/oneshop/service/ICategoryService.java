@@ -40,5 +40,6 @@ public interface ICategoryService {
 	Category findOneByName(String name);
 	List<Category> findByNameContaining(String name);
 	Category getReferenceById(Integer id);
+	List<Category> findCategories(String name);
 
 }
