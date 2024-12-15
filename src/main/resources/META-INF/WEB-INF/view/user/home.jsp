@@ -56,80 +56,6 @@
 							</div>
 							<div class="col-xl-6 col-12 col-sm-12 col-md-12 col-lg-6">
 								<div class="wsus__pro_details_text">
-									<a class="title" href="#">Electronics Black Wrist Watch</a>
-									<p class="wsus__stock_area">
-										<span class="in_stock">in stock</span> (167 item)
-									</p>
-									<h4>
-										$50.00
-										<del>$60.00</del>
-									</h4>
-									<p class="review">
-										<i class="fas fa-star"></i> <i class="fas fa-star"></i> <i
-											class="fas fa-star"></i> <i class="fas fa-star"></i> <i
-											class="fas fa-star-half-alt"></i> <span>20 review</span>
-									</p>
-									<p class="description">Lorem ipsum dolor sit amet
-										consectetur adipisicing elit.</p>
-
-									<div class="wsus_pro_hot_deals">
-										<h5>offer ending time :</h5>
-										<div class="simply-countdown simply-countdown-one"></div>
-									</div>
-									<div class="wsus_pro_det_color">
-										<h5>color :</h5>
-										<ul>
-											<li><a class="blue" href="#"><i class="far fa-check"></i></a></li>
-											<li><a class="orange" href="#"><i
-													class="far fa-check"></i></a></li>
-											<li><a class="yellow" href="#"><i
-													class="far fa-check"></i></a></li>
-											<li><a class="black" href="#"><i
-													class="far fa-check"></i></a></li>
-											<li><a class="red" href="#"><i class="far fa-check"></i></a></li>
-										</ul>
-									</div>
-									<div class="wsus_pro__det_size">
-										<h5>size :</h5>
-										<ul>
-											<li><a href="#">S</a></li>
-											<li><a href="#">M</a></li>
-											<li><a href="#">L</a></li>
-											<li><a href="#">XL</a></li>
-										</ul>
-									</div>
-									<div class="wsus__quentity">
-										<h5>quentity :</h5>
-										<form class="select_number">
-											<input class="number_area" type="text" min="1" max="100"
-												value="1" />
-										</form>
-										<h3>$50.00</h3>
-									</div>
-									<div class="wsus__selectbox">
-										<div class="row">
-											<div class="col-xl-6 col-sm-6">
-												<h5 class="mb-2">select:</h5>
-												<select class="select_2" name="state">
-													<option>default select</option>
-													<option>select 1</option>
-													<option>select 2</option>
-													<option>select 3</option>
-													<option>select 4</option>
-												</select>
-											</div>
-											<div class="col-xl-6 col-sm-6">
-												<h5 class="mb-2">select:</h5>
-												<select class="select_2" name="state">
-													<option>default select</option>
-													<option>select 1</option>
-													<option>select 2</option>
-													<option>select 3</option>
-													<option>select 4</option>
-												</select>
-											</div>
-										</div>
-									</div>
 									<ul class="wsus__button_area">
 										<li><form action="/user/cart/add/${product.id}"
 												method="POST">
@@ -406,75 +332,77 @@
 					</div>
 				</div>
 			</section>
+		</div>
+	</section>
 
-			<!--============================
+	<!--============================
        MONTHLY TOP PRODUCT END
     ==============================-->
 
 
 
-			<!--============================
+	<!--============================
         BRAND SLIDER START
     ==============================-->
-			<section id="wsus__brand_sleder" class="brand_slider_2">
-				<div class="container">
-					<div class="brand_border">
-						<div class="row brand_slider">
-							<div class="col-xl-2">
-								<div class="wsus__brand_logo">
-									<img
-										src="https://res.cloudinary.com/dl0bk0sgl/image/upload/v1734151450/z6129009593322_84a80510f36c285c50bf6fc2e1d77ffe_jxdfms.jpg"
-										alt="brand" class="img-fluid w-100">
-								</div>
-							</div>
-							<div class="col-xl-2">
-								<div class="wsus__brand_logo">
-									<img
-										src="https://res.cloudinary.com/dl0bk0sgl/image/upload/v1734151450/z6129009436154_990310ec16b5256a732f897282fc8007_m91prp.jpg"
-										alt="brand" class="img-fluid w-100">
-								</div>
-							</div>
-							<div class="col-xl-2">
-								<div class="wsus__brand_logo">
-									<img
-										src="https://res.cloudinary.com/dl0bk0sgl/image/upload/v1734151450/z6129009564789_d808e11a5be26a6176cfc3e551753b94_tjiogt.jpg"
-										alt="brand" class="img-fluid w-100">
-								</div>
-							</div>
-							<div class="col-xl-2">
-								<div class="wsus__brand_logo">
-									<img
-										src="https://res.cloudinary.com/dl0bk0sgl/image/upload/v1734151450/z6129009436153_bfeb396f97a7dab30bd532c64cb8e404_ulaogg.jpg"
-										alt="brand" class="img-fluid w-100">
-								</div>
-							</div>
-							<div class="col-xl-2">
-								<div class="wsus__brand_logo">
-									<img
-										src="https://res.cloudinary.com/dl0bk0sgl/image/upload/v1734151449/z6129009436010_5a7bd18c34b108f390e73980a026f295_xern1q.jpg"
-										alt="brand" class="img-fluid w-100">
-								</div>
-							</div>
-							<div class="col-xl-2">
-								<div class="wsus__brand_logo">
-									<img
-										src="https://res.cloudinary.com/dl0bk0sgl/image/upload/v1734151449/z6129009436009_96f351a91fab03de1f7227850d7f0f91_jfxj1a.jpg"
-										alt="brand" class="img-fluid w-100">
-								</div>
-							</div>
-							<div class="col-xl-2">
-								<div class="wsus__brand_logo">
-									<img
-										src="https://res.cloudinary.com/dl0bk0sgl/image/upload/v1734151449/z6129009402521_abcf6bb9736ff27853a55e58096dd805_tnvohu.jpg"
-										alt="brand" class="img-fluid w-100">
-								</div>
-							</div>
+	<section id="wsus__brand_sleder" class="brand_slider_2">
+		<div class="container">
+			<div class="brand_border">
+				<div class="row brand_slider">
+					<div class="col-xl-2">
+						<div class="wsus__brand_logo">
+							<img
+								src="https://res.cloudinary.com/dl0bk0sgl/image/upload/v1734151450/z6129009593322_84a80510f36c285c50bf6fc2e1d77ffe_jxdfms.jpg"
+								alt="brand" class="img-fluid w-100">
+						</div>
+					</div>
+					<div class="col-xl-2">
+						<div class="wsus__brand_logo">
+							<img
+								src="https://res.cloudinary.com/dl0bk0sgl/image/upload/v1734151450/z6129009436154_990310ec16b5256a732f897282fc8007_m91prp.jpg"
+								alt="brand" class="img-fluid w-100">
+						</div>
+					</div>
+					<div class="col-xl-2">
+						<div class="wsus__brand_logo">
+							<img
+								src="https://res.cloudinary.com/dl0bk0sgl/image/upload/v1734151450/z6129009564789_d808e11a5be26a6176cfc3e551753b94_tjiogt.jpg"
+								alt="brand" class="img-fluid w-100">
+						</div>
+					</div>
+					<div class="col-xl-2">
+						<div class="wsus__brand_logo">
+							<img
+								src="https://res.cloudinary.com/dl0bk0sgl/image/upload/v1734151450/z6129009436153_bfeb396f97a7dab30bd532c64cb8e404_ulaogg.jpg"
+								alt="brand" class="img-fluid w-100">
+						</div>
+					</div>
+					<div class="col-xl-2">
+						<div class="wsus__brand_logo">
+							<img
+								src="https://res.cloudinary.com/dl0bk0sgl/image/upload/v1734151449/z6129009436010_5a7bd18c34b108f390e73980a026f295_xern1q.jpg"
+								alt="brand" class="img-fluid w-100">
+						</div>
+					</div>
+					<div class="col-xl-2">
+						<div class="wsus__brand_logo">
+							<img
+								src="https://res.cloudinary.com/dl0bk0sgl/image/upload/v1734151449/z6129009436009_96f351a91fab03de1f7227850d7f0f91_jfxj1a.jpg"
+								alt="brand" class="img-fluid w-100">
+						</div>
+					</div>
+					<div class="col-xl-2">
+						<div class="wsus__brand_logo">
+							<img
+								src="https://res.cloudinary.com/dl0bk0sgl/image/upload/v1734151449/z6129009402521_abcf6bb9736ff27853a55e58096dd805_tnvohu.jpg"
+								alt="brand" class="img-fluid w-100">
 						</div>
 					</div>
 				</div>
-			</section>
+			</div>
+		</div>
+	</section>
 
-			<script>
+	<script>
 		$(document)
 				.ready(
 						function() {
@@ -486,8 +414,8 @@
 												autoplay : true,
 												autoplaySpeed : 2000,
 												arrows : true,
-												prevArrow : '<div class="prv_arr"><i class="fas fa-chevron-left"></i></div>',
-												nextArrow : '<div class="nxt_arr"><i class="fas fa-chevron-right"></i></div>',
+												prevArrow : '<div class="prv_arr"><i class=""></i></div>',
+												nextArrow : '<div class="nxt_arr"><i class=""></i></div>',
 												responsive : [ {
 													breakpoint : 768,
 													settings : {
@@ -502,216 +430,216 @@
 											});
 						});
 	</script>
-			<!--============================
+	<!--============================
         BRAND SLIDER END
     ==============================-->
 
 
-			<!--============================
+	<!--============================
         SINGLE BANNER START
     ==============================-->
-			<section id="wsus__single_banner" class="wsus__single_banner_2">
-				<div class="container">
-					<div class="row">
-						<div class="col-xl-6 col-lg-6">
-							<div class="wsus__single_banner_content">
-								<div class="wsus__single_banner_img">
-									<img
-										src="https://res.cloudinary.com/dl0bk0sgl/image/upload/v1734151451/z6129009465372_8d89fb304a13850c7e0adefe5d616fd5_grqym8.jpg"
-										alt="banner" class="img-fluid w-100">
-								</div>
-								<div class="wsus__single_banner_text">
-									<h6>
-										sell on <span>20% off</span>
-									</h6>
-									<h3>Makeup Products</h3>
-									<a class="shop_btn" href="#">shop now</a>
-								</div>
-							</div>
+	<section id="wsus__single_banner" class="wsus__single_banner_2">
+		<div class="container">
+			<div class="row">
+				<div class="col-xl-6 col-lg-6">
+					<div class="wsus__single_banner_content">
+						<div class="wsus__single_banner_img">
+							<img
+								src="https://res.cloudinary.com/dl0bk0sgl/image/upload/v1734151451/z6129009465372_8d89fb304a13850c7e0adefe5d616fd5_grqym8.jpg"
+								alt="banner" class="img-fluid w-100">
 						</div>
-						<div class="col-xl-6 col-lg-6">
-							<div class="wsus__single_banner_content single_banner_2">
-								<div class="wsus__single_banner_img">
-									<img
-										src="https://res.cloudinary.com/dl0bk0sgl/image/upload/v1734147785/z6128873503763_d69634535847a555e5fe4fe3168924fa_narf5i.jpg"
-										alt="banner" class="img-fluid w-100">
-								</div>
-								<div class="wsus__single_banner_text">
-									<h6>New Collection</h6>
-									<h3>Skincare Products</h3>
-									<a class="shop_btn" href="#">shop now</a>
-								</div>
-							</div>
+						<div class="wsus__single_banner_text">
+							<h6>
+								sell on <span>20% off</span>
+							</h6>
+							<h3>Makeup Products</h3>
+							<a class="shop_btn" href="#">shop now</a>
 						</div>
 					</div>
 				</div>
-			</section>
-			<!--============================
+				<div class="col-xl-6 col-lg-6">
+					<div class="wsus__single_banner_content single_banner_2">
+						<div class="wsus__single_banner_img">
+							<img
+								src="https://res.cloudinary.com/dl0bk0sgl/image/upload/v1734147785/z6128873503763_d69634535847a555e5fe4fe3168924fa_narf5i.jpg"
+								alt="banner" class="img-fluid w-100">
+						</div>
+						<div class="wsus__single_banner_text">
+							<h6>New Collection</h6>
+							<h3>Skincare Products</h3>
+							<a class="shop_btn" href="#">shop now</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<!--============================
         SINGLE BANNER END  
     ==============================-->
 
 
-			<!--============================
+	<!--============================
         HOT DEALS START
     ==============================-->
-			<section id="wsus__hot_deals" class="wsus__hot_deals_2">
-				<div class="container">
-					<div class="row">
-						<div class="col-xl-12">
-							<div class="wsus__section_header">
-								<h3>Products with High Ratings</h3>
+	<section id="wsus__hot_deals" class="wsus__hot_deals_2">
+		<div class="container">
+			<div class="row">
+				<div class="col-xl-12">
+					<div class="wsus__section_header">
+						<h3>Products with High Ratings</h3>
+					</div>
+				</div>
+			</div>
+			<div class="row hot_deals_slider_2">
+				<c:forEach var="product" items="${topRatedProducts}">
+					<div class="col-xl-4 col-lg-6">
+						<div class="wsus__hot_deals_offer">
+							<div class="wsus__hot_deals_img">
+								<c:forEach var="image" items="${product.images}">
+									<c:if test="${image.isMain}">
+										<img src="${image.imageUrl}" alt="${product.name}"
+											class="img-fluid w-100">
+									</c:if>
+								</c:forEach>
+							</div>
+							<div class="wsus__hot_deals_text">
+								<a class="wsus__hot_title"
+									href="/user/products/productdetail?id=${product.id}">
+									${product.name} </a>
+								<p class="wsus__rating">
+									<c:forEach begin="1" end="${product.rating}" var="i">
+										<i class="fas fa-star"></i>
+									</c:forEach>
+									<c:if test="${product.rating % 1 != 0}">
+										<i class="fas fa-star-half-alt"></i>
+									</c:if>
+									<span>(${product.reviews.size()}
+										review${product.reviews.size() > 1 ? 's' : ''})</span>
+								</p>
+								<p class="wsus__hot_deals_proce">
+									$${product.price}
+									<c:if test="${product.promotionalPrice != null}">
+										<del>${product.promotionalPrice}</del>
+									</c:if>
+								</p>
+								<p class="wsus__details">${product.description}</p>
+								<ul>
+									<li><form action="/user/cart/add/${product.id}"
+											method="POST">
+											<input type="hidden" name="_csrf" value="${_csrf.token}">
+											<input type="hidden" name="quantity" value="1"> <a
+												class="add_cart" href="#"
+												onclick="this.closest('form').submit(); return false;">ADD
+												TO CART</a>
+										</form></li>
+									<li><a href="#"><i class="far fa-heart"></i></a></li>
+									<li><a href="#"><i class="far fa-random"></i></a></li>
+								</ul>
 							</div>
 						</div>
 					</div>
-					<div class="row hot_deals_slider_2">
-						<c:forEach var="product" items="${topRatedProducts}">
-							<div class="col-xl-4 col-lg-6">
-								<div class="wsus__hot_deals_offer">
-									<div class="wsus__hot_deals_img">
-										<c:forEach var="image" items="${product.images}">
-											<c:if test="${image.isMain}">
-												<img src="${image.imageUrl}" alt="${product.name}"
-													class="img-fluid w-100">
-											</c:if>
-										</c:forEach>
-									</div>
-									<div class="wsus__hot_deals_text">
-										<a class="wsus__hot_title"
-											href="/user/products/productdetail?id=${product.id}">
-											${product.name} </a>
-										<p class="wsus__rating">
-											<c:forEach begin="1" end="${product.rating}" var="i">
-												<i class="fas fa-star"></i>
-											</c:forEach>
-											<c:if test="${product.rating % 1 != 0}">
-												<i class="fas fa-star-half-alt"></i>
-											</c:if>
-											<span>(${product.reviews.size()}
-												review${product.reviews.size() > 1 ? 's' : ''})</span>
-										</p>
-										<p class="wsus__hot_deals_proce">
-											$${product.price}
-											<c:if test="${product.promotionalPrice != null}">
-												<del>${product.promotionalPrice}</del>
-											</c:if>
-										</p>
-										<p class="wsus__details">${product.description}</p>
-										<ul>
-											<li><form action="/user/cart/add/${product.id}"
-													method="POST">
-													<input type="hidden" name="_csrf" value="${_csrf.token}">
-													<input type="hidden" name="quantity" value="1"> <a
-														class="add_cart" href="#"
-														onclick="this.closest('form').submit(); return false;">ADD
-														TO CART</a>
-												</form></li>
-											<li><a href="#"><i class="far fa-heart"></i></a></li>
-											<li><a href="#"><i class="far fa-random"></i></a></li>
-										</ul>
-									</div>
-								</div>
-							</div>
-						</c:forEach>
-					</div>
-				</div>
-			</section>
+				</c:forEach>
+			</div>
+		</div>
+	</section>
 
-			<!--============================
+	<!--============================
         HOT DEALS END  
     ==============================-->
 
 
-			<!--============================
+	<!--============================
         ELECTRONIC PART START  
     ==============================-->
-			<section id="wsus__electronic">
-				<div class="container"></div>
-			</section>
-			<!--============================
+	<section id="wsus__electronic">
+		<div class="container"></div>
+	</section>
+	<!--============================
         ELECTRONIC PART END  
     ==============================-->
 
 
 
-			<!--============================
+	<!--============================
       HOME SERVICES START
     ==============================-->
-			<section id="wsus__home_services" class="home_service_2">
-				<div class="container">
-					<div class="row">
-						<div class="col-xl-3 col-sm-6 col-lg-3 pe-lg-0">
-							<div
-								class="wsus__home_services_single home_service_single_2 border_left">
-								<i class="fal fa-truck"></i>
-								<h5>Free Worldwide Shipping</h5>
-								<p>Free shipping coast for all country</p>
-							</div>
-						</div>
-						<div class="col-xl-3 col-sm-6 col-lg-3 pe-lg-0">
-							<div class="wsus__home_services_single home_service_single_2">
-								<i class="fal fa-headset"></i>
-								<h5>24/7 Customer Support</h5>
-								<p>Friendly 24/7 customer support</p>
-							</div>
-						</div>
-						<div class="col-xl-3 col-sm-6 col-lg-3 pe-lg-0">
-							<div class="wsus__home_services_single home_service_single_2">
-								<i class="far fa-exchange-alt"></i>
-								<h5>Money Back Guarantee</h5>
-								<p>We return money within 30 days</p>
-							</div>
-						</div>
-						<div class="col-xl-3 col-sm-6 col-lg-3">
-							<div class="wsus__home_services_single home_service_single_2">
-								<i class="fal fa-credit-card"></i>
-								<h5>Secure Online Payment</h5>
-								<p>We posess SSL / Secure Certificate</p>
-							</div>
-						</div>
+	<section id="wsus__home_services" class="home_service_2">
+		<div class="container">
+			<div class="row">
+				<div class="col-xl-3 col-sm-6 col-lg-3 pe-lg-0">
+					<div
+						class="wsus__home_services_single home_service_single_2 border_left">
+						<i class="fal fa-truck"></i>
+						<h5>Free Worldwide Shipping</h5>
+						<p>Free shipping coast for all country</p>
 					</div>
 				</div>
-			</section>
-			<!--============================
+				<div class="col-xl-3 col-sm-6 col-lg-3 pe-lg-0">
+					<div class="wsus__home_services_single home_service_single_2">
+						<i class="fal fa-headset"></i>
+						<h5>24/7 Customer Support</h5>
+						<p>Friendly 24/7 customer support</p>
+					</div>
+				</div>
+				<div class="col-xl-3 col-sm-6 col-lg-3 pe-lg-0">
+					<div class="wsus__home_services_single home_service_single_2">
+						<i class="far fa-exchange-alt"></i>
+						<h5>Money Back Guarantee</h5>
+						<p>We return money within 30 days</p>
+					</div>
+				</div>
+				<div class="col-xl-3 col-sm-6 col-lg-3">
+					<div class="wsus__home_services_single home_service_single_2">
+						<i class="fal fa-credit-card"></i>
+						<h5>Secure Online Payment</h5>
+						<p>We posess SSL / Secure Certificate</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<!--============================
         HOME SERVICES END
     ==============================-->
 
 
-			<!--============================
+	<!--============================
         HOME BLOGS START
     ==============================-->
-			<section id="wsus__blogs" class="home_blogs">
-				<div class="container">
-					<div class="row">
-						<div class="col-xl-12">
-							<div class="wsus__section_header">
-								<h3>Recent Blogs</h3>
-								<a class="see_btn" href="/blogs">See More <i
-									class="fas fa-caret-right"></i></a>
+	<section id="wsus__blogs" class="home_blogs">
+		<div class="container">
+			<div class="row">
+				<div class="col-xl-12">
+					<div class="wsus__section_header">
+						<h3>Recent Blogs</h3>
+						<a class="see_btn" href="/blogs">See More <i
+							class="fas fa-caret-right"></i></a>
+					</div>
+				</div>
+			</div>
+			<div class="row home_blog_slider">
+				<c:forEach var="blog" items="${latestBlogs}">
+					<div class="col-xl-3">
+						<div class="wsus__single_blog wsus__single_blog_2">
+							<a class="wsus__blog_img" href="/blog/${blog.id}"> <img
+								src="${blog.imageUrl}" alt="${blog.title}"
+								class="img-fluid w-100">
+							</a>
+							<div class="wsus__blog_text">
+								<a class="blog_top" href="#">${blog.category}</a>
+								<div class="wsus__blog_text_center">
+									<a href="/blog/${blog.id}">${blog.title}</a>
+								</div>
 							</div>
 						</div>
 					</div>
-					<div class="row home_blog_slider">
-						<c:forEach var="blog" items="${latestBlogs}">
-							<div class="col-xl-3">
-								<div class="wsus__single_blog wsus__single_blog_2">
-									<a class="wsus__blog_img" href="/blog/${blog.id}"> <img
-										src="${blog.imageUrl}" alt="${blog.title}"
-										class="img-fluid w-100">
-									</a>
-									<div class="wsus__blog_text">
-										<a class="blog_top" href="#">${blog.category}</a>
-										<div class="wsus__blog_text_center">
-											<a href="/blog/${blog.id}">${blog.title}</a>
-										</div>
-									</div>
-								</div>
-							</div>
-						</c:forEach>
-					</div>
-				</div>
-			</section>
+				</c:forEach>
+			</div>
+		</div>
+	</section>
 
-			<!--============================
+	<!--============================
         HOME BLOGS END
     ==============================-->
 </body>
