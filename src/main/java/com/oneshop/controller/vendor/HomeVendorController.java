@@ -66,7 +66,11 @@ public class HomeVendorController {
     public ModelAndView vendorHome(ModelMap model) {
         // Lấy thông tin user từ session
         User loggedInUser = (User) session.getAttribute("user");
-              
+		
+        if (loggedInUser == null) {
+            return new ModelAndView("redirect:/login");
+        }
+        
         if ("ROLE_VENDOR".equals(loggedInUser.getRole())) {
             // Truy vấn để lấy store dựa trên ownerid
             Store vendorStore = storeService.findByOwner(loggedInUser);

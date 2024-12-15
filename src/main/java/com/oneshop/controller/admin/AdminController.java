@@ -18,8 +18,8 @@ import com.oneshop.entity.Product;
 import com.oneshop.model.MonthlyRevenue;
 import com.oneshop.model.YearlyRevenue;
 import com.oneshop.service.IOrderService;
+import com.oneshop.service.IProductService;
 import com.oneshop.service.Impl.OrderServiceImpl;
-import com.oneshop.service.Impl.ProductServiceImpl;
 import com.oneshop.service.Impl.UserServiceImpl;
 
 @Controller
@@ -28,7 +28,7 @@ public class AdminController {
 	@Autowired
     private OrderServiceImpl orderService; 
 	@Autowired
-    private ProductServiceImpl productService; 
+    private IProductService productService; 
 	@Autowired
     private UserServiceImpl userService; 
 	

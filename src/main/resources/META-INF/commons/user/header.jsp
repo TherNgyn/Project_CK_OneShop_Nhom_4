@@ -200,6 +200,7 @@
 							</div></li> --%>
 						<li><a href="/user/products">product</a></li>
 						<li><a href="/blog">blog</a></li>
+						<li><a href="/vendor/home">Vendor Chanel</a></li>
 						<li><a href="/user/delivery">Track Order</a></li>
 					</ul>
 					<ul class="wsus__menu_item wsus__menu_item_right">

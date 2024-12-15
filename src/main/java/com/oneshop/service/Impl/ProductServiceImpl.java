@@ -1,7 +1,13 @@
 package com.oneshop.service.Impl;
 
+import java.io.IOException;
+import java.sql.Date;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
@@ -10,21 +16,39 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.oneshop.repository.ProductImageRepository;
 import com.oneshop.repository.ProductRepository;
+import com.oneshop.entity.CartItem;
 import com.oneshop.entity.Category;
+import com.oneshop.entity.Inventory;
 import com.oneshop.entity.Order;
 import com.oneshop.entity.Product;
 import com.oneshop.entity.ProductImage;
 import com.oneshop.entity.ProductSpecification;
+import com.oneshop.entity.Review;
 import com.oneshop.entity.Store;
 import com.oneshop.service.IProductService;
+
+import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
+import lombok.Data;
 
 @Service
 public class ProductServiceImpl implements IProductService {
 
 	@Autowired
 	ProductRepository productRepository;
+	
+	@Autowired
+	ProductImageRepository productImageRepository;
+	
+	@Autowired
+	InventoryService inventoryService;
+	
+	@Autowired
+	private CloudinaryService cloudinaryService;
 
 	@Override
 	public List<Product> findBynameContaining(String name) {
@@ -93,8 +117,8 @@ public class ProductServiceImpl implements IProductService {
 	}
 
 	@Override
-	public List<Product> findTop4ByOrderBySoldDesc() {
-		return productRepository.findTop4ByOrderBySoldDesc();
+	public List<Product> findTop8ByOrderBySoldDesc() {
+		return productRepository.findTop8ByOrderBySoldDesc();
 	}
 
 	@Override
@@ -218,6 +242,126 @@ public class ProductServiceImpl implements IProductService {
         Specification<Product> spec = ProductSpecification.filterByCriteria(name, categoryNames, brand, minPrice, maxPrice);
         return productRepository.findAll(spec, pageable);
     }
+	
+	@Override
+	public List<Product> findTop4ByIsSelling(){
+		return productRepository.findTop4ByIsSellingTrueOrderByIdDesc();
+	}
+
+	@Override
+	public Page<Product> findByStatus(Boolean status, Pageable pageable) {
+		return productRepository.findByIsSelling(status, pageable);
+	}
+	@Override
+	public String updateProductWithImages(Product product, Integer quantity, MultipartFile mainImage, MultipartFile[] additionalImages, Integer productId, String removedImages) {
+	    try {
+	        // Lấy sản phẩm hiện có
+	        Product existingProduct = productRepository.findById(productId).orElse(null);
+	        if (existingProduct == null) {
+	            return "Sản phẩm không tồn tại.";
+	        }
+
+	        // Cập nhật thông tin sản phẩm cơ bản
+	        existingProduct.setName(product.getName());
+	        existingProduct.setPrice(product.getPrice());
+	        existingProduct.setIsSelling(product.getIsSelling());
+	        existingProduct.setBrand(product.getBrand());
+	        existingProduct.setDescription(product.getDescription());
+	        existingProduct.setCategory(product.getCategory());
+
+	        // Xử lý hình ảnh chính (mainImage)
+	        if (mainImage != null && !mainImage.isEmpty()) {
+	            String newImageUrl;
+	            ProductImage mainProductImage = existingProduct.getMainImage();
+
+	            // Nếu có ảnh chính cũ, xóa ảnh chính cũ
+	            if (mainProductImage != null) {
+	                existingProduct.getImages().remove(mainProductImage);
+	            }
+
+	            // Tạo mới hoặc cập nhật ảnh chính
+	            newImageUrl = cloudinaryService.uploadFile(mainImage);
+
+	            // Tạo mới ảnh chính và gán cho sản phẩm
+	            ProductImage newMainImage = new ProductImage();
+	            newMainImage.setProduct(existingProduct);
+	            newMainImage.setImageUrl(newImageUrl);
+	            newMainImage.setIsMain(true);
+
+	            existingProduct.getImages().add(newMainImage);
+	        }
+
+	        // Xử lý xóa các hình ảnh đã bị xóa
+	        if (removedImages != null && !removedImages.isEmpty()) {
+	            String[] removedImageUrls = removedImages.split(",");
+	            for (String imageUrl : removedImageUrls) {
+	                // Xóa ảnh phụ khỏi danh sách sản phẩm (chỉ xóa ảnh không phải ảnh chính)
+	                existingProduct.getImages().removeIf(image -> 
+	                    !image.getIsMain() && image.getImageUrl().equals(imageUrl)
+	                );
+	            }
+	        }
+
+	        // Xử lý các ảnh phụ (additional images)
+	        if (additionalImages != null && additionalImages.length > 0) {
+	            for (MultipartFile file : additionalImages) {
+	                if (!file.isEmpty()) {
+	                    try {
+	                        String imageUrl = cloudinaryService.uploadFile(file);
+
+	                        ProductImage newImage = new ProductImage();
+	                        newImage.setProduct(existingProduct);
+	                        newImage.setImageUrl(imageUrl);
+	                        newImage.setIsMain(false);  // Đánh dấu ảnh này là ảnh phụ
+
+	                        existingProduct.getImages().add(newImage);
+	                    } catch (IOException e) {
+	                        e.printStackTrace();
+	                        return "Lỗi khi tải lên hình ảnh.";
+	                    }
+	                }
+	            }
+	        }
+	        Inventory inventory = inventoryService.getQuantityByProductId(product.getId());
+		    if (inventory == null) {
+		        // If no inventory exists, create a new inventory entry
+		        inventory = new Inventory();
+		        inventory.setProduct(product);
+		    }
+		    inventory.setQuantity(quantity);  // Set the quantity in inventory
+		    inventoryService.save(inventory);
+	        // Lưu sản phẩm sau khi cập nhật
+	        productRepository.save(existingProduct);
+	        return "Sản phẩm đã được cập nhật thành công.";
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        return "Đã xảy ra lỗi khi cập nhật sản phẩm.";
+	    }
+	}
+
+	@Override
+	public void updateProduct(@Valid Product product) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public List<Product> findTop4ByOrderBySoldDesc() {
+		return productRepository.findTop4ByOrderBySoldDesc();
+	}
+
+	@Override
+	public String updateProductWithImages(Product product, MultipartFile mainImage, MultipartFile[] additionalImages,
+			Integer productId, String removedImages) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public List<Product> findTop4ByOrderByIdDesc() {
+		// TODO Auto-generated method stub
+		return productRepository.findTop4ByOrderBySoldDesc();
+	}
+
 	@Override
 	public List<String> getAllBrands() {
 	    return productRepository.findDistinctBrands();
@@ -228,17 +372,6 @@ public class ProductServiceImpl implements IProductService {
         return productRepository.findByBrand(brand, pageable);
     }
 
-	@Override
-	public List<Product> findTop8ByOrderBySoldDesc() {
-		// TODO Auto-generated method stub
-		return productRepository.findTop8ByOrderByIdDesc();
-	}
-
-	@Override
-	public List<Product> findTop4ByOrderByIdDesc() {
-		// TODO Auto-generated method stub
-		return productRepository.findTop4ByOrderBySoldDesc();
-	}
 	public List<Product> findTopProductsByCategory(Integer categoryId) {
 	    return productRepository.findTopProductsByCategoryId(categoryId, PageRequest.of(0, 6)); // Lấy 6 sản phẩm đầu
 	}
@@ -246,7 +379,6 @@ public class ProductServiceImpl implements IProductService {
 	public List<Product> getTopRatedProducts() {
         return productRepository.findTopRatedProducts().subList(0, 3); // Lấy top 3
     }
-	
 	@Override
 	public List<Product> findTop4ByIsSelling(){
 		return productRepository.findTop4ByIsSellingTrueOrderByIdDesc();
@@ -306,6 +438,4 @@ public class ProductServiceImpl implements IProductService {
         // Nếu không có tham số nào là null, tìm theo cả 3 tham số
         return productRepository.findByStoreIdAndStatusAndNameContaining(storeId, status, searchTerm);
 	}
-
-
 }

@@ -116,7 +116,7 @@
                         </div>
                     </div>
                 </div>
-              
+              <div class="col-xl-3 col-lg-4"></div>
                 <div class="col-xl-9 col-lg-8">
                     <div class="row">
                         <div class="col-xl-12 d-none d-md-block mt-4 mt-lg-0">
