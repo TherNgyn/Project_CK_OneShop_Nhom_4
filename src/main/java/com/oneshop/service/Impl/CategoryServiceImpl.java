@@ -1,5 +1,6 @@
 package com.oneshop.service.Impl;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
@@ -134,8 +135,7 @@ public class CategoryServiceImpl implements ICategoryService {
 
 	@Override
 	public Category getById(Integer id) {
-		// TODO Auto-generated method stub
-		return null;
+		return categoryRepository.getById(id);
 	}
 
 	@Override
@@ -143,4 +143,19 @@ public class CategoryServiceImpl implements ICategoryService {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	@Override
+	public List<Category> findCategories(String name) {
+        if (name == null || name.trim().isEmpty()) {
+            // Tìm tất cả các category không bị xóa
+            return categoryRepository.findByIsDeletedFalseOrIsDeletedIsNull();
+        } else {
+            // Tìm theo tên và không bị xóa
+            List<Category> categories = categoryRepository.findByNameContainingIgnoreCaseAndIsDeletedFalseOrIsDeletedIsNull(name);
+            if (categories == null || categories.isEmpty()) {
+                return new ArrayList<>();
+            }
+            return categories;
+        }
+    }
 }

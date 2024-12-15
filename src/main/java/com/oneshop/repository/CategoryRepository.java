@@ -23,4 +23,6 @@ public interface CategoryRepository extends JpaRepository<Category, Integer> {
 	Page<Category> findByNameContaining(String name, Pageable pageable);
 	@Query("SELECT c FROM Category c LEFT JOIN FETCH c.products p ORDER BY p.sold DESC")
     List<Category> findTop6CategoriesWithProducts(Pageable pageable);
+	List<Category> findByIsDeletedFalseOrIsDeletedIsNull();
+	List<Category> findByNameContainingIgnoreCaseAndIsDeletedFalseOrIsDeletedIsNull(String name);
 }
