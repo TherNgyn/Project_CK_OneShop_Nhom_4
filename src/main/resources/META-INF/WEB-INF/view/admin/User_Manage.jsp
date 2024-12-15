@@ -67,20 +67,32 @@
         }
     </style>
 	<h2>DANH SÁCH NGƯỜI DÙNG</h2>
+	
+	<form action="/admin/users/search" method="post" class="mb-3">
+	    <div class="input-group">
+	        <!-- Retaining the search value from the request -->
+	        <input type="text" class="form-control" placeholder="Tìm kiếm người dùng..." name="search" 
+	               value="${searchTerm != null ? searchTerm : ''}">
+	        <button class="btn btn-primary" type="submit">Tìm kiếm</button>
+	    </div>
+	</form>
+	
 	<a href="/admin/users/add" class="btn btn-success" style="display: inline-block;">Thêm Người Dùng Mới</a>
-
+	
 	<div style="display: inline-block; margin-top: 20px; margin-left: 20px;">
 	    <label for="roleSelect" style="font-size: 18px; color: #333; font-weight: bold; margin-right: 10px;">Chọn vai trò:</label>
-	    <select id="roleSelect" name="role" onchange="window.location.href=this.value" 
+	    <select id="roleSelect" name="role" onchange="window.location.href=this.value"
 	            style="padding: 12px 20px; font-size: 16px; border-radius: 8px; border: 1px solid #ddd; background-color: #fff; 
-	            width: 220px; transition: background-color 0.3s, box-shadow 0.3s; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);">
-	        <option value="/admin/users" ${selectedRole == null ? 'selected' : ''}>Tất cả</option>
+	                   width: 220px; transition: background-color 0.3s, box-shadow 0.3s; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);">
+	        <option value="/admin/users?role=&search=${searchTerm != null ? searchTerm : ''}" 
+	                ${selectedRole == null ? 'selected' : ''}>Tất cả</option>
 	        <c:forEach var="role" items="${roles}">
-	            <option value="/admin/users?role=${role}" ${role == selectedRole ? 'selected' : ''}>${role}</option>
+	            <option value="/admin/users?role=${role}&search=${searchTerm != null ? searchTerm : ''}" 
+	                    ${role == selectedRole ? 'selected' : ''}>${role}</option>
 	        </c:forEach>
 	    </select>
 	</div>
-	
+		
 	<!-- Hiển thị thông báo lỗi nếu có -->
     <div class="alert alert-warning" role="alert" style="${error != null && error.trim().length() > 0 ? '' : 'display: none;'}">
 		${error}

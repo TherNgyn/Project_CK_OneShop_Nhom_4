@@ -25,17 +25,46 @@ public class UserManageController {
     private UserServiceImpl userService;
 
     @GetMapping("")
-    public String listUsers(Model model, @RequestParam(value = "search", required = false) String search,
+    public String listUsers(Model model, 
+                            @RequestParam(value = "search", required = false) String search,
                             @RequestParam(value = "role", required = false) String role) {
+        
+        // Call service to find users based on both search and role
         List<User> users = userService.findUsers(search, role);
         
+        // Predefined roles for the select box
         List<String> roles = List.of("ROLE_USER", "ROLE_VENDOR", "ROLE_ADMIN", "ROLE_DELIVERY");
         
+        // Add attributes to the model
+        model.addAttribute("users", users);
+        model.addAttribute("roles", roles);
+        model.addAttribute("selectedRole", role);  // Selected role to highlight in the dropdown
+        model.addAttribute("searchTerm", search);  // Retain search term to show in the search input
+        
+        return "admin/User_Manage";
+    }
+
+    
+    @PostMapping("search")
+    public String listUsersBySearch(Model model, 
+                            @RequestParam(value = "search", required = false) String search,
+                            @RequestParam(value = "role", required = false) String role) {
+
+        // Call service to find users based on both search and role
+        List<User> users = userService.findUsers(search, role);
+        
+        // Predefined roles for the select box
+        List<String> roles = List.of("ROLE_USER", "ROLE_VENDOR", "ROLE_ADMIN", "ROLE_DELIVERY");
+        
+        // Add attributes to the model
         model.addAttribute("users", users);
         model.addAttribute("roles", roles);
         model.addAttribute("selectedRole", role);
+        model.addAttribute("searchTerm", search);  // For retaining the search value in the UI
+        
         return "admin/User_Manage";
     }
+
 
     @GetMapping("/add")
     public String addUserForm(Model model) {
