@@ -14,7 +14,6 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -73,8 +72,6 @@ public class HomeUserController {
 	IBlogService blogService;
 	@Autowired
 	private CloudinaryService cloudinaryService;
-	@Autowired
-	PasswordEncoder passwordEncoder;
 	@PostMapping("/upload-avatar")
 	public ResponseEntity<String> uploadAvatar(@RequestParam("file") MultipartFile file) {
 	    try {
@@ -198,7 +195,8 @@ public class HomeUserController {
 				return new ModelAndView("redirect:/user/profile", model);
 
 			} else {
-				userService.updatePassword(user, passwordEncoder.encode(newpassword.trim()));
+				user.setPassword(newpassword);
+				userService.save(user);
 				session.setAttribute("message", "Mật khẩu đã được cập nhập");
 				return new ModelAndView("redirect:/user/profile", model);
 

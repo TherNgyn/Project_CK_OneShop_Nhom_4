@@ -339,16 +339,23 @@ public class ProductServiceImpl implements IProductService {
 	    }
 	}
 
-
-
-
 	@Override
 	public void updateProduct(@Valid Product product) {
 		// TODO Auto-generated method stub
 		
 	}
 
+	@Override
+	public List<Product> findTop4ByOrderBySoldDesc() {
+		return productRepository.findTop4ByOrderBySoldDesc();
+	}
 
+	@Override
+	public String updateProductWithImages(Product product, MultipartFile mainImage, MultipartFile[] additionalImages,
+			Integer productId, String removedImages) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	@Override
 	public List<Product> findTop4ByOrderByIdDesc() {
 		// TODO Auto-generated method stub
@@ -372,19 +379,4 @@ public class ProductServiceImpl implements IProductService {
 	public List<Product> getTopRatedProducts() {
         return productRepository.findTopRatedProducts().subList(0, 3); // Lấy top 3
     }
-	
-	
-	@Override
-	public String updateProductWithImages(Product product, MultipartFile mainImage, MultipartFile[] additionalImages,
-			Integer productId, String removedImages) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<Product> findTop4ByOrderBySoldDesc() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 }
