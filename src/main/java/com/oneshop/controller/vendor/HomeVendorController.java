@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.cloudinary.Cloudinary;
+import com.oneshop.entity.Order;
 import com.oneshop.entity.Product;
 import com.oneshop.entity.Store;
 import com.oneshop.entity.User;
@@ -81,6 +82,8 @@ public class HomeVendorController {
             Store vendorStore = storeService.findByOwner(loggedInUser);
             // Thêm thông tin cửa hàng vào model
             model.addAttribute("store", vendorStore);
+        } else {
+        	return new ModelAndView("redirect:/login");
         }
         
         Store vendorStore = storeService.findByOwner(loggedInUser);
@@ -91,12 +94,24 @@ public class HomeVendorController {
      // Lấy các sản phẩm gần hết hàng
         List<Product> lowInventoryProducts = productService.getLowStockProducts(vendorStore, 10); // Ngưỡng là 10 sản phẩm
         model.addAttribute("lowInventoryProducts", lowInventoryProducts);
-
+        
+        List<Order> latestOrders = orderService.getLatestOrders();
+        model.addAttribute("latestOrders", latestOrders);
+        
+        Double todayRevenue = orderService.getTodayRevenue();
+        if (todayRevenue == null) {
+            todayRevenue = 0.0;
+        }
+        
+        // Truyền dữ liệu vào model
+        model.addAttribute("todayRevenue", todayRevenue);
         
         long pendingOrders = orderService.countPendingOrders();
         model.addAttribute("pendingOrders", pendingOrders);
         
-        
+        long newOrderCount = orderService.getNewOrderCount();
+       
+        model.addAttribute("newOrderCount", newOrderCount);
         
         return new ModelAndView("vendor/home", model);
     }

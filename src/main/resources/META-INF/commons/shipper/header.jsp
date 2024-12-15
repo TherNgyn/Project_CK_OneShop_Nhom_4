@@ -20,7 +20,7 @@
 			</div>
 			<div class="col-xl-5 col-md-6 col-lg-4 d-none d-lg-block">
 				<div class="wsus__search">
-					<form action="/user/products/search" method="get">
+					<form action="/common/products/search" method="get">
 						<input type="text" placeholder="Search..." name="searchname">
 						<button type="submit">
 							<i class="far fa-search"></i>
@@ -92,31 +92,10 @@
 					<div class="wsus_menu_category_bar">
 						<i class="far fa-bars"></i>
 					</div>
-					<ul class="wsus_menu_cat_item show_home toggle_menu">
-						<li><a href="/vendor/home"><i class="fas fa-star"></i>Trang
-								chủ</a></li>
-						<li><a class="wsus__droap_arrow" href="/vendor/manage"><i
-								class="fal fa-tshirt"></i> Quản lý cửa hàng</a>
-							<ul class="wsus_menu_cat_droapdown">
-								<li><a href="/vendor/decorate/${user.store.id}">Cập
-										nhật thông tin</a></li>
-								<li><a href="/vendor/storedetail/${user.store.id}">Xem
-										trang chủ cửa hàng</a></li>
-							</ul></li>
-						<li><a href="#"><i class="fas fa-tv"></i> Quản lý sản
-								phẩm</a></li>
-						<li><a href="#"><i class="fas fa-chair-office"></i> Quản
-								lý đơn hàng</a></li>
-						<li><a href="#"><i class="fal fa-mobile"></i> Quản lý
-								doanh thu</a></li>
-					</ul>
-
 					<ul class="wsus__menu_item">
-						<li><a class="active" href="/user/home">home</a></li>				
-						<li><a href="/user/products">product</a></li>
+						<li><a class="active" href="/shipper/home">home</a></li>				
+						<li><a href="/common/products">product</a></li>
 						<li><a href="/blog">blog</a></li>
-						<li><a href="/vendor/home">Vendor Chanel</a></li>
-						<li><a href="/user/delivery">Track Order</a></li>
 					</ul>
 					<ul class="wsus__menu_item wsus__menu_item_right">
 						<li><a href="/contract">Contact</a></li>

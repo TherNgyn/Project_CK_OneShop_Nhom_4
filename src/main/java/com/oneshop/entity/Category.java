@@ -32,7 +32,6 @@ public class Category {
 
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
     @ToString.Exclude // Ngăn vòng lặp khi dùng Lombok
-    
     private List<Product> products;
     
     @Transient

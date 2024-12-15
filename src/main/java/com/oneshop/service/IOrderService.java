@@ -15,6 +15,7 @@ import com.oneshop.entity.OrderItem;
 import com.oneshop.entity.Store;
 import com.oneshop.entity.User;
 import com.oneshop.model.MonthlyRevenue;
+import com.oneshop.model.RevenueData;
 import com.oneshop.model.YearlyRevenue;
 
 public interface IOrderService {
@@ -96,5 +97,17 @@ public interface IOrderService {
 	List<Order> getOrdersByStoreAndStatus(Store store, String status);
 
 	List<Order> getOrdersByStoreAndStatus2(Store store, String status1, String status2);
+
+	List<Order> getLatestOrders();
+
+	long getNewOrderCount();
+
+	Double viewSumRevenue();
+
+	Double getTodayRevenue();
+
+	List<Order> getOrdersInTransit();
+
+	void updateOrderStatus(Integer orderId, String status);
 
 }

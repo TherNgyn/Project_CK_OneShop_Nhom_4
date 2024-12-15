@@ -112,11 +112,16 @@ public class HomeUserController {
 
 	@GetMapping("profile")
 	public String Profile(ModelMap model, HttpSession session) {
-		User user = (User) session.getAttribute("user");
-		UserModel usermodel = new UserModel();
-		BeanUtils.copyProperties(user, usermodel);
-		model.addAttribute("user", usermodel);
-		return "user/profile";
+		 User user = (User) session.getAttribute("user");
+		    if (user == null) {
+		        // Xử lý khi user không tồn tại trong session
+		        model.addAttribute("error", "User not found in session");
+		        return "redirect:/login"; // Hoặc chuyển hướng tới trang login
+		    }
+		    UserModel usermodel = new UserModel();
+		    BeanUtils.copyProperties(user, usermodel);
+		    model.addAttribute("user", usermodel);
+		    return "user/profile";
 	}
 
 	@PostMapping("user/profile")

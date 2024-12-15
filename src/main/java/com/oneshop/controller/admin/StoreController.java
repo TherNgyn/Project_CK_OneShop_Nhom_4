@@ -3,7 +3,7 @@ package com.oneshop.controller.admin;
 import com.oneshop.entity.Product;
 import com.oneshop.entity.Store;
 import com.oneshop.model.ProductModel;
-import com.oneshop.service.Impl.ProductServiceImpl;
+import com.oneshop.service.IProductService;
 import com.oneshop.service.Impl.StoreServiceImpl;
 
 import jakarta.validation.Valid;
@@ -26,7 +26,7 @@ public class StoreController {
     @Autowired
     private StoreServiceImpl storeService;
     @Autowired
-    private ProductServiceImpl productService;
+    private IProductService productService;
 
     @GetMapping("")
     public String listStores(@RequestParam(value = "search", required = false) String searchTerm, Model model) {

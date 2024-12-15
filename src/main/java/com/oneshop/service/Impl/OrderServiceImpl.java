@@ -4,6 +4,7 @@ package com.oneshop.service.Impl;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -25,6 +26,7 @@ import com.oneshop.entity.OrderItem;
 import com.oneshop.entity.Store;
 import com.oneshop.entity.User;
 import com.oneshop.model.MonthlyRevenue;
+import com.oneshop.model.RevenueData;
 import com.oneshop.model.YearlyRevenue;
 import com.oneshop.repository.OrderItemRepository;
 import com.oneshop.repository.OrderRepository;
@@ -345,11 +347,40 @@ public class OrderServiceImpl implements IOrderService {
     }
 	@Override
 	public List<Order> getOrdersByStoreAndStatus(Store store, String status) {
-		 return orderRepository.findAllByStoreAndStatus(store, status);
+		 return orderRepository.findDistinctByOrderItems_Product_StoreAndStatus(store, status);
 	}
 	@Override
 	public List<Order> getOrdersByStoreAndStatus2(Store store, String status, String status2) {
-		 return orderRepository.findAllByStoreAndStatuses(store, status, status2);
+		 return orderRepository.getOrdersByStoreAndStatuses(store.getId(), status, status2);
 	}
+	@Override
+	public List<Order> getLatestOrders() {
+        return orderRepository.findLatestOrders();
+    }
+	@Override
+	public long getNewOrderCount() {
+        return orderRepository.countNewOrders();
+    }
 	
+	@Override
+	public Double viewSumRevenue() {
+        return orderRepository.findTotalRevenue();
+    }
+	
+	@Override
+	public Double getTodayRevenue() {
+        LocalDateTime startOfDay = LocalDateTime.now().with(LocalTime.MIN);
+        LocalDateTime endOfDay = LocalDateTime.now().with(LocalTime.MAX);
+        return orderRepository.findTodayRevenue(startOfDay, endOfDay);
+    }
+	@Override
+	public List<Order> getOrdersInTransit() {
+        return orderRepository.findOrdersInTransit();
+    }
+	@Override
+    public void updateOrderStatus(Integer orderId, String status) {
+        Order order = orderRepository.getById(orderId);
+        order.setStatus(status);
+        orderRepository.save(order);
+    }
 }

@@ -34,12 +34,13 @@ public class SecurityConfig {
         http
         
             .csrf(csrf -> csrf
-                .ignoringRequestMatchers("/register", "/login", "/forgot_password", "/otp_password", "/otp_register", "/enterOtp", "/user/**", "/vendor/**", "/admin/**")
+                .ignoringRequestMatchers("/register", "/login", "/forgot_password", "/otp_password", "/otp_register", "/enterOtp", "/user/**", "/vendor/**", "/admin/**", "/shipper/**")
             )
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/user/**").hasAnyAuthority("ROLE_USER","ROLE_VENDOR")
                 .requestMatchers("/admin/**").hasAnyAuthority("ROLE_ADMIN")
                 .requestMatchers("/vendor/**").hasAnyAuthority("ROLE_VENDOR")
+                .requestMatchers("/shipper/**").hasAnyAuthority("ROLE_SHIPPER")
                 .requestMatchers("/**").permitAll()
             )
             .formLogin(form -> form
@@ -65,6 +66,9 @@ public class SecurityConfig {
                             break;
                         case "ROLE_VENDOR":
                             redirectUrl = "/vendor/home";
+                            break;
+                        case "ROLE_SHIPPER":
+                            redirectUrl = "/shipper/home";
                             break;
                         case "ROLE_USER":
                             redirectUrl = "/user/home";

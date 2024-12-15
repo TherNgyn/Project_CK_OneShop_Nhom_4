@@ -25,7 +25,7 @@
 	<link rel="stylesheet" href="${URL}template/css/ranger_style.css">
 	<link rel="stylesheet" href="${URL}template/css/jquery.classycountdown.css">
 	<link rel="stylesheet" href="${URL}template/css/venobox.min.css">
-	<link rel="stylesheet" href="${URL}template/css/style.css">
+	<link rel="stylesheet" href="${URL}template/css/stylevendor.css">
 	<link rel="stylesheet" href="${URL}template/css/responsive.css">
 	<link rel="stylesheet" href="${URL}template/css/product_detail.css">
 	<link rel="stylesheet" href="${URL}template/css/order_manager.css">
