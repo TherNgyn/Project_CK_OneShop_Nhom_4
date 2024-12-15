@@ -250,7 +250,6 @@
 
     <div class="order__btns">
         <button type="submit" class="primary-btn">ĐẶT HÀNG</button>
-        <a href="<c:url value='/user/products'/>" class="primary-btn">TIẾP TỤC MUA SẮM</a>
     </div>
 </form>
 
