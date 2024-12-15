@@ -29,12 +29,14 @@
 								<div class="table-container" style="">
 									<div id="datatable_products_wrapper"
 										class="dataTables_wrapper dataTables_extended_wrapper no-footer">
-										<div id="prefix_480614921548"
-											class="Metronic-alerts alert alert-danger fade in">
-											<button type="button" class="close" data-dismiss="alert"
-												aria-hidden="true"></button>
-											<i class="fa-lg fa fa-warning"></i> ${message }
-										</div>
+										<c:if test="${not empty message}">
+											<div id="prefix_480614921548"
+												class="Metronic-alerts alert alert-success fade in">
+												<button type="button" class="close" data-dismiss="alert"
+													aria-hidden="true"></button>
+												<i class="fa-lg fa fa-check-circle"></i> ${message}
+											</div>
+										</c:if>
 										<div class="row">
 											<div class="col-md-8 col-sm-12">
 												<div class="dataTables_paginate paging_bootstrap_extended"
@@ -80,8 +82,8 @@
 														</tr>
 														<tr>
 															<th>Giá:</th>
-															<td><input type="number" class="form-control"
-																name="price" value="${product.price}" required></td>
+															<td> <input type="number" class="form-control" name="price" 
+           value="<fmt:formatNumber value='${product.price}' type='number' pattern='###.##' />" required></td>
 														</tr>
 														<tr>
 															<th>Số lượng:</th>

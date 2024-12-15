@@ -127,58 +127,64 @@
 													value="${item.product.promotionalPrice}" type="currency"
 													currencySymbol="₫" /></td>
 											<td class="shoping__cart__quantity">
-												<div class="quantity">
-													<input type="number" min="1" value="${item.count}"
-														onchange="updateQuantityWithPost(${item.id}, this.value)">
-												</div>
-											</td>
-											<script>
-											function updateQuantityWithPost(itemId, quantity) {
-											    if (!itemId) {
-											        console.error("itemId không tồn tại!");
-											        return;
-											    }
-											    if (quantity < 1) {
-											        alert("Số lượng phải lớn hơn hoặc bằng 1.");
-											        return;
-											    }
+    <div class="quantity">
+        <input type="number" min="1" max="${item.product.quantity}" value="${item.count}"
+            onchange="updateQuantityWithPost(${item.id}, this.value, ${item.product.quantity})">
+    </div>
+</td>
+<script>
+    function updateQuantityWithPost(itemId, quantity, maxQuantity) {
+        if (!itemId) {
+            console.error("itemId không tồn tại!");
+            return;
+        }
+        
+        if (quantity < 1) {
+            alert("Số lượng phải lớn hơn hoặc bằng 1.");
+            return;
+        }
 
-											    const baseUrl = window.location.origin;
-											    const url = `${baseUrl}/user/cart/update`;
+        if (quantity > maxQuantity) {
+            alert("Số lượng không được vượt quá số lượng còn lại");
+            return;
+        }
 
-											    const payload = {
-											        itemId: itemId,
-											        count: parseInt(quantity),
-											    };
+        const baseUrl = window.location.origin;
+        const url = `${baseUrl}/user/cart/update`;
 
-											    console.log("Payload gửi đi:", payload);
+        const payload = {
+            itemId: itemId,
+            count: parseInt(quantity),
+        };
 
-											    fetch(url, {
-											        method: 'POST',
-											        headers: {
-											            'Content-Type': 'application/json',
-											        },
-											        body: JSON.stringify(payload),
-											    })
-											        .then(response => {
-											            if (!response.ok) {
-											                throw new Error(`HTTP error! status: ${response.status}`);
-											            }
-											            return response.json();
-											        })
-											        .then(data => {
-											            if (data.error) {
-											                alert(data.error);
-											            } else {
-											                alert(data.message || "Cập nhật thành công!");
-											                location.reload(); 
-											            }
-											        })
-											        .catch(error => {
-											            console.error("Lỗi khi cập nhật:", error);
-											        });
-											}
-											</script>
+        console.log("Payload gửi đi:", payload);
+
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(payload),
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.error) {
+                    alert(data.error);
+                } else {
+                    alert(data.message || "Cập nhật thành công!");
+                    location.reload(); 
+                }
+            })
+            .catch(error => {
+                console.error("Lỗi khi cập nhật:", error);
+            });
+    }
+</script>
 											<td class="shoping__cart__item__close"><a
 												href="<c:url value='/user/cart/delete/${item.id}'/>"><i
 													class="fas fa-trash-alt"></i> Bỏ</a></td>

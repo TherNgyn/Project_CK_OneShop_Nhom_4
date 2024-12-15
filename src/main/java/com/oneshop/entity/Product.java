@@ -49,10 +49,14 @@ public class Product {
     private List<String> imageUrls; // URL to be generated
     
     @Transient
-    private int quantity;
-
+    private int quantity; // Chỉ sử dụng để tạm thời lưu trữ thông tin số lượng
+    
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
+    @ToString.Exclude
+    private List<Inventory> inventories; // Danh sách tồn kho
+    
     // Lưu ProductImage
-    @OneToMany(mappedBy = "product")
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
     @ToString.Exclude // Ngăn tham chiếu lặp trong Lombok
     private List<ProductImage> images;
 

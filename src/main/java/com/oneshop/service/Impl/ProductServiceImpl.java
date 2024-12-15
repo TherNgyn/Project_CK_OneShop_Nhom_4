@@ -3,6 +3,7 @@ package com.oneshop.service.Impl;
 import java.io.IOException;
 import java.sql.Date;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -29,6 +30,7 @@ import com.oneshop.entity.Review;
 import com.oneshop.entity.Store;
 import com.oneshop.service.IProductService;
 
+import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import lombok.Data;
 
@@ -250,73 +252,94 @@ public class ProductServiceImpl implements IProductService {
 		return productRepository.findByIsSelling(status, pageable);
 	}
 	@Override
-	public String updateProductWithImages(Product product, MultipartFile mainImage, MultipartFile[] additionalImages, Integer productId) {
-        try {
-            Product existingProduct = productRepository.findById(productId).orElse(null);
-            if (existingProduct == null) {
-                return "Sản phẩm không tồn tại.";
-            } 
-            existingProduct.setName(product.getName());
-            existingProduct.setPrice(product.getPrice());
-            existingProduct.setDescription(product.getDescription());
-            existingProduct.setCategory(product.getCategory());
-            
-            
-            ProductImage productImage = new ProductImage();
-            productImage.setProduct(existingProduct);
-            
-            if (mainImage != null && !mainImage.isEmpty()) {
-                String newImageUrl = null;
-                    if (existingProduct.getMainImage() == null || existingProduct.getMainImage().getImageUrl() == null) {
-                        newImageUrl = cloudinaryService.uploadFile(mainImage);  
-                    } else { 
-                        newImageUrl = cloudinaryService.updateFile(mainImage, existingProduct.getMainImage().getImageUrl());
-                    }               
-                    productImage.setImageUrl(newImageUrl);
-                    productImage.setIsMain(true);
-            }
+	public String updateProductWithImages(Product product, Integer quantity, MultipartFile mainImage, MultipartFile[] additionalImages, Integer productId, String removedImages) {
+	    try {
+	        // Lấy sản phẩm hiện có
+	        Product existingProduct = productRepository.findById(productId).orElse(null);
+	        if (existingProduct == null) {
+	            return "Sản phẩm không tồn tại.";
+	        }
 
-            // Handle additional images upload
-            if (additionalImages != null && additionalImages.length > 0) {
-                List<ProductImage> productImages = Arrays.stream(additionalImages)
-                    .map(file -> {
-                        try {
-                            String imageUrl = cloudinaryService.uploadFile(file);
-                           
-                            productImage.setProduct(existingProduct);
-                            productImage.setImageUrl(imageUrl);
-                            productImage.setIsMain(false);
-                            return productImage;
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                            return null;
-                        }
-                    })
-                    .filter(Objects::nonNull)
-                    .collect(Collectors.toList());
-                existingProduct.setImages(productImages);
-            }
-            
-            productImageRepository.save(productImage);
+	        // Cập nhật thông tin sản phẩm cơ bản
+	        existingProduct.setName(product.getName());
+	        existingProduct.setPrice(product.getPrice());
+	        existingProduct.setIsSelling(product.getIsSelling());
+	        existingProduct.setBrand(product.getBrand());
+	        existingProduct.setDescription(product.getDescription());
+	        existingProduct.setCategory(product.getCategory());
 
-            // Save the updated product
-            productRepository.save(existingProduct);
+	        // Xử lý hình ảnh chính (mainImage)
+	        if (mainImage != null && !mainImage.isEmpty()) {
+	            String newImageUrl;
+	            ProductImage mainProductImage = existingProduct.getMainImage();
 
-            Inventory inventory = inventoryService.getQuantityByProductId(existingProduct.getId());
-            if (inventory == null) {
-                inventory = new Inventory();
-                inventory.setProduct(existingProduct);
-            }
-            inventory.setQuantity(product.getQuantity());
-            inventoryService.save(inventory);
+	            // Nếu có ảnh chính cũ, xóa ảnh chính cũ
+	            if (mainProductImage != null) {
+	                existingProduct.getImages().remove(mainProductImage);
+	            }
 
-            return "Sản phẩm đã được cập nhật thành công.";
+	            // Tạo mới hoặc cập nhật ảnh chính
+	            newImageUrl = cloudinaryService.uploadFile(mainImage);
 
-        } catch (IOException e) {
-            e.printStackTrace();
-            return "Lỗi khi tải lên hình ảnh.";
-        }
-    }
+	            // Tạo mới ảnh chính và gán cho sản phẩm
+	            ProductImage newMainImage = new ProductImage();
+	            newMainImage.setProduct(existingProduct);
+	            newMainImage.setImageUrl(newImageUrl);
+	            newMainImage.setIsMain(true);
+
+	            existingProduct.getImages().add(newMainImage);
+	        }
+
+	        // Xử lý xóa các hình ảnh đã bị xóa
+	        if (removedImages != null && !removedImages.isEmpty()) {
+	            String[] removedImageUrls = removedImages.split(",");
+	            for (String imageUrl : removedImageUrls) {
+	                // Xóa ảnh phụ khỏi danh sách sản phẩm (chỉ xóa ảnh không phải ảnh chính)
+	                existingProduct.getImages().removeIf(image -> 
+	                    !image.getIsMain() && image.getImageUrl().equals(imageUrl)
+	                );
+	            }
+	        }
+
+	        // Xử lý các ảnh phụ (additional images)
+	        if (additionalImages != null && additionalImages.length > 0) {
+	            for (MultipartFile file : additionalImages) {
+	                if (!file.isEmpty()) {
+	                    try {
+	                        String imageUrl = cloudinaryService.uploadFile(file);
+
+	                        ProductImage newImage = new ProductImage();
+	                        newImage.setProduct(existingProduct);
+	                        newImage.setImageUrl(imageUrl);
+	                        newImage.setIsMain(false);  // Đánh dấu ảnh này là ảnh phụ
+
+	                        existingProduct.getImages().add(newImage);
+	                    } catch (IOException e) {
+	                        e.printStackTrace();
+	                        return "Lỗi khi tải lên hình ảnh.";
+	                    }
+	                }
+	            }
+	        }
+	        Inventory inventory = inventoryService.getQuantityByProductId(product.getId());
+		    if (inventory == null) {
+		        // If no inventory exists, create a new inventory entry
+		        inventory = new Inventory();
+		        inventory.setProduct(product);
+		    }
+		    inventory.setQuantity(quantity);  // Set the quantity in inventory
+		    inventoryService.save(inventory);
+	        // Lưu sản phẩm sau khi cập nhật
+	        productRepository.save(existingProduct);
+	        return "Sản phẩm đã được cập nhật thành công.";
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        return "Đã xảy ra lỗi khi cập nhật sản phẩm.";
+	    }
+	}
+
+
+
 
 	@Override
 	public void updateProduct(@Valid Product product) {
@@ -356,6 +379,13 @@ public class ProductServiceImpl implements IProductService {
 
 	@Override
 	public List<Product> getTopRatedProducts() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String updateProductWithImages(Product product, MultipartFile mainImage, MultipartFile[] additionalImages,
+			Integer productId, String removedImages) {
 		// TODO Auto-generated method stub
 		return null;
 	}

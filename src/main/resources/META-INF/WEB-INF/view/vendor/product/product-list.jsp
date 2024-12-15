@@ -125,7 +125,7 @@
                                                             <td>${status.index + 1}</td>
                                                             <td>${product.name}</td>
                                                             <td>${product.category.name}</td>
-                                                            <td>${product.price}</td>
+                                                            <td><fmt:formatNumber value="${product.price}" type="number" pattern="#.##" /></td>
                                                             <td>${product.quantity}</td>
                                                             <td>${product.brand}</td>
                                                             <td>

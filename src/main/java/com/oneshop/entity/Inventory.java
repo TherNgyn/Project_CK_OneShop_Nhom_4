@@ -19,7 +19,7 @@ public class Inventory {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;  // Thêm khóa chính cho class Inventory
 
-    @ManyToOne  // Mối quan hệ Many-to-One với Product
+    @ManyToOne 
     private Product product;
 
     private int quantity;

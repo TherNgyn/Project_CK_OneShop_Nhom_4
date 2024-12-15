@@ -1,6 +1,7 @@
 package com.oneshop.controller.vendor;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -160,43 +161,10 @@ public class ProductVendorController {
 	        return "redirect:/vendor/manageproduct/add";  
 	    }
 	    
-	    if (!mainImage.isEmpty()) {
-	        String mainImageUrl = null;
-			try {
-				mainImageUrl = cloudinaryService.uploadFile(mainImage);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}  
-	        ProductImage mainProductImage = new ProductImage();
-	        mainProductImage.setImageUrl(mainImageUrl);  // Lưu URL của hình ảnh chính
-	        mainProductImage.setIsMain(true);  // Đánh dấu là hình ảnh chính    
-	    }
-	    
-	    // Lưu các hình ảnh khác
-	    if (additionalImages.length > 0) {
-	        List<ProductImage> productImages = Arrays.stream(additionalImages)
-	            .map(file -> {
-	                String imageUrl = null;
-					try {
-						imageUrl = cloudinaryService.uploadFile(file);
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-	                ProductImage productImage = new ProductImage();
-	                productImage.setProduct(product);
-	                productImage.setImageUrl(imageUrl);
-	                return productImage;
-	            })
-	            .collect(Collectors.toList());
-
-	        product.setImages(productImages);  
-	    }
-
 	    User loggedInUser = (User) session.getAttribute("user");
 	    if (loggedInUser == null) {
-	        redirectAttributes.addFlashAttribute("message", "Bạn cần đăng nhập.");
-	        return "redirect:/login";  // Redirect to login page if user is not logged in
+	        
+	        return "redirect:/login";
 	    }
 	    if ("ROLE_VENDOR".equals(loggedInUser.getRole())) {
 	        Store vendorStore = storeService.findByOwner(loggedInUser);
@@ -206,6 +174,48 @@ public class ProductVendorController {
 	    return "redirect:/login";  // Redirect to login page if user is not logged in
 	    }
 	    
+	    if (product.getImages() == null) {
+	        product.setImages(new ArrayList<>());
+	    }
+	    
+	    // Xử lý ảnh chính (mainImage)
+	    if (mainImage != null && !mainImage.isEmpty()) {
+	        String mainImageUrl = null;
+	        try {
+	            mainImageUrl = cloudinaryService.uploadFile(mainImage);
+	        } catch (IOException e) {
+	            e.printStackTrace();
+	            return "redirect:/vendor/manageproduct/add";  // Nếu lỗi upload, quay lại trang thêm sản phẩm
+	        }
+
+	        // Tạo và gán ảnh chính vào sản phẩm
+	        ProductImage mainProductImage = new ProductImage();
+	        mainProductImage.setImageUrl(mainImageUrl);  // Lưu URL của hình ảnh chính
+	        mainProductImage.setIsMain(true);  // Đánh dấu là hình ảnh chính    
+	        product.getImages().add(mainProductImage);
+	    }
+	    
+	    // Xử lý ảnh phụ (additionalImages)
+	    if (additionalImages != null && additionalImages.length > 0) {
+	        List<ProductImage> productImages = Arrays.stream(additionalImages)
+	            .map(file -> {
+	                String imageUrl = null;
+	                try {
+	                    imageUrl = cloudinaryService.uploadFile(file);
+	                } catch (IOException e) {
+	                    e.printStackTrace();
+	                }
+	                ProductImage productImage = new ProductImage();
+	                productImage.setProduct(product);
+	                productImage.setImageUrl(imageUrl);
+	                return productImage;
+	            })
+	            .collect(Collectors.toList());
+
+	        // Thêm ảnh phụ vào sản phẩm
+	        product.setImages(productImages);  
+	    }
+
 	    
 	    // Đặt trạng thái sản phẩm là "waiting"
 	    product.setStatus("waiting");
@@ -234,29 +244,28 @@ public class ProductVendorController {
 	@PostMapping("/updatesave/{id}")
 	public String updateProduct(@PathVariable("id") Integer id, 
 	                             @Valid @ModelAttribute("product") Product product,
+	                             @RequestParam(value = "quantity", required = false) Integer quantity, 
 	                             BindingResult result, 
 	                             @RequestParam(value = "image", required = false) MultipartFile mainImage, 
 	                             @RequestParam(value = "additionalImages", required = false) MultipartFile[] additionalImages, 
+	                             @RequestParam(value = "removedImages", required = false) String removedImages,
 	                             RedirectAttributes redirectAttributes) {
 
 	    if (result.hasErrors()) {
 	        redirectAttributes.addFlashAttribute("message", "Lỗi cập nhật, vui lòng kiểm tra lại.");
-	        return "redirect:/vendor/product/product-update";  // Return to the update page if validation fails
+	        return "redirect:/vendor/product/product-update";  
 	    }
+	    
+	    String message = productService.updateProductWithImages(product, quantity, mainImage, additionalImages, id, removedImages);
 
-	    // Call the service to handle the product update
-	    String message = productService.updateProductWithImages(product, mainImage, additionalImages, id);
-
-	    // Handle the response message
 	    redirectAttributes.addFlashAttribute("message", message);
 
 	    if (message.equals("Sản phẩm đã được cập nhật thành công.")) {
-	        return "redirect:/vendor/manageproduct";  // Redirect to manage product page on success
+	        return "redirect:/vendor/manageproduct";  
 	    } else {
-	        return "redirect:/vendor/product/product-update";  // Return to the update page if error occurs
+	        return "redirect:/vendor/manageproduct/update/{id}";  
 	    }
 	}
-
 
 
 	@GetMapping("/delete/{id}")

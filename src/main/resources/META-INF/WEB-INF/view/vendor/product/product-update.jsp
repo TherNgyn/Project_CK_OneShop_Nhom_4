@@ -3,7 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jstl/fmt_rt" prefix="fmt"%>
 <title>Manage Products</title>
-
+</head>
 <body class="page-header-fixed page-quick-sidebar-over-content ">
 	<!-- BEGIN HEADER -->
 	<div class="page-header navbar navbar-fixed-top"></div>
@@ -29,12 +29,7 @@
 								<div class="table-container" style="">
 									<div id="datatable_products_wrapper"
 										class="dataTables_wrapper dataTables_extended_wrapper no-footer">
-										<div id="prefix_480614921548"
-											class="Metronic-alerts alert alert-danger fade in">
-											<button type="button" class="close" data-dismiss="alert"
-												aria-hidden="true"></button>
-											<i class="fa-lg fa fa-warning"></i> ${message }
-										</div>
+										
 										<div class="row">
 											<div class="col-md-8 col-sm-12">
 												<div class="dataTables_paginate paging_bootstrap_extended"
@@ -53,8 +48,7 @@
 										</div>
 										<div class="container mt-5">
 											<h3>Cập nhật sản phẩm</h3>
-											<form action="/vendor/manageproduct/updatesave/${product.id} " method="post"
-												enctype="multipart/form-data">
+											<form action="/vendor/manageproduct/updatesave/${product.id}" method="POST" enctype="multipart/form-data">
 												<table class="table table-bordered">
 													<tbody>
 														<tr>
@@ -81,7 +75,9 @@
 														<tr>
 															<th>Giá:</th>
 															<td><input type="number" class="form-control"
-																name="price" value="${product.price}" required></td>
+																name="price"
+																value="<fmt:formatNumber value='${product.price}' type='number' pattern='###.##' />"
+																required></td>
 														</tr>
 														<tr>
 															<th>Số lượng:</th>
@@ -112,21 +108,29 @@
 														<tr>
 															<th>Hình ảnh chính:</th>
 															<td><input type="file" class="form-control-file"
-																name="image"> <img src="${product.imageUrls[0]}"
-																alt="${product.name}" class="img-thumbnail mt-2"
-																width="150"></td>
+																name="image"> <img
+																src="${product.imageUrls[0]}" alt="${product.name}"
+																class="img-thumbnail mt-2" width="150"></td>
 														</tr>
+
 														<tr>
 															<th>Các hình ảnh khác:</th>
 															<td><input type="file" class="form-control-file"
 																name="additionalImages" multiple> <c:forEach
 																	var="image" items="${product.imageUrls}" begin="1">
-																	<img src="${image}" alt="${product.name}"
-																		class="img-thumbnail mt-2" width="150">
+																	<div class="image-item">
+																		<img src="${image}" alt="${product.name}"
+																			class="img-thumbnail mt-2" width="150"
+																			data-image-url="${image}">
+																		<button type="button" class="delete-btn"
+																			onclick="removeImage(this, 'additional', '${image}')">X</button>
+																	</div>
 																</c:forEach></td>
 														</tr>
 													</tbody>
 												</table>
+												<input type="hidden" name="removedImages" id="removedImages" value="">
+												
 												<div class="text-right">
 													<button type="submit" class="btn btn-primary">Lưu
 														thay đổi</button>
@@ -149,4 +153,23 @@
 		<!-- END CONTENT -->
 	</div>
 
+<script>
+function removeImage(button, imageType, imageUrl) {
+    // Kiểm tra nếu là ảnh chính thì không xóa
+    if (imageType === 'main' || !imageUrl) {
+        alert('Không thể xóa ảnh chính!');
+        return;
+    }
+
+    // Ẩn ảnh
+    const imageItem = button.closest('.image-item');
+    imageItem.style.display = 'none';
+
+    // Đánh dấu ảnh bị xóa
+    let removedImages = document.getElementById('removedImages');
+    const currentRemovedImages = removedImages.value ? removedImages.value.split(',') : [];
+    currentRemovedImages.push(imageUrl);
+    removedImages.value = currentRemovedImages.join(',');
+}
+</script>
 </body>
