@@ -27,6 +27,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.cloudinary.Cloudinary;
 import com.oneshop.entity.Cart;
 import com.oneshop.entity.CartItem;
+import com.oneshop.entity.Inventory;
 import com.oneshop.entity.Order;
 import com.oneshop.entity.OrderItem;
 import com.oneshop.entity.Product;
@@ -81,6 +82,12 @@ public class CartUserController {
                         .collect(Collectors.toList());
                 product.setImageUrls(imageUrls);
 
+                int availableStock = product.getInventories().stream()
+                        .mapToInt(Inventory::getQuantity)
+                        .sum();
+                
+                product.setQuantity( availableStock);
+                
                 Store store = product.getStore();
                 storeGroupedCartItems.computeIfAbsent(store, k -> new ArrayList<>()).add(cartItem);
             }

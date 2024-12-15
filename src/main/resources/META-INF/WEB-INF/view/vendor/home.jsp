@@ -12,7 +12,7 @@
 		<li><a class="wsus__droap_arrow" href="/vendor/decorate/${user.store.id}"><i
 								class="fal fa-tshirt"></i> Quản lý cửa hàng</a>
 		</li>
-		<li><a href="#"><i class="fas fa-box"></i> Quản lý sản phẩm</a></li>
+		<li><a href="/vendor/manageproduct"><i class="fas fa-box"></i> Quản lý sản phẩm</a></li>
 		<li><a href="#"><i class="fas fa-shopping-cart"></i> Quản lý
 				đơn hàng</a></li>
 		<li><a href="#"><i class="fas fa-chart-line"></i> Quản lý

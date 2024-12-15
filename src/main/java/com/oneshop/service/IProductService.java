@@ -6,10 +6,13 @@ import java.util.Optional;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.oneshop.entity.Category;
 import com.oneshop.entity.Product;
 import com.oneshop.entity.Store;
+
+import jakarta.validation.Valid;
 
 
 public interface IProductService {
@@ -60,4 +63,12 @@ public interface IProductService {
 	List<Product> getTopRatedProducts();
 
 	List<Product> findTop4ByIsSelling();
+	Page<Product> findByStatus(Boolean status, Pageable pageable);
+
+	void updateProduct(@Valid Product product);
+	
+	String updateProductWithImages(Product product, MultipartFile mainImage, MultipartFile[] additionalImages,
+			Integer productId, String removedImages);
+	String updateProductWithImages(Product product, Integer quantity, MultipartFile mainImage,
+			MultipartFile[] additionalImages, Integer productId, String removedImages);
 }
