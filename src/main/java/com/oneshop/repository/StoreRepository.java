@@ -27,4 +27,6 @@ public interface StoreRepository extends JpaRepository<Store, Integer> {
 	Store findByUserId(Integer userId);
 	Store findByName(String name);
 	boolean existsByUserId(Integer userId);
+	public List<Store> findByNameContainingIgnoreCaseOrBioContainingIgnoreCase(String name, String bio);
+
 }

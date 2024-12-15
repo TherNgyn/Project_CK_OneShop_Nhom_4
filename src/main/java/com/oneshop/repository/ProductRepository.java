@@ -58,8 +58,13 @@ public interface ProductRepository extends JpaRepository<Product, Integer>, JpaS
 		List<Product> findTopRatedProducts();
 	@Query("SELECT p FROM Product p WHERE p.isSelling = true ORDER BY p.id DESC")
     List<Product> findTop4ByIsSellingTrueOrderByIdDesc();
+	List<Product> findByStoreId(Integer storeId);
+	List<Product> findByStoreIdAndStatus(int storeId, String status);
+	List<Product> findByStatus(String status);
+	List<Product> findByStoreIdAndStatusAndNameContaining(Integer storeId, String status, String searchTerm);
+	List<Product> findByStatusAndNameContaining(String status, String searchTerm);
+	List<Product> findByStoreIdAndNameContaining(Integer storeId, String searchTerm);
+	List<Product> findByNameContaining(String searchTerm);
 	Page<Product> findByIsSelling(Boolean isSelling, Pageable pageable);
 	List<Product> findTop8ByOrderBySoldDesc();
-	
-	
 }
