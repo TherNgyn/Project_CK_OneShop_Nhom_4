@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
@@ -347,45 +348,41 @@ public class ProductServiceImpl implements IProductService {
 		
 	}
 
+
 	@Override
 	public List<Product> findTop4ByOrderByIdDesc() {
 		// TODO Auto-generated method stub
-		return null;
+		return productRepository.findTop4ByOrderBySoldDesc();
 	}
 
 	@Override
 	public List<String> getAllBrands() {
-		// TODO Auto-generated method stub
-		return null;
+	    return productRepository.findDistinctBrands();
 	}
 
 	@Override
-	public Page<Product> findByBrand(String brand, Pageable pageable) {
+    public Page<Product> findByBrand(String brand, Pageable pageable) {
+        return productRepository.findByBrand(brand, pageable);
+    }
+
+	public List<Product> findTopProductsByCategory(Integer categoryId) {
+	    return productRepository.findTopProductsByCategoryId(categoryId, PageRequest.of(0, 6)); // Lấy 6 sản phẩm đầu
+	}
+	@Override
+	public List<Product> getTopRatedProducts() {
+        return productRepository.findTopRatedProducts().subList(0, 3); // Lấy top 3
+    }
+	
+	
+	@Override
+	public String updateProductWithImages(Product product, MultipartFile mainImage, MultipartFile[] additionalImages,
+			Integer productId, String removedImages) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public List<Product> findTop4ByOrderBySoldDesc() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<Product> findTopProductsByCategory(Integer categoryId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<Product> getTopRatedProducts() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public String updateProductWithImages(Product product, MultipartFile mainImage, MultipartFile[] additionalImages,
-			Integer productId, String removedImages) {
 		// TODO Auto-generated method stub
 		return null;
 	}
