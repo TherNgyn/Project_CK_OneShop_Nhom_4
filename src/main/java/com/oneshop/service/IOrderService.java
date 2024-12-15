@@ -89,4 +89,6 @@ public interface IOrderService {
 
 	List<YearlyRevenue> calculateYearlyRevenue();
 
+	List<Order> findOrders(String status, String searchTerm);
+
 }

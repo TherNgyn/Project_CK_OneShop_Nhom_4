@@ -12,12 +12,12 @@
 <style>
     /* Điều chỉnh lại tổng thể giao diện */
     html, body {
-        margin: 0;
-        padding: 0;
-        height: 100%;
-        font-family: 'Open Sans', sans-serif;
-        background-color: #f8f9fa;
-    }
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: 'Open Sans', sans-serif;
+            background-color: #f8f9fa;
+        }
 
     body {
         margin: 0;

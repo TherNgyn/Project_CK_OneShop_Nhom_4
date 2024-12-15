@@ -6,6 +6,8 @@
 <body>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">   
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         #myChartContainer {
@@ -13,8 +15,40 @@
             margin: 20px auto;
             text-align: center;
         }
+        body/* Tiêu đề section */
+    	.section-title {
+	        text-align: center;
+	        font-size: 2.5rem;
+	        font-weight: bold;
+	        background: linear-gradient(90deg, #007BFF, #00C6FF);
+	        -webkit-background-clip: text;
+	        color: transparent;
+	        text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+	        margin-bottom: 30px;
+	        margin-top: 50px;
+	        text-transform: uppercase;
+	        letter-spacing: 3px;
+	        position: relative;
+	    }
+	
+	    .section-title::after {
+	        content: "";
+	        display: block;
+	        width: 120px;
+	        height: 4px;
+	        background: linear-gradient(90deg, #007BFF, #00C6FF);
+	        margin: 10px auto 0;
+	        border-radius: 2px;
+	    }
+	
+	    .section-title:hover {
+	        transform: scale(1.05);
+	        transition: transform 0.3s ease-in-out;
+	    }
     </style>
-
+	
+	<h2 class="section-title">Biểu đồ doanh thu theo năm</h2>
+	
     <!-- Phần tử canvas để hiển thị biểu đồ -->
     <div id="myChartContainer">
         <canvas id="myChart"></canvas>
@@ -72,12 +106,6 @@
             });
         });
     </script>
-    
-    <div style="text-align: center; margin-bottom: 40px;">
-	    <h2 style="font-size: 36px; font-weight: 600; color: #333; letter-spacing: 1px; font-family: 'Roboto', sans-serif; 
-	               text-transform: uppercase; margin-bottom: 10px;">
-	        Biểu đồ doanh thu theo năm
-	    </h2>
-	</div>
+  
 </body>
 </html>
