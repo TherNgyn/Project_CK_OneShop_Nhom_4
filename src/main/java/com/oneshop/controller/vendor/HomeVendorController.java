@@ -18,11 +18,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.cloudinary.Cloudinary;
+import com.oneshop.entity.Order;
 import com.oneshop.entity.Product;
 import com.oneshop.entity.Store;
 import com.oneshop.entity.User;
 import com.oneshop.model.CategoryModel;
 import com.oneshop.service.ICategoryService;
+import com.oneshop.service.IOrderService;
 import com.oneshop.service.IProductService;
 import com.oneshop.service.IStoreService;
 import com.oneshop.service.Impl.CloudinaryService;
@@ -45,6 +47,9 @@ public class HomeVendorController {
     private ICategoryService categoryService;
     
     @Autowired IProductService productService;
+    
+    @Autowired
+    private IOrderService orderService;
 
     @GetMapping("")
     public ModelAndView vendorHomeSession(ModelMap model) {
@@ -62,6 +67,7 @@ public class HomeVendorController {
         
         return new ModelAndView("vendor/home", model);
     }
+    
     @GetMapping("/home")
     public ModelAndView vendorHome(ModelMap model) {
         // Lấy thông tin user từ session
@@ -74,11 +80,38 @@ public class HomeVendorController {
         if ("ROLE_VENDOR".equals(loggedInUser.getRole())) {
             // Truy vấn để lấy store dựa trên ownerid
             Store vendorStore = storeService.findByOwner(loggedInUser);
-            System.out.println("Store ID: " + vendorStore.getId());
-
             // Thêm thông tin cửa hàng vào model
             model.addAttribute("store", vendorStore);
+        } else {
+        	return new ModelAndView("redirect:/login");
         }
+        
+        Store vendorStore = storeService.findByOwner(loggedInUser);
+        // Thêm thông tin cửa hàng vào model
+        model.addAttribute("store", vendorStore);
+        
+        List<Product> products = productService.findProductByStore(vendorStore);
+     // Lấy các sản phẩm gần hết hàng
+        List<Product> lowInventoryProducts = productService.getLowStockProducts(vendorStore, 10); // Ngưỡng là 10 sản phẩm
+        model.addAttribute("lowInventoryProducts", lowInventoryProducts);
+        
+        List<Order> latestOrders = orderService.getLatestOrders();
+        model.addAttribute("latestOrders", latestOrders);
+        
+        Double todayRevenue = orderService.getTodayRevenue();
+        if (todayRevenue == null) {
+            todayRevenue = 0.0;
+        }
+        
+        // Truyền dữ liệu vào model
+        model.addAttribute("todayRevenue", todayRevenue);
+        
+        long pendingOrders = orderService.countPendingOrders();
+        model.addAttribute("pendingOrders", pendingOrders);
+        
+        long newOrderCount = orderService.getNewOrderCount();
+       
+        model.addAttribute("newOrderCount", newOrderCount);
         
         return new ModelAndView("vendor/home", model);
     }

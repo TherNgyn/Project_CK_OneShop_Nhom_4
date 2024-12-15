@@ -1,8 +1,7 @@
 package com.oneshop.service.Impl;
 
 import java.io.IOException;
-import java.sql.Date;
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
@@ -18,6 +17,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.oneshop.repository.InventoryRepository;
 import com.oneshop.repository.ProductImageRepository;
 import com.oneshop.repository.ProductRepository;
 import com.oneshop.entity.CartItem;
@@ -29,6 +29,7 @@ import com.oneshop.entity.ProductImage;
 import com.oneshop.entity.ProductSpecification;
 import com.oneshop.entity.Review;
 import com.oneshop.entity.Store;
+import com.oneshop.service.IInventoryService;
 import com.oneshop.service.IProductService;
 
 import jakarta.transaction.Transactional;
@@ -42,10 +43,13 @@ public class ProductServiceImpl implements IProductService {
 	ProductRepository productRepository;
 	
 	@Autowired
+	InventoryRepository inventoryRepository;
+	
+	@Autowired
 	ProductImageRepository productImageRepository;
 	
 	@Autowired
-	InventoryService inventoryService;
+	IInventoryService inventoryService;
 	
 	@Autowired
 	private CloudinaryService cloudinaryService;
@@ -377,9 +381,10 @@ public class ProductServiceImpl implements IProductService {
 	}
 	@Override
 	public List<Product> getTopRatedProducts() {
-        return productRepository.findTopRatedProducts().subList(0, 3); // Lấy top 3
+		List<Product> topRatedProducts = productRepository.findTopRatedProducts();
+	    int size = Math.min(topRatedProducts.size(), 3); // Đảm bảo không vượt quá kích thước danh sách
+	    return topRatedProducts.subList(0, size);
     }
-	
 	@Override
 	public List<Product> getProducts(int storeId) {
         // Lấy danh sách sản phẩm theo Store ID
@@ -434,4 +439,24 @@ public class ProductServiceImpl implements IProductService {
         // Nếu không có tham số nào là null, tìm theo cả 3 tham số
         return productRepository.findByStoreIdAndStatusAndNameContaining(storeId, status, searchTerm);
 	}
+	// Hàm trả về danh sách sản phẩm gần hết hàng
+    public List<Product> getLowStockProducts(Store vendorStore, int threshold) {
+        List<Product> lowStockProducts = new ArrayList<>();
+        
+        // Lấy tất cả sản phẩm của cửa hàng
+        List<Product> products = productRepository.findProductByStore(vendorStore);
+
+        for (Product product : products) {
+            // Lấy quantity của sản phẩm từ bảng Inventory
+            Inventory inventory = inventoryRepository.findByProductId(product.getId());
+            if (inventory != null && inventory.getQuantity() < threshold) {
+                // Thêm sản phẩm vào danh sách nếu số lượng nhỏ hơn ngưỡng
+                product.setQuantity(inventory.getQuantity());
+                lowStockProducts.add(product);
+            }
+        }
+
+        return lowStockProducts;
+    }
+   
 }

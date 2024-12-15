@@ -55,6 +55,9 @@
         <c:when test="${sessionScope.userRole == 'ROLE_ADMIN'}">
             <%@ include file = "/commons/admin/header.jsp" %>
         </c:when>
+        <c:when test="${sessionScope.userRole == 'ROLE_SHIPPER'}">
+            <%@ include file = "/commons/shipper/header.jsp" %>
+        </c:when>
         <c:otherwise>
             <%@ include file = "/commons/web/header.jsp" %>
         </c:otherwise>
