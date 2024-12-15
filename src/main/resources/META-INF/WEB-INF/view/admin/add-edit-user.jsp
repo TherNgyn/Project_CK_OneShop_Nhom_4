@@ -10,7 +10,12 @@
 </head>
 <body>
     <div class="container mt-5">
-        <h1 class="text-center">THÊM SỬA NGƯỜI DÙNG</h1>
+	    <div style="text-align: center; margin-bottom: 40px;">
+		    <h2 style="font-size: 36px; font-weight: 600; color: #333; letter-spacing: 1px; font-family: 'Roboto', sans-serif; 
+		               text-transform: uppercase; margin-bottom: 10px;">
+		        THÔNG TIN NGƯỜI DÙNG
+		    </h2>
+		</div>
 
         <!-- Hiển thị thông báo lỗi nếu có -->
         <div class="alert alert-warning" role="alert" style="${error != null && error.trim().length() > 0 ? '' : 'display: none;'}">

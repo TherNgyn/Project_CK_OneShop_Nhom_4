@@ -34,4 +34,6 @@ public interface IStoreService {
 	Store findOneByUser(User user);
 	Store findByName(String name);
 	Store findByOwner(User user);
+	Store saveStore(Store store);
+	List<Store> searchStores(String searchTerm);
 }
