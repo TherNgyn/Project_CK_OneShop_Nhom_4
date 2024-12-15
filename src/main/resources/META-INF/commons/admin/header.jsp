@@ -94,21 +94,24 @@
 
                         <ul class="wsus__menu_item">
 						    <li class="nav-item">
-						        <a class="nav-link" href="home">Home</a>
+						        <a class="nav-link" href="/admin/home">Home</a>
 						    </li>    
-						    <li class="nav-item">
-						        <a class="nav-link" href="stores">Quản lý cửa hàng</a>
+						    <li class="wsus__relative_li">Cửa hàng và sản phẩm <i class="fas fa-caret-down"></i></a>
+						        <ul class="wsus__menu_droapdown">
+									<li><a class="nav-link" href="/admin/stores">Cửa hàng</a></li>
+									<li><a class="nav-link" href="/admin/stores/listProduct">Sản phẩm</a></li>
+								</ul>
 						    </li>
 						    <li class="nav-item">
 						        <a class="nav-link" href="#">Quản lý đơn hàng</a>
 						    </li>
 						    <li class="nav-item">
-						        <a class="nav-link" href="users">Quản lý người dùng</a>
+						        <a class="nav-link" href="/admin/users">Quản lý người dùng</a>
 						    </li>
-						    <li class="wsus__relative_li"><a href="#">Thống kê <i class="fas fa-caret-down"></i></a>
+						    <li class="wsus__relative_li">Thống kê <i class="fas fa-caret-down"></i></a>
 								<ul class="wsus__menu_droapdown">
-									<li><a class="nav-link" href="monthly-revenue">Doanh thu theo tháng</a></li>
-									<li><a class="nav-link" href="yearly-revenue">Doanh thu theo năm</a></li>
+									<li><a class="nav-link" href="/admin/monthly-revenue">Doanh thu theo tháng</a></li>
+									<li><a class="nav-link" href="/admin/yearly-revenue">Doanh thu theo năm</a></li>
 								</ul>
 							</li>
 						    <c:choose>

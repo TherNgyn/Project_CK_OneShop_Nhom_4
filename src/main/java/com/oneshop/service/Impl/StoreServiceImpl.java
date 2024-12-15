@@ -123,4 +123,10 @@ public class StoreServiceImpl implements IStoreService {
     public Store saveStore(Store store) {
         return StoreRepository.save(store);
     }
+	
+	@Override
+	public List<Store> searchStores(String searchTerm) {
+	    // Tìm kiếm các cửa hàng theo tên hoặc mô tả
+	    return StoreRepository.findByNameContainingIgnoreCaseOrBioContainingIgnoreCase(searchTerm, searchTerm);
+	}
 }

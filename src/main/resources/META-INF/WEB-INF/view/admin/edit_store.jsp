@@ -64,8 +64,7 @@
             </div>
             <div class="form-group">
                 <label for="createat">Ngày tạo</label>
-                <input type="text" class="form-control" id="createat" name="createat" value="${store.createat}"
-                    disabled>
+                <input type="text" class="form-control" id="createat" name="createat" value="${store.createat}" disabled>
             </div>
             <div class="form-group">
                 <label for="updateat">Ngày cập nhật</label>
@@ -73,7 +72,7 @@
             </div>
             <div class="form-group">
 		        <label for="ownerid">Owner ID</label>
-		        <input type="text" class="form-control" id="ownerid" name="user.id" value="${store.user.id}" required/>
+		        <input type="text" class="form-control" id="ownerid" name="user.id" value="${store.user.id}" disabled/>
 		    </div>
             <button type="submit" class="btn btn-primary">Cập nhật</button>
         </form>

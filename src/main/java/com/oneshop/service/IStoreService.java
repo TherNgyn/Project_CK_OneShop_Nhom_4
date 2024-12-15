@@ -35,4 +35,5 @@ public interface IStoreService {
 	Store findByName(String name);
 	Store findByOwner(User user);
 	Store saveStore(Store store);
+	List<Store> searchStores(String searchTerm);
 }

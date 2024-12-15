@@ -60,4 +60,6 @@ public interface IProductService {
 	List<Product> getTopRatedProducts();
 
 	List<Product> findTop4ByIsSelling();
+	List<Product> getProducts(int storeId);
+	List<Product> findProducts(Integer storeId, String status, String searchTerm);
 }
