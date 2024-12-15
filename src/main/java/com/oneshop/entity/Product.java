@@ -11,10 +11,10 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @Entity
-@Table(name = "product")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "product")
 public class Product {
 
     @Id
@@ -89,9 +89,4 @@ public class Product {
                      .findFirst() // Lấy hình ảnh đầu tiên nếu có
                      .orElse(null); // Trả về null nếu không có hình ảnh chính
     }
-
-<<<<<<< HEAD
-	
-=======
->>>>>>> 00b73af36c1b4ff6b1ac3ec10dd6d40e5cb899c6
 }

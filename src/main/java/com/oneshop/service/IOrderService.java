@@ -90,7 +90,6 @@ public interface IOrderService {
 
 	List<YearlyRevenue> calculateYearlyRevenue();
 
-<<<<<<< HEAD
 	long countPendingOrders();
 
 	List<Order> getOrdersByStore(Integer storeId);
@@ -110,8 +109,7 @@ public interface IOrderService {
 	List<Order> getOrdersInTransit();
 
 	void updateOrderStatus(Integer orderId, String status);
-=======
+
 	List<Order> findOrders(String status, String searchTerm);
->>>>>>> 00b73af36c1b4ff6b1ac3ec10dd6d40e5cb899c6
 
 }

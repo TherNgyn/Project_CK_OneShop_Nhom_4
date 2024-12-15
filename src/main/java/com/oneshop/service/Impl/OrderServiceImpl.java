@@ -339,7 +339,7 @@ public class OrderServiceImpl implements IOrderService {
 	}
 	
 	@Override
-<<<<<<< HEAD
+
 	public long countPendingOrders() {
         return orderRepository.countByStatus("processing_1");
     }
@@ -385,7 +385,7 @@ public class OrderServiceImpl implements IOrderService {
         order.setStatus(status);
         orderRepository.save(order);
     }
-=======
+
 	public List<Order> findOrders(String status, String searchTerm) {
 	    // Cả status và searchTerm đều null, trả về tất cả đơn hàng
 	    if (!StringUtils.hasText(status) && !StringUtils.hasText(searchTerm)) {
@@ -406,6 +406,4 @@ public class OrderServiceImpl implements IOrderService {
 	    return orderRepository.findByStatusIgnoreCaseAndPhoneContainingIgnoreCaseOrUserFirstNameContainingIgnoreCaseOrUserLastNameContainingIgnoreCase(status, searchTerm, searchTerm, searchTerm);
 	}
 
-
->>>>>>> 00b73af36c1b4ff6b1ac3ec10dd6d40e5cb899c6
 }

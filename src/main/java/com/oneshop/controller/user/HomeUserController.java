@@ -75,8 +75,7 @@ public class HomeUserController {
 	IBlogService blogService;
 	@Autowired
 	private CloudinaryService cloudinaryService;
-	@Autowired
-	PasswordEncoder passwordEncoder;
+	
 	@PostMapping("/upload-avatar")
 	public ResponseEntity<String> uploadAvatar(@RequestParam("file") MultipartFile file) {
 	    try {
