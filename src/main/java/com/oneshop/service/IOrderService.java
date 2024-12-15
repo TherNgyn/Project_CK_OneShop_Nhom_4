@@ -89,4 +89,12 @@ public interface IOrderService {
 
 	List<YearlyRevenue> calculateYearlyRevenue();
 
+	long countPendingOrders();
+
+	List<Order> getOrdersByStore(Integer storeId);
+
+	List<Order> getOrdersByStoreAndStatus(Store store, String status);
+
+	List<Order> getOrdersByStoreAndStatus2(Store store, String status1, String status2);
+
 }

@@ -334,6 +334,22 @@ public class OrderServiceImpl implements IOrderService {
 
 	    return yearlyRevenues;
 	}
-
-
+	
+	@Override
+	public long countPendingOrders() {
+        return orderRepository.countByStatus("processing_1");
+    }
+	@Override
+	public List<Order> getOrdersByStore(Integer storeId) {
+        return orderRepository.findAllByStoreId(storeId);
+    }
+	@Override
+	public List<Order> getOrdersByStoreAndStatus(Store store, String status) {
+		 return orderRepository.findAllByStoreAndStatus(store, status);
+	}
+	@Override
+	public List<Order> getOrdersByStoreAndStatus2(Store store, String status, String status2) {
+		 return orderRepository.findAllByStoreAndStatuses(store, status, status2);
+	}
+	
 }

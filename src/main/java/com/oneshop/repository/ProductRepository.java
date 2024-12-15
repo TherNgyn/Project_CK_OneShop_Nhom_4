@@ -61,5 +61,4 @@ public interface ProductRepository extends JpaRepository<Product, Integer>, JpaS
 	Page<Product> findByIsSelling(Boolean isSelling, Pageable pageable);
 	List<Product> findTop8ByOrderBySoldDesc();
 	
-	
 }

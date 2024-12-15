@@ -55,4 +55,15 @@ public interface OrderRepository extends JpaRepository<Order, Integer> {
 	List<Integer> findDistinctYearsFromUpdateAt();
 	
 	boolean existsByUserId(Integer userId);
+
+	long countByStatus(String status);
+	
+	@Query("SELECT DISTINCT o FROM Order o JOIN o.orderItems oi JOIN oi.product p WHERE p.store.id = :storeId")
+    List<Order> findAllByStoreId(@Param("storeId") Integer storeId);
+	
+	List<Order> findAllByStoreAndStatus(Store store, String status);
+
+	@Query("SELECT o FROM Order o WHERE o.store = :store AND (o.status = :status1 OR o.status = :status2)")
+	List<Order> findAllByStoreAndStatuses(@Param("store") Store store, @Param("status1") String status1, @Param("status2") String status2);
+	
 }

@@ -71,4 +71,6 @@ public interface IProductService {
 			Integer productId, String removedImages);
 	String updateProductWithImages(Product product, Integer quantity, MultipartFile mainImage,
 			MultipartFile[] additionalImages, Integer productId, String removedImages);
+	public List<Product> getLowStockProducts(Store vendorStore, int threshold);
+	
 }
