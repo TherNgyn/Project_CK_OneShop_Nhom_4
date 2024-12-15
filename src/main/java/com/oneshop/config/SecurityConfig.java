@@ -34,7 +34,7 @@ public class SecurityConfig {
         http
         
             .csrf(csrf -> csrf
-                .ignoringRequestMatchers("/register", "/login", "/forgot_password", "/otp_password", "/otp_register", "/enterOtp", "/user/**", "/vendor/**", "/admin/**")
+                .ignoringRequestMatchers("/register","/login", "/forgot_password", "/otp_password", "/otp_register", "/enterOtp", "/user/**", "/vendor/**", "/admin/**")
             )
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/user/**").hasAnyAuthority("ROLE_USER","ROLE_VENDOR")

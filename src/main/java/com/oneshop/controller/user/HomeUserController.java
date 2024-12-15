@@ -64,6 +64,8 @@ public class HomeUserController {
 	@Autowired
 	HttpSession session;
 	@Autowired
+	PasswordEncoder passwordEncoder;
+	@Autowired
 	ICartItemService cartItemService;
 	@Autowired
 	ICartService cartService;
