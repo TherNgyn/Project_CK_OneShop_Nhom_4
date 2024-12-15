@@ -66,4 +66,37 @@ public class OrderController {
         return "admin/order_product"; 
     }
     
+    @PostMapping("/accept/{orderId}")
+    public String acceptOrder(@PathVariable Integer orderId) {
+        Optional<Order> orderOptional = orderService.findById(orderId);
+
+        if (orderOptional.isPresent()) {
+            Order order = orderOptional.get();
+            order.setStatus("Preparing_2");
+            orderService.save(order);
+        } else {
+            // Handle the case when the order is not found
+            return "errorPage"; // Redirect to an error page or show an appropriate message
+        }
+        
+        return "redirect:/admin/orders"; // Redirect to orders list after acceptance
+    }
+
+    @PostMapping("/reject/{orderId}")
+    public String rejectOrder(@PathVariable Integer orderId) {
+        Optional<Order> orderOptional = orderService.findById(orderId);
+
+        if (orderOptional.isPresent()) {
+            Order order = orderOptional.get();
+            order.setStatus("Cancelled");
+            orderService.save(order);
+        } else {
+            // Handle the case when the order is not found
+            return "errorPage"; // Redirect to an error page or show an appropriate message
+        }
+        
+        return "redirect:/admin/orders"; // Redirect to orders list after rejection
+    }
+
+    
 }
