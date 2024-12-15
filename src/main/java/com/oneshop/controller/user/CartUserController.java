@@ -86,7 +86,7 @@ public class CartUserController {
                         .mapToInt(Inventory::getQuantity)
                         .sum();
                 
-                product.setQuantity( availableStock);
+                product.setQuantity(availableStock);
                 
                 Store store = product.getStore();
                 storeGroupedCartItems.computeIfAbsent(store, k -> new ArrayList<>()).add(cartItem);

@@ -68,12 +68,6 @@ public class Store {
         this.waitingProductCount = waitingProductCount;
     }
     
-	@Override
-	public String toString() {
-		return "Store [id=" + id + ", name=" + name + ", bio=" + bio + ", user=" + user + ", isactive=" + isactive
-				+ ", avatar=" + avatar + ", featuredimages=" + featuredimages + ", rating=" + rating + ", createat="
-				+ createat + ", updateat=" + updateat + ", products=" + products + "]";
-	}
     
     
 }

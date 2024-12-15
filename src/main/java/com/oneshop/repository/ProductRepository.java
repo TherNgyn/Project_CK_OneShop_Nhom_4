@@ -67,4 +67,6 @@ public interface ProductRepository extends JpaRepository<Product, Integer>, JpaS
 	List<Product> findByNameContaining(String searchTerm);
 	Page<Product> findByIsSelling(Boolean isSelling, Pageable pageable);
 	List<Product> findTop8ByOrderBySoldDesc();
+	
+	
 }

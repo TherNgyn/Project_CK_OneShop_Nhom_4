@@ -9,5 +9,7 @@ public interface IInventoryService {
 
 	    public Inventory getQuantityByProductId(Integer productId);
 		public <S extends Inventory> S save(S entity);
+		
+		
 	     
 }

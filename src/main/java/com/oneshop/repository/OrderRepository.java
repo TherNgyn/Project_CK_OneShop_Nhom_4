@@ -1,6 +1,7 @@
 package com.oneshop.repository;
 
 import java.sql.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Repository;
 import com.oneshop.entity.Order;
 import com.oneshop.entity.Store;
 import com.oneshop.entity.User;
+import com.oneshop.model.RevenueData;
 
 @Repository
 public interface OrderRepository extends JpaRepository<Order, Integer> {
@@ -56,6 +58,33 @@ public interface OrderRepository extends JpaRepository<Order, Integer> {
 	
 	boolean existsByUserId(Integer userId);
 
+	long countByStatus(String status);
+	
+	@Query("SELECT DISTINCT o FROM Order o JOIN o.orderItems oi JOIN oi.product p WHERE p.store.id = :storeId")
+    List<Order> findAllByStoreId(@Param("storeId") Integer storeId);
+	
+	List<Order> findDistinctByOrderItems_Product_StoreAndStatus(Store store, String status);
+
+	@Query("SELECT o FROM Order o " +
+	           "JOIN FETCH o.orderItems oi " +
+	           "JOIN FETCH oi.product p " +
+	           "WHERE p.store.id = :storeId AND " +
+	           "(o.status = :status1 OR o.status = :status2)")
+	    List<Order> getOrdersByStoreAndStatuses(
+	            @Param("storeId") Integer storeId,
+	            @Param("status1") String status1,
+	            @Param("status2") String status2);
+	@Query("SELECT o FROM Order o ORDER BY o.createat DESC")
+    List<Order> findLatestOrders();
+	@Query("SELECT COUNT(o) FROM Order o WHERE o.status IN ('Processing_1', 'Processing_2')")
+    long countNewOrders();
+	@Query("SELECT SUM(o.price) FROM Order o WHERE o.status = 'Completed'")
+    Double findTotalRevenue();
+	@Query("SELECT SUM(o.price) FROM Order o WHERE o.status = 'Completed' AND o.createat >= :startOfDay AND o.createat < :endOfDay")
+    Double findTodayRevenue(LocalDateTime startOfDay, LocalDateTime endOfDay);
+	@Query("SELECT o FROM Order o WHERE o.status IN ('In Transit_1', 'In Transit_2')")
+    List<Order> findOrdersInTransit();
+
 	List<Order> findByStatusIgnoreCase(String status);
     List<Order> findByStatusIgnoreCaseAndPhoneContainingIgnoreCase(String status, String phone);
 
@@ -66,3 +95,4 @@ public interface OrderRepository extends JpaRepository<Order, Integer> {
 			String searchTerm, String searchTerm2, String searchTerm3);
 
 }
+
