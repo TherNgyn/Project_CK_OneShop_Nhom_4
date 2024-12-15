@@ -164,7 +164,22 @@ input[type="text"]:focus, input[type="email"]:focus, input[type="password"]:focu
 <body>
 
 	<div class="section-title from-blog__title" style="margin-top: 50px">
-		<h2>Thông tin cá nhân</h2>
+		<!-- Breadcrumb Section Begin -->
+	<section id="wsus__breadcrumb">
+		<div class="wsus_breadcrumb_overlay">
+			<div class="container">
+				<div class="row">
+					<div class="col-12">
+						<ul>
+							<li><a href="user/home">Home</a></li>
+							<li><a href="user/profile">Profile</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<!-- Breadcrumb Section End -->
 	</div>
 	<main id="main" class="main"
 		style="margin: 30px 160px; margin-top: 50px">
