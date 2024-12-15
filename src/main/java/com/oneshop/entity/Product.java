@@ -89,12 +89,4 @@ public class Product {
                      .findFirst() // Lấy hình ảnh đầu tiên nếu có
                      .orElse(null); // Trả về null nếu không có hình ảnh chính
     }
-
-	@Override
-	public String toString() {
-		return "Product [id=" + id + ", name=" + name + ", brand=" + brand + ", description=" + description + ", price="
-				+ price + ", promotionalPrice=" + promotionalPrice + ", sold=" + sold + ", isSelling=" + isSelling
-				+ ", status=" + status + ", imageUrls=" + imageUrls + ", images=" + images + ", category=" + category
-				+ ", rating=" + rating + ", createat=" + createat + ", updateat=" + updateat + "]";
-	}
 }
