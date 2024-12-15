@@ -56,4 +56,24 @@ public class Store {
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     private List<Order> orders;
+
+    private long waitingProductCount;
+
+    // Add the getter and setter methods for the waitingProductCount field
+    public long getWaitingProductCount() {
+        return waitingProductCount;
+    }
+
+    public void setWaitingProductCount(long waitingProductCount) {
+        this.waitingProductCount = waitingProductCount;
+    }
+    
+	@Override
+	public String toString() {
+		return "Store [id=" + id + ", name=" + name + ", bio=" + bio + ", user=" + user + ", isactive=" + isactive
+				+ ", avatar=" + avatar + ", featuredimages=" + featuredimages + ", rating=" + rating + ", createat="
+				+ createat + ", updateat=" + updateat + ", products=" + products + "]";
+	}
+    
+    
 }

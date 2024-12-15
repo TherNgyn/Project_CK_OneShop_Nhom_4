@@ -385,6 +385,60 @@ public class ProductServiceImpl implements IProductService {
 	    int size = Math.min(topRatedProducts.size(), 3); // Đảm bảo không vượt quá kích thước danh sách
 	    return topRatedProducts.subList(0, size);
     }
+	@Override
+	public List<Product> getProducts(int storeId) {
+        // Lấy danh sách sản phẩm theo Store ID
+        List<Product> products = productRepository.findByStoreId(storeId);
+
+        // Gắn hình ảnh chính cho từng sản phẩm
+        products.forEach(product -> {
+            ProductImage mainImage = product.getMainImage(); // Lấy hình ảnh chính từ Product
+            if (mainImage != null) {
+                product.setImageUrls(List.of(mainImage.getImageUrl())); // Gắn URL hình ảnh chính vào Product
+            } else {
+                product.setImageUrls(List.of("https://www.vimaccos.vn/public/upload/phat-trien-nganh-my-pham-vimaccos.jpg")); // Nếu không có hình ảnh chính, gắn ảnh mặc định
+            }
+        });
+
+        return products;
+    }
+	
+	@Override
+	public List<Product> findProducts(Integer storeId, String status, String searchTerm) {
+		// Nếu tất cả các tham số đều null, trả về tất cả sản phẩm
+        if (storeId == null && status == null && (searchTerm == null || searchTerm.isEmpty())) {
+            return productRepository.findAll();
+        }
+
+        // Nếu storeId và status đều null, tìm theo searchTerm (name)
+        if (storeId == null && status == null) {
+            return productRepository.findByNameContaining(searchTerm);
+        }
+
+        // Nếu storeId và searchTerm (name) đều null, tìm theo status
+        if (storeId == null && searchTerm == null) {
+            return productRepository.findByStatus(status);
+        }
+
+        // Nếu status và searchTerm (name) đều null, tìm theo storeId
+        if (status == null && searchTerm == null) {
+            return productRepository.findByStoreId(storeId);
+        }
+
+        // Nếu chỉ có 1 tham số null thì tìm theo 2 tham số còn lại
+        if (storeId == null) {
+            return productRepository.findByStatusAndNameContaining(status, searchTerm);
+        }
+        if (status == null) {
+            return productRepository.findByStoreIdAndNameContaining(storeId, searchTerm);
+        }
+        if (searchTerm == null) {
+            return productRepository.findByStoreIdAndStatus(storeId, status);
+        }
+
+        // Nếu không có tham số nào là null, tìm theo cả 3 tham số
+        return productRepository.findByStoreIdAndStatusAndNameContaining(storeId, status, searchTerm);
+	}
 	// Hàm trả về danh sách sản phẩm gần hết hàng
     public List<Product> getLowStockProducts(Store vendorStore, int threshold) {
         List<Product> lowStockProducts = new ArrayList<>();
@@ -404,5 +458,4 @@ public class ProductServiceImpl implements IProductService {
 
         return lowStockProducts;
     }
-	
 }

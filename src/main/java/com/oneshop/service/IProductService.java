@@ -63,6 +63,8 @@ public interface IProductService {
 	List<Product> getTopRatedProducts();
 
 	List<Product> findTop4ByIsSelling();
+	List<Product> getProducts(int storeId);
+	List<Product> findProducts(Integer storeId, String status, String searchTerm);
 	Page<Product> findByStatus(Boolean status, Pageable pageable);
 
 	void updateProduct(@Valid Product product);
