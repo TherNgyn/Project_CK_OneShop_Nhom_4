@@ -58,7 +58,7 @@
 			</div>
 			<div class="col-xl-2 col-7 col-md-8 col-lg-2">
 				<div class="wsus_logo_area">
-					<a class="wsus__header_logo" href="home"> <img
+					<a class="wsus__header_logo" href="/admin/home"> <img
 						src="/template/images/logo_2.png" alt="logo" class="img-fluid w-100">
 					</a>
 				</div>
@@ -96,19 +96,19 @@
 						    <li class="nav-item">
 						        <a class="nav-link" href="/admin/home">Home</a>
 						    </li>    
-						    <li class="wsus__relative_li">Cửa hàng và sản phẩm <i class="fas fa-caret-down"></i></a>
+						    <li class="wsus__relative_li">Cửa hàng và sản phẩm <i class="fas fa-caret-down"></i>
 						        <ul class="wsus__menu_droapdown">
 									<li><a class="nav-link" href="/admin/stores">Cửa hàng</a></li>
 									<li><a class="nav-link" href="/admin/stores/listProduct">Sản phẩm</a></li>
 								</ul>
 						    </li>
 						    <li class="nav-item">
-						        <a class="nav-link" href="#">Quản lý đơn hàng</a>
+						        <a class="nav-link" href="/admin/orders">Quản lý đơn hàng</a>
 						    </li>
 						    <li class="nav-item">
 						        <a class="nav-link" href="/admin/users">Quản lý người dùng</a>
 						    </li>
-						    <li class="wsus__relative_li">Thống kê <i class="fas fa-caret-down"></i></a>
+						    <li class="wsus__relative_li">Thống kê <i class="fas fa-caret-down"></i>
 								<ul class="wsus__menu_droapdown">
 									<li><a class="nav-link" href="/admin/monthly-revenue">Doanh thu theo tháng</a></li>
 									<li><a class="nav-link" href="/admin/yearly-revenue">Doanh thu theo năm</a></li>

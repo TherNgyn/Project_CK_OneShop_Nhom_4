@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+
 <!DOCTYPE html>
 <html lang="vi">
 
@@ -10,7 +12,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
 
     <style>
-        html, body {
+    	body {
             margin: 0;
             padding: 0;
             height: 100%;
@@ -182,6 +184,7 @@
                 <thead>
                     <tr>
                         <th>ID</th>
+                        <th>Ảnh</th>
                         <th>Tên Sản Phẩm</th>
                         <th>Thương Hiệu</th>
                         <th>Mô Tả</th>
@@ -199,11 +202,20 @@
                     <c:forEach var="product" items="${products}">
                         <tr>
                             <td>${product.id}</td>
+                            <td>
+				                <img src="${product.imageUrls != null && !product.imageUrls.isEmpty() ? product.imageUrls[0] : '/images/default.png'}" 
+							     alt="Ảnh chính" 
+							     style="width: 100px; height: 100px;">
+				            </td>
                             <td>${product.name}</td>
                             <td>${product.brand}</td>
                             <td>${product.description}</td>
-                            <td>${product.price}</td>
-                            <td>${product.promotionalPrice}</td>
+                            <td>
+							    <fmt:formatNumber value="${product.price}" pattern="#,##0" />đ
+							</td>
+							<td>
+							    <fmt:formatNumber value="${product.promotionalPrice}" pattern="#,##0" />đ
+							</td>
                             <!-- Thay thế Có/Không bằng icon -->
                             <td>
                                 <c:choose>

@@ -55,4 +55,9 @@ public interface OrderRepository extends JpaRepository<Order, Integer> {
 	List<Integer> findDistinctYearsFromUpdateAt();
 	
 	boolean existsByUserId(Integer userId);
+
+	List<Order> findByStatusIgnoreCase(String status);
+    List<Order> findByPhoneContainingIgnoreCase(String phone);
+    List<Order> findByStatusIgnoreCaseAndPhoneContainingIgnoreCase(String status, String phone);
+
 }

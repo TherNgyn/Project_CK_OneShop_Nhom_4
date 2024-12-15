@@ -19,6 +19,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import com.oneshop.entity.Order;
 import com.oneshop.entity.OrderItem;
@@ -334,6 +335,26 @@ public class OrderServiceImpl implements IOrderService {
 
 	    return yearlyRevenues;
 	}
+	
+	@Override
+	public List<Order> findOrders(String status, String searchTerm) {
+        // Cả status và searchTerm đều null, trả về tất cả đơn hàng
+        if (!StringUtils.hasText(status) && !StringUtils.hasText(searchTerm)) {
+            return orderRepository.findAll();
+        }
 
+        // Nếu status null, tìm kiếm theo searchTerm
+        if (!StringUtils.hasText(status)) {
+            return orderRepository.findByPhoneContainingIgnoreCase(searchTerm);
+        }
+
+        // Nếu searchTerm null, tìm kiếm theo status
+        if (!StringUtils.hasText(searchTerm)) {
+            return orderRepository.findByStatusIgnoreCase(status);
+        }
+
+        // Nếu cả hai đều có giá trị, tìm theo cả status và searchTerm
+        return orderRepository.findByStatusIgnoreCaseAndPhoneContainingIgnoreCase(status, searchTerm);
+    }
 
 }
