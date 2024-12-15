@@ -4,13 +4,46 @@
 <html lang="vi">
 
 <body>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-pzjw8f+ua7Kw1TIq0v8FqgsKRx2HpFQ2p4qz+JmlVAn03xmIDcK5k5V5/Yo3XtiD" crossorigin="anonymous">
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+	
+<style>
+	body/* Tiêu đề section */
+    	.section-title {
+	        text-align: center;
+	        font-size: 2.5rem;
+	        font-weight: bold;
+	        background: linear-gradient(90deg, #007BFF, #00C6FF);
+	        -webkit-background-clip: text;
+	        color: transparent;
+	        text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+	        margin-bottom: 30px;
+	        margin-top: 50px;
+	        text-transform: uppercase;
+	        letter-spacing: 3px;
+	        position: relative;
+	    }
+	
+	    .section-title::after {
+	        content: "";
+	        display: block;
+	        width: 120px;
+	        height: 4px;
+	        background: linear-gradient(90deg, #007BFF, #00C6FF);
+	        margin: 10px auto 0;
+	        border-radius: 2px;
+	    }
+	
+	    .section-title:hover {
+	        transform: scale(1.05);
+	        transition: transform 0.3s ease-in-out;
+	    }
+</style>	
+	
     <div class="container mt-5">
-        <h2>Chỉnh Sửa Store</h2>
+        <h2 class="section-title">Chỉnh Sửa Cửa Hàng</h2>
         <form action="/admin/stores/edit/${store.id}" method="post">
             <div class="form-group">
                 <label for="name">Tên Store</label>

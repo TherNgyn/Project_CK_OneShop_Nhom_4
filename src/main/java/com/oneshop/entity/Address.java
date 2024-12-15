@@ -47,5 +47,12 @@ public class Address {
     private Date updateat;
     
     @OneToMany(mappedBy = "address", cascade = CascadeType.ALL)
-    private List<Order> orders; 
+    private List<Order> orders;
+
+	@Override
+	public String toString() {
+		return "Address [addressLine1=" + addressLine1 + ", addressLine2=" + addressLine2 + ", city=" + city + "]";
+	} 
+    
+    
 }

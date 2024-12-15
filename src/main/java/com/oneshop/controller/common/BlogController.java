@@ -1,4 +1,4 @@
-package com.oneshop.controller.user;
+package com.oneshop.controller.common;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -24,7 +24,7 @@ import com.oneshop.service.ICartService;
 @Controller
 @RestController
 @RequestMapping("/blog")
-public class BlogUserController {
+public class BlogController {
 	@Autowired
 	 private IBlogService blogService;
 	
@@ -37,7 +37,7 @@ public class BlogUserController {
 	    model.addAttribute("blogs", blogPage.getContent());
 	    model.addAttribute("currentPage", page);
 	    model.addAttribute("totalPages", blogPage.getTotalPages());
-	    return new ModelAndView("/user/blog/list", model);
+	    return new ModelAndView("common/blog/list", model);
 	}
 
 
@@ -52,9 +52,7 @@ public class BlogUserController {
 	                                  .limit(5) 
 	                                  .collect(Collectors.toList());
 	    model.addAttribute("blogs", blogs);
-
-	    // Trả về view
-	    return new ModelAndView("/user/blog/detail", model);
+	    return new ModelAndView("common/blog/detail", model);
 	}
 
 

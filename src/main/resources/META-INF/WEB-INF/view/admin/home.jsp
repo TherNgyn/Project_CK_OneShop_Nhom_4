@@ -2,17 +2,20 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html>
 <body>
-	<meta charset="UTF-8">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trang chủ Admin - Bán hàng Mỹ phẩm</title>
-    <!-- Thư viện Bootstrap và Chart.js -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <style>  	
-		body {
-		    background-color: #f4f4f9;
-		    padding-bottom: 50px; /* Thêm khoảng trống dưới */
-		}
+
+    <style>
+    	html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: 'Open Sans', sans-serif;
+            background-color: #f8f9fa;
+        }
 		
 		/* Thêm margin dưới cho các container để cách xa footer */
 		.container {
@@ -254,12 +257,58 @@
             margin: 10px auto;
             text-align: center;
         }
+		        /* Tổng quan phần chứa */
+		.chart-wrapper {
+		    display: flex; /* Sắp xếp nội dung theo hàng ngang */
+		    align-items: center; /* Căn giữa dọc */
+		    gap: 20px; /* Khoảng cách giữa chữ và biểu đồ */
+		    margin-top: 20px;
+		    margin-bottom: 20px;
+		}
+		
+		/* Phần chữ */
+		.chart-text {
+		    max-width: 300px; /* Giới hạn chiều rộng để tránh tràn */
+		    color: #343a40; /* Màu chữ */
+		    font-family: 'Roboto', sans-serif; /* Font chữ nhất quán */
+		}
+		
+		.chart-text h2 {
+		    font-size: 24px; /* Kích thước tiêu đề */
+		    font-weight: 700; /* Độ đậm tiêu đề */
+		    margin-bottom: 10px;
+		}
+		
+		.chart-text p {
+		    font-size: 16px; /* Kích thước chữ mô tả */
+		    line-height: 1.6; /* Khoảng cách giữa các dòng */
+		}
+		
+		/* Biểu đồ */
+		.chart-canvas {
+		    flex: 1; /* Biểu đồ chiếm phần còn lại của không gian */
+		    max-width: 600px; /* Giới hạn chiều rộng */
+		}
+		@media (max-width: 768px) {
+		    .chart-wrapper {
+		        flex-direction: column; /* Chuyển từ hàng ngang sang cột */
+		        text-align: center; /* Căn giữa chữ */
+		    }
+		    .chart-canvas {
+		        max-width: 100%; /* Đảm bảo biểu đồ không tràn màn hình */
+		    }
+		}	
+        
     </style>
 
-    <!-- Phần tử canvas để hiển thị biểu đồ -->
-    <div id="myChartContainer">
-        <canvas id="myChart"></canvas>
-    </div>
+    <!-- Phần tử chứa biểu đồ và chữ -->
+	<div id="myChartContainer" class="chart-wrapper">
+	    <div class="chart-text">
+	        <h2 class="section-title">Biểu đồ doanh thu theo tháng</h2>
+	        <p>Biểu đồ bên cạnh đây thể hiện doanh thu từng tháng trong năm nay, giúp nắm bắt xu hướng và đưa ra quyết định kinh doanh chính xác.</p>
+	    </div>
+	    <canvas id="myChart" class="chart-canvas"></canvas>
+	</div>
 
     <script>
 	    document.addEventListener("DOMContentLoaded", function () {
@@ -303,7 +352,7 @@
 	                    },
 	                    title: {
 	                        display: true,
-	                        text: 'Biểu đồ Doanh thu theo Tháng Trong Năm Nay'
+	                        text: ''
 	                    }
 	                },
 	                scales: {
