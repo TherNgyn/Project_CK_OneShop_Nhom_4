@@ -12,13 +12,14 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
 
     <style>
-    	body {
+    	html, body {
             margin: 0;
             padding: 0;
             height: 100%;
             font-family: 'Open Sans', sans-serif;
             background-color: #f8f9fa;
         }
+
 
         body/* Tiêu đề section */
     	.section-title {

@@ -57,7 +57,12 @@ public interface OrderRepository extends JpaRepository<Order, Integer> {
 	boolean existsByUserId(Integer userId);
 
 	List<Order> findByStatusIgnoreCase(String status);
-    List<Order> findByPhoneContainingIgnoreCase(String phone);
     List<Order> findByStatusIgnoreCaseAndPhoneContainingIgnoreCase(String status, String phone);
+
+	List<Order> findByStatusIgnoreCaseAndPhoneContainingIgnoreCaseOrUserFirstNameContainingIgnoreCaseOrUserLastNameContainingIgnoreCase(
+			String status, String searchTerm, String searchTerm2, String searchTerm3);
+
+	List<Order> findByPhoneContainingIgnoreCaseOrUserFirstNameContainingIgnoreCaseOrUserLastNameContainingIgnoreCase(
+			String searchTerm, String searchTerm2, String searchTerm3);
 
 }

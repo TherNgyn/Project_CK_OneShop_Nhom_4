@@ -9,15 +9,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
-
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+	
     <style>
-        body {
+        html, body {
             margin: 0;
             padding: 0;
             height: 100%;
             font-family: 'Open Sans', sans-serif;
             background-color: #f8f9fa;
         }
+
 
         .section-title {
             text-align: center;
@@ -79,10 +81,60 @@
 	        margin-right: 5px;
 	        transition: background-color 0.3s, opacity 0.3s;
 	    }
-        .btn-warning {
+        .btn-primary {
+        background-color: #007bff;
+        color: white;
+        border: 1px solid #007bff;
+	    }
+	
+	    .btn-primary:hover {
+	        background-color: #0056b3;
+	        opacity: 0.8;
+	    }
+	
+	    .btn-secondary {
+	        background-color: #ffffff;
+	        color: #007bff;
+	        border: 1px solid #007bff;
+	    }
+	
+	    .btn-secondary:hover {
+	        background-color: #f1f1f1;
+	        color: #0056b3;
+	        opacity: 0.8;
+	    }
+	
+	    .btn-warning {
 	        background-color: #00aaff;
 	        color: white;
 	        border: 1px solid #00aaff;
+	    }
+	
+	    .btn-warning:hover {
+	        background-color: #007bff;
+	        opacity: 0.8;
+	    }
+	
+	    .btn-danger {
+	        background-color: #0056b3;
+	        color: white;
+	        border: 1px solid #0056b3;
+	    }
+	
+	    .btn-danger:hover {
+	        background-color: #003f6d;
+	        opacity: 0.8;
+	    }
+	
+	    .btn-success {
+	        background-color: #28a745;
+	        color: white;
+	        border: 1px solid #28a745;
+	    }
+	
+	    .btn-success:hover {
+	        background-color: #218838;
+	        opacity: 0.8;
 	    }
         body {
 	        margin: 0;
@@ -169,13 +221,32 @@
                         <td>${order.user.firstName} ${order.user.lastName }</td>
                         <td>${order.phone}</td>
                         <td>${order.address.addressLine1} ${order.address.addressLine2} ${order.address.city}</td>
-                        <td>${order.status}</td>
+                        <td>
+						    <!-- Nút tích/chéo chỉ xuất hiện khi trạng thái là Processing_2 -->
+						    <c:if test="${order.status == 'Processing_2'}">
+						        <div class="d-flex justify-content-start">
+						            <form action="/admin/orders/accept/${order.id}" method="post" style="display:inline;">
+						                <button type="submit" class="btn btn-success mr-2">
+						                    <i class="fas fa-check-circle"></i>
+						                </button>
+						            </form>
+						            <form action="/admin/orders/reject/${order.id}" method="post" style="display:inline;">
+						                <button type="submit" class="btn btn-danger">
+						                    <i class="fas fa-times-circle"></i> 
+						                </button>
+						            </form>
+						        </div>
+						    </c:if>
+						    <c:if test="${order.status != 'Processing_2'}">
+						        ${order.status}
+						    </c:if>
+						</td>
                         <td>${order.createat}</td>
                         <td>
 							 <fmt:formatNumber value="${order.price}" pattern="#,##0" />đ
 						</td>
 						<td class="action-column">                        
-				            <a href="/admin/orders/${order.id}" class="btn btn-warning btn-sm mr-2" style="display:; margin-bottom: 5px;">Sửa</a>   
+				            <a href="/admin/orders/${order.id}" class="btn btn-warning btn-sm mr-2" style="display:; margin-bottom: 5px;">Xem sản phẩm</a>   
 				        </td>
                     </tr>
                 </c:forEach>

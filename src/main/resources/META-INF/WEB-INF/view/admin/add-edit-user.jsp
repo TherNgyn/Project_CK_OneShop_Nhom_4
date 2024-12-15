@@ -3,13 +3,19 @@
 <!DOCTYPE html>
 <html lang="en">
 <body>
-	<meta charset="UTF-8">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
-	
-	<style>
-		body/* Tiêu đề section */
+
+    <style>
+    	html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: 'Open Sans', sans-serif;
+            background-color: #f8f9fa;
+        }
     	.section-title {
 	        text-align: center;
 	        font-size: 2.5rem;

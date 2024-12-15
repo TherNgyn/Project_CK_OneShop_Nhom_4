@@ -47,7 +47,7 @@ public class OrderController {
         return "admin/list_Order";
     }
 
-    @PostMapping("/{orderId}")
+    @GetMapping("/{orderId}")
     public String getOrderDetails(@PathVariable("orderId") Integer orderId, Model model) {
         // Lấy thông tin đơn hàng theo ID
         Order order = orderService.getById(orderId);

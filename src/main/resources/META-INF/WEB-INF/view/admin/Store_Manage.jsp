@@ -11,7 +11,7 @@
 
 <style>
     /* Điều chỉnh lại tổng thể giao diện */
-    body {
+    html, body {
             margin: 0;
             padding: 0;
             height: 100%;

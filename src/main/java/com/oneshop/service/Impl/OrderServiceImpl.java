@@ -338,23 +338,24 @@ public class OrderServiceImpl implements IOrderService {
 	
 	@Override
 	public List<Order> findOrders(String status, String searchTerm) {
-        // Cả status và searchTerm đều null, trả về tất cả đơn hàng
-        if (!StringUtils.hasText(status) && !StringUtils.hasText(searchTerm)) {
-            return orderRepository.findAll();
-        }
+	    // Cả status và searchTerm đều null, trả về tất cả đơn hàng
+	    if (!StringUtils.hasText(status) && !StringUtils.hasText(searchTerm)) {
+	        return orderRepository.findAll();
+	    }
 
-        // Nếu status null, tìm kiếm theo searchTerm
-        if (!StringUtils.hasText(status)) {
-            return orderRepository.findByPhoneContainingIgnoreCase(searchTerm);
-        }
+	    // Nếu status null, tìm kiếm theo searchTerm (số điện thoại hoặc tên khách hàng)
+	    if (!StringUtils.hasText(status)) {
+	        return orderRepository.findByPhoneContainingIgnoreCaseOrUserFirstNameContainingIgnoreCaseOrUserLastNameContainingIgnoreCase(searchTerm, searchTerm, searchTerm);
+	    }
 
-        // Nếu searchTerm null, tìm kiếm theo status
-        if (!StringUtils.hasText(searchTerm)) {
-            return orderRepository.findByStatusIgnoreCase(status);
-        }
+	    // Nếu searchTerm null, tìm kiếm theo status
+	    if (!StringUtils.hasText(searchTerm)) {
+	        return orderRepository.findByStatusIgnoreCase(status);
+	    }
 
-        // Nếu cả hai đều có giá trị, tìm theo cả status và searchTerm
-        return orderRepository.findByStatusIgnoreCaseAndPhoneContainingIgnoreCase(status, searchTerm);
-    }
+	    // Nếu cả hai đều có giá trị, tìm theo cả status và searchTerm (số điện thoại hoặc tên khách hàng)
+	    return orderRepository.findByStatusIgnoreCaseAndPhoneContainingIgnoreCaseOrUserFirstNameContainingIgnoreCaseOrUserLastNameContainingIgnoreCase(status, searchTerm, searchTerm, searchTerm);
+	}
+
 
 }
