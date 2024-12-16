@@ -1,9 +1,13 @@
 package com.oneshop.controller.vendor;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -152,9 +156,10 @@ public class ProductVendorController {
 
 	@PostMapping("/save")
 	public String saveProduct(@Valid @ModelAttribute("product") Product product, BindingResult result, 
-							  @RequestParam("quantity") int quantity,
+	                          @RequestParam("quantity") int quantity,
 	                          @RequestParam("image") MultipartFile mainImage, 
 	                          @RequestParam("additionalImages") MultipartFile[] additionalImages, 
+	                          @RequestParam("promotionalPrice") Double promotionalPrice,
 	                          RedirectAttributes redirectAttributes) {
 	    if (result.hasErrors()) {
 	        redirectAttributes.addFlashAttribute("message", "Có lỗi khi lưu sản phẩm, vui lòng kiểm tra lại.");
@@ -163,35 +168,55 @@ public class ProductVendorController {
 	    
 	    User loggedInUser = (User) session.getAttribute("user");
 	    if (loggedInUser == null) {
-	        
 	        return "redirect:/login";
 	    }
 	    if ("ROLE_VENDOR".equals(loggedInUser.getRole())) {
 	        Store vendorStore = storeService.findByOwner(loggedInUser);
 	        product.setStore(vendorStore);
-	    }else {
-	    	 redirectAttributes.addFlashAttribute("message", "Bạn cần đăng nhập.");
-	    return "redirect:/login";  // Redirect to login page if user is not logged in
+	    } else {
+	        redirectAttributes.addFlashAttribute("message", "Bạn cần đăng nhập.");
+	        return "redirect:/login";  
 	    }
 	    
+	    // Đặt trạng thái sản phẩm là "waiting"
+	    product.setStatus("waiting");
+
+	 // Lấy ngày giờ hiện tại
+	    LocalDateTime now = LocalDateTime.now();
+
+	    // Chuyển LocalDateTime thành java.util.Date
+	    Date currentDate = Date.from(now.atZone(ZoneId.systemDefault()).toInstant());
+
+	    // Chuyển java.util.Date thành java.sql.Date
+	    java.sql.Date sqlDate = new java.sql.Date(currentDate.getTime());
+
+	    // Đặt ngày tạo và ngày cập nhật
+	    product.setCreateat(sqlDate);
+	    product.setUpdateat(sqlDate);
+
+	    // Đặt giá khuyến mãi
+	    product.setPromotionalPrice(promotionalPrice);
+	    
+	    // Lưu sản phẩm trước
+	    productService.save(product);
+
 	    if (product.getImages() == null) {
 	        product.setImages(new ArrayList<>());
 	    }
 	    
-	    // Xử lý ảnh chính (mainImage)
 	    if (mainImage != null && !mainImage.isEmpty()) {
 	        String mainImageUrl = null;
 	        try {
 	            mainImageUrl = cloudinaryService.uploadFile(mainImage);
 	        } catch (IOException e) {
 	            e.printStackTrace();
-	            return "redirect:/vendor/manageproduct/add";  // Nếu lỗi upload, quay lại trang thêm sản phẩm
+	            return "redirect:/vendor/manageproduct/add";  
 	        }
 
-	        // Tạo và gán ảnh chính vào sản phẩm
 	        ProductImage mainProductImage = new ProductImage();
-	        mainProductImage.setImageUrl(mainImageUrl);  // Lưu URL của hình ảnh chính
-	        mainProductImage.setIsMain(true);  // Đánh dấu là hình ảnh chính    
+	        mainProductImage.setImageUrl(mainImageUrl);  
+	        mainProductImage.setIsMain(true);  
+	        mainProductImage.setProduct(product);  // Set the product reference
 	        product.getImages().add(mainProductImage);
 	    }
 	    
@@ -206,32 +231,27 @@ public class ProductVendorController {
 	                    e.printStackTrace();
 	                }
 	                ProductImage productImage = new ProductImage();
-	                productImage.setProduct(product);
+	                productImage.setProduct(product);  // Set the product reference
 	                productImage.setImageUrl(imageUrl);
 	                return productImage;
 	            })
 	            .collect(Collectors.toList());
 
 	        // Thêm ảnh phụ vào sản phẩm
-	        product.setImages(productImages);  
+	        product.getImages().addAll(productImages);  
 	    }
 
-	    
-	    // Đặt trạng thái sản phẩm là "waiting"
-	    product.setStatus("waiting");
-	    
-	    // Lưu sản phẩm
+	    // Lưu lại sản phẩm với các ảnh đã thêm
 	    productService.save(product);
 	    
 	    Inventory inventory = inventoryService.getQuantityByProductId(product.getId());
 	    if (inventory == null) {
-	        // If no inventory exists, create a new inventory entry
 	        inventory = new Inventory();
 	        inventory.setProduct(product);
 	    }
-	    inventory.setQuantity(quantity);  // Set the quantity in inventory
+	    inventory.setProduct(product);
+	    inventory.setQuantity(quantity);  
 	    inventoryService.save(inventory);
-	    
 	    
 	    // Thêm thông báo thành công vào flash attributes
 	    redirectAttributes.addFlashAttribute("message", "Sản phẩm đã được thêm thành công và đang chờ duyệt.");

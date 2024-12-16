@@ -505,7 +505,67 @@ body {
 	overflow-x: hidden;
 	background: #f5f6f7;
 }
+ul.social-icons {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  justify-content: center; /* Căn giữa các icon theo chiều ngang */
+  align-items: center; /* Căn giữa các icon theo chiều dọc */
+}
 
+ul.social-icons li {
+  margin: 0 15px; /* Khoảng cách giữa các icon */
+}
+
+ul.social-icons li a {
+  display: flex;
+  justify-content: center; /* Căn giữa icon theo chiều ngang */
+  align-items: center; /* Căn giữa icon theo chiều dọc */
+  font-size: 24px; /* Kích thước icon */
+  color: #333; /* Màu của icon */
+  text-decoration: none; /* Xóa gạch dưới */
+  transition: color 0.3s; /* Hiệu ứng khi hover */
+}
+
+ul.social-icons li a:hover {
+  color: #ddd; /* Màu của icon khi hover */
+}
+table {
+        width: 100%;
+        border-collapse: collapse; /* Bỏ các lề của bảng */
+    }
+
+    th, td {
+        text-align: center; /* Căn giữa nội dung */
+        font-size: 12px; /* Chữ nhỏ */
+        padding: 8px; /* Thêm padding để tạo khoảng cách trong ô */
+        border: 1px solid #ddd; /* Đường viền mỏng và màu nhạt */
+    }
+
+    th {
+        background-color: #f2f2f2; /* Màu nền cho header */
+        font-weight: bold; /* Chữ đậm */
+    }
+
+    tr:nth-child(even) {
+        background-color: #f9f9f9; /* Màu nền xen kẽ */
+    }
+
+    tr:hover {
+        background-color: #f1f1f1; /* Màu nền khi hover */
+    }
+
+    /* Tùy chỉnh các nút hành động */
+    .btn {
+        font-size: 12px; /* Chữ nhỏ cho nút */
+        padding: 5px 10px; /* Khoảng cách nhỏ cho nút */
+    }
+
+    img {
+        max-width: 50px; /* Giới hạn kích thước hình ảnh */
+        height: auto;
+    }
 ul, ol {
 	list-style: none;
 }

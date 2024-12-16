@@ -1,8 +1,11 @@
 package com.oneshop.service.Impl;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -268,10 +271,16 @@ public class ProductServiceImpl implements IProductService {
 	        // Cập nhật thông tin sản phẩm cơ bản
 	        existingProduct.setName(product.getName());
 	        existingProduct.setPrice(product.getPrice());
+	        existingProduct.setPromotionalPrice(product.getPromotionalPrice());
 	        existingProduct.setIsSelling(product.getIsSelling());
 	        existingProduct.setBrand(product.getBrand());
 	        existingProduct.setDescription(product.getDescription());
 	        existingProduct.setCategory(product.getCategory());
+
+		    LocalDateTime now = LocalDateTime.now();
+		    Date currentDate = Date.from(now.atZone(ZoneId.systemDefault()).toInstant());
+		    java.sql.Date sqlDate = new java.sql.Date(currentDate.getTime());
+	        existingProduct.setUpdateat(sqlDate);
 
 	        // Xử lý hình ảnh chính (mainImage)
 	        if (mainImage != null && !mainImage.isEmpty()) {
@@ -326,14 +335,17 @@ public class ProductServiceImpl implements IProductService {
 	                }
 	            }
 	        }
+
+	        // Cập nhật số lượng trong kho
 	        Inventory inventory = inventoryService.getQuantityByProductId(product.getId());
-		    if (inventory == null) {
-		        // If no inventory exists, create a new inventory entry
-		        inventory = new Inventory();
-		        inventory.setProduct(product);
-		    }
-		    inventory.setQuantity(quantity);  // Set the quantity in inventory
-		    inventoryService.save(inventory);
+	        if (inventory == null) {
+	            // Nếu không có kho, tạo mới
+	            inventory = new Inventory();
+	            inventory.setProduct(product);
+	        }
+	        inventory.setQuantity(quantity);  // Đặt số lượng trong kho
+	        inventoryService.save(inventory);
+
 	        // Lưu sản phẩm sau khi cập nhật
 	        productRepository.save(existingProduct);
 	        return "Sản phẩm đã được cập nhật thành công.";

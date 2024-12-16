@@ -14,7 +14,7 @@
                     <div class="col-12">
                         <h4>vendor details</h4>
                         <ul>
-                            <li><a href="#">vendor</a></li>
+                            
                             <li><a href="/user/storedetail/${store.id}">vendor details</a></li>
                         </ul>
                     </div>
@@ -38,38 +38,7 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"><i
                                 class="far fa-times"></i></button>
                     </div>
-                    <div class="modal-body">
-                        <form action="#">
-                            <p class="rating">
-                                <span>select your rating : </span>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                            </p>
-                            <div class="row">
-                                <div class="col-xl-12">
-                                    <div class="wsus__single_com">
-                                        <input type="text" placeholder="Name">
-                                    </div>
-                                </div>
-                                <div class="col-xl-12">
-                                    <div class="wsus__single_com">
-                                        <input type="email" placeholder="Email">
-                                    </div>
-                                </div>
-                                <div class="col-xl-12">
-                                    <div class="col-xl-12">
-                                        <div class="wsus__single_com">
-                                            <textarea cols="3" rows="3" placeholder="Write your review"></textarea>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <button class="common_btn" type="submit">submit review</button>
-                        </form>
-                    </div>
+                    
                 </div>
             </div>
         </div>
@@ -105,13 +74,9 @@
                                 <%-- <p class="wsus__vendor_location"><i class="fal fa-map-marker-alt"></i> ${store.rating} </p> --%>
                                 <p class="wsus__open_store"><i class="fab fa-shopify"></i> ${store.isactive ? 'Hoạt động':'Đóng cửa' }</p>
                                 <ul class="d-flex">
-                                    <li><a class="facebook" href="#"><i class="fab fa-facebook-f"></i></a></li>
-                                    <li><a class="twitter" href="#"><i class="fab fa-twitter"></i></a></li>
-                                    <li><a class="whatsapp" href="#"><i class="fab fa-whatsapp"></i></a></li>
-                                    <li><a class="instagram" href="#"><i class="fab fa-instagram"></i></a></li>
+                                    <li><a class="facebook" href="https://www.facebook.com/nguyenn.tho.12?locale=vi_VN"><i class="fab fa-facebook-f"></i></a></li>
+                                    <li><a class="instagram" href="https://l.facebook.com/l.php?u=https%3A%2F%2Fwww.instagram.com%2Ftho_loveu%3Ffbclid%3DIwZXh0bgNhZW0CMTAAAR1djBvFKXokXou4rNS28J4ssqmKRqaNMSeOTFGpeO6DD_JkfTEnvTJ-E98_aem_RPyrgZUsAtNz3AC_dJwVpg&h=AT1Hnu2wdgkVP_6421kLB0E2EoMLEkigIF5PePOFBXJFFG_OGb5wqe2uFhUvdVUYqgMJRI0O84H2325X6jcpEVVhcY_nqs8LTCeIviGhrkvo9f3VO8MaFQnJv9YpkFYDyhzZ"><i class="fab fa-instagram"></i></a></li>
                                 </ul>
-                                <a class="common_btn" href="#" data-bs-toggle="modal" data-bs-target="#exampleModal"><i
-                                        class="fas fa-star"></i>add review</a>
                             </div>
                         </div>
                     </div>

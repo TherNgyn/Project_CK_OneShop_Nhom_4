@@ -10,10 +10,10 @@
 	                            <img src="/template/images/logo_2.png" alt="logo">
 	                        </a>
 	                        <a class="action" href="callto:+8896254857456"><i class="fas fa-phone-alt"></i>
-	                            +8896254857456</a>
+	                            0942782355</a>
 	                        <a class="action" href="mailto:example@gmail.com"><i class="far fa-envelope"></i>
-	                            example@gmail.com</a>
-	                        <p><i class="fal fa-map-marker-alt"></i> San Francisco City Hall, San Francisco, CA</p>
+	                            oneshop@gmail.com</a>
+	                        <p><i class="fal fa-map-marker-alt"></i> Số 1 Võ Văn Ngân, Thủ Đức, TP.HCM</p>
 	                        <ul class="wsus__footer_social">
 	                            <li><a class="facebook" href="#"><i class="fab fa-facebook-f"></i></a></li>
 	                            <li><a class="twitter" href="#"><i class="fab fa-twitter"></i></a></li>
