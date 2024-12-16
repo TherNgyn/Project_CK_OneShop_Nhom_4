@@ -31,4 +31,6 @@ public interface IDeliveryService {
 	Page<Category> findByNameContaining(String name, Pageable pageable);
 	Category findOneByName(String name);
 	List<Category> findByNameContaining(String name);
+	List<Delivery> findDeliveries(String search);
+	Delivery getByName(String name);
 }

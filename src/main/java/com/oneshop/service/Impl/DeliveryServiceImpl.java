@@ -1,5 +1,6 @@
 package com.oneshop.service.Impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -119,5 +120,25 @@ public class DeliveryServiceImpl implements IDeliveryService{
 		deliveryRepository.deleteAll();
 	}
 	
+	@Override
+	public List<Delivery> findDeliveries(String name) {
+        if (name == null || name.trim().isEmpty()) {
+            // Tìm tất cả các giao hàng có isDeleted = false hoặc null
+            return deliveryRepository.findByIsDeletedFalseOrIsDeletedIsNull();
+        } else {
+            // Tìm giao hàng theo tên và isDeleted = false hoặc null
+            List<Delivery> deliveries = deliveryRepository.findByNameContainingIgnoreCaseAndIsDeletedFalseOrIsDeletedIsNull(name);
+            if (deliveries == null || deliveries.isEmpty()) {
+                return new ArrayList<>();
+            }
+            return deliveries;
+        }
+    }
+
+	
+	@Override
+	public Delivery getByName(String name) {
+        return deliveryRepository.findByName(name);
+    }
 
 }
