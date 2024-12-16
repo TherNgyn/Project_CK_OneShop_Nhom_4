@@ -203,7 +203,7 @@ public class ProductVendorController {
 	    }
 	    
 	    // Đặt trạng thái sản phẩm là "waiting"
-	    product.setStatus("waiting");
+	    product.setStatus("Waiting");
 
 	 // Lấy ngày giờ hiện tại
 	    LocalDateTime now = LocalDateTime.now();
