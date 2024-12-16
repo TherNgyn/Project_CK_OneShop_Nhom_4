@@ -103,11 +103,11 @@
 								<li><a href="/vendor/storedetail/${user.store.id}">Xem
 										trang chủ cửa hàng</a></li>
 							</ul></li>
-						<li><a href="#"><i class="fas fa-tv"></i> Quản lý sản
+						<li><a href="/vendor/manageproduct"><i class="fas fa-tv"></i> Quản lý sản
 								phẩm</a></li>
-						<li><a href="#"><i class="fas fa-chair-office"></i> Quản
+						<li><a href="/vendor/manageorder"><i class="fas fa-chair-office"></i> Quản
 								lý đơn hàng</a></li>
-						<li><a href="#"><i class="fal fa-mobile"></i> Quản lý
+						<li><a href="/vendor/managerevenue"><i class="fal fa-mobile"></i> Quản lý
 								doanh thu</a></li>
 					</ul>
 
