@@ -30,7 +30,7 @@ public interface ProductRepository extends JpaRepository<Product, Integer>, JpaS
 	Page<Product> findByCategoryOrderByRatingDesc(Category category, Pageable pageable);
 	Page<Product> findByCategory(Category category, Pageable pageable);
 	Page<Product> findBynameContaining(String name, Pageable pageable);
-	Page<Product> findByStore(Store store, Pageable pageable);
+
 	Page<Product> findByStoreAndNameContaining(Store store, String name, Pageable pageable);
 	List<Product> findByStoreAndCategory(Store store, Category category);
 	List<Product> findByCategory(Category category);
@@ -67,6 +67,8 @@ public interface ProductRepository extends JpaRepository<Product, Integer>, JpaS
 	List<Product> findByNameContaining(String searchTerm);
 	Page<Product> findByIsSelling(Boolean isSelling, Pageable pageable);
 	List<Product> findTop8ByOrderBySoldDesc();
+	Page<Product> findByStore(Store store, Pageable pageable);
+	Page<Product> findByStoreAndStatus(Store store, Boolean status, Pageable pageable);
 	
 	
 }

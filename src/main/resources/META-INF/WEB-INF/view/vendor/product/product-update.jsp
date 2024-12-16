@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jstl/fmt_rt" prefix="fmt"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <title>Manage Products</title>
 </head>
 <body class="page-header-fixed page-quick-sidebar-over-content ">
@@ -93,8 +94,16 @@
                                                         </tr>
                                                         <tr>
                                                             <th>Thương hiệu:</th>
-                                                            <td><input type="text" class="form-control"
-                                                                name="brand" value="${product.brand}" required></td>
+                                                            <td>
+                                                                <select class="form-control" id="brandSelect" name="brandSelect" onchange="toggleBrandInput()">
+                                                                    <option value="">Chọn thương hiệu</option>
+                                                                    <c:forEach var="brand" items="${brands}">
+                                                                        <option value="${brand}" ${product.brand == brand ? 'selected' : ''}>${brand}</option>
+                                                                    </c:forEach>
+                                                                    <option value="other">Khác</option>
+                                                                </select>
+                                                                <input type="text" class="form-control mt-2" id="brandInput" name="brand" value="${product.brand}" placeholder="Nhập thương hiệu mới" style="display: none;">
+                                                            </td>
                                                         </tr>
                                                         <tr>
                                                             <th>Trạng thái:</th>
@@ -114,33 +123,37 @@
                                                         </tr>
                                                         <tr>
                                                             <th>Hình ảnh chính:</th>
-                                                            <td><input type="file" class="form-control-file"
-                                                                name="image"> <img
-                                                                src="${product.imageUrls[0]}" alt="${product.name}"
-                                                                class="img-thumbnail mt-2" width="150"></td>
+                                                            <td>
+                                                                <input type="file" class="form-control-file" name="image" onchange="previewMainImage(event)">
+                                                                <c:forEach var="image" items="${product.images}">
+                                                                    <c:if test="${image.isMain}">
+                                                                        <img id="mainImagePreview" src="${image.imageUrl}" alt="${product.name}" class="img-thumbnail mt-2" width="150">
+                                                                    </c:if>
+                                                                </c:forEach>
+                                                            </td>
                                                         </tr>
-
                                                         <tr>
                                                             <th>Các hình ảnh khác:</th>
-                                                            <td><input type="file" class="form-control-file"
-                                                                name="additionalImages" multiple> <c:forEach
-                                                                    var="image" items="${product.imageUrls}" begin="1">
-                                                                    <div class="image-item">
-                                                                        <img src="${image}" alt="${product.name}"
-                                                                            class="img-thumbnail mt-2" width="150"
-                                                                            data-image-url="${image}">
-                                                                        <button type="button" class="delete-btn"
-                                                                            onclick="removeImage(this, 'additional', '${image}')">X</button>
-                                                                    </div>
-                                                                </c:forEach></td>
+                                                            <td>
+                                                                <input type="file" class="form-control-file" name="additionalImages" multiple onchange="previewAdditionalImages(event)">
+                                                                <div id="additionalImagesPreview">
+                                                                    <c:forEach var="image" items="${product.images}">
+                                                                        <c:if test="${!image.isMain}">
+                                                                            <div class="image-item">
+                                                                                <img src="${image.imageUrl}" alt="${product.name}" class="img-thumbnail mt-2" width="150" data-image-url="${image.imageUrl}">
+                                                                                <button type="button" class="delete-btn" onclick="removeImage(this, 'additional', '${image.imageUrl}')">X</button>
+                                                                            </div>
+                                                                        </c:if>
+                                                                    </c:forEach>
+                                                                </div>
+                                                            </td>
                                                         </tr>
                                                     </tbody>
                                                 </table>
                                                 <input type="hidden" name="removedImages" id="removedImages" value="">
                                                 
                                                 <div class="text-right">
-                                                    <button type="submit" class="btn btn-primary">Lưu
-                                                        thay đổi</button>
+                                                    <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
                                                     <a href="/vendor/manageproduct" class="btn btn-secondary">Hủy</a>
                                                 </div>
                                             </form>
@@ -161,6 +174,56 @@
     </div>
 
 <script>
+function toggleBrandInput() {
+    var brandSelect = document.getElementById("brandSelect");
+    var brandInput = document.getElementById("brandInput");
+    if (brandSelect.value === "other") {
+        brandInput.style.display = "block";
+        brandInput.value = ""; // Clear the input field
+    } else {
+        brandInput.style.display = "none";
+        brandInput.value = brandSelect.value; // Set the input field value to the selected brand
+    }
+}
+
+// Initial check to display the brand input if the selected value is "other"
+window.onload = function() {
+    var brandSelect = document.getElementById("brandSelect");
+    var brandInput = document.getElementById("brandInput");
+    if (brandSelect.value === "other" || brandSelect.value === "") {
+        brandInput.style.display = "block";
+    } else {
+        brandInput.style.display = "none";
+    }
+};
+
+function previewMainImage(event) {
+    var reader = new FileReader();
+    reader.onload = function() {
+        var output = document.getElementById('mainImagePreview');
+        output.src = reader.result; // Set the image preview to the selected file
+    };
+    reader.readAsDataURL(event.target.files[0]);
+}
+
+function previewAdditionalImages(event) {
+    var previewContainer = document.getElementById('additionalImagesPreview');
+    previewContainer.innerHTML = ''; // Clear the previous previews
+
+    // Loop through the selected files
+    for (var i = 0; i < event.target.files.length; i++) {
+        var reader = new FileReader();
+        reader.onload = function(e) {
+            var img = document.createElement('img');
+            img.src = e.target.result; // Set the image source to the FileReader result (the image content)
+            img.classList.add('img-thumbnail', 'mt-2');
+            img.width = 150;
+            previewContainer.appendChild(img); // Add the new image to the preview container
+        };
+        reader.readAsDataURL(event.target.files[i]); // Read the file as a Data URL
+    }
+}
+
 function removeImage(button, imageType, imageUrl) {
     // Kiểm tra nếu là ảnh chính thì không xóa
     if (imageType === 'main' || !imageUrl) {

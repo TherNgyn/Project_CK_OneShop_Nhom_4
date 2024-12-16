@@ -71,7 +71,7 @@
 								</p>
 								<a href="callto:+962555544411"><i class="far fa-phone-alt"></i> ${store.user.phone}</a>
                                 <a href="mailto:example@gmail.com"><i class="far fa-envelope"></i> ${store.user.email}</a>
-                                <%-- <p class="wsus__vendor_location"><i class="fal fa-map-marker-alt"></i> ${store.rating} </p> --%>
+                                <p class="wsus__vendor_location"><i class="fal fa-map-marker-alt"></i> ${store.bio} </p>
                                 <p class="wsus__open_store"><i class="fab fa-shopify"></i> ${store.isactive ? 'Hoạt động':'Đóng cửa' }</p>
                                 <ul class="d-flex">
                                     <li><a class="facebook" href="https://www.facebook.com/nguyenn.tho.12?locale=vi_VN"><i class="fab fa-facebook-f"></i></a></li>

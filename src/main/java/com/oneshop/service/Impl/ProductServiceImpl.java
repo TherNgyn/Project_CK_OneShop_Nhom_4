@@ -277,9 +277,10 @@ public class ProductServiceImpl implements IProductService {
 	        existingProduct.setDescription(product.getDescription());
 	        existingProduct.setCategory(product.getCategory());
 
-		    LocalDateTime now = LocalDateTime.now();
-		    Date currentDate = Date.from(now.atZone(ZoneId.systemDefault()).toInstant());
-		    java.sql.Date sqlDate = new java.sql.Date(currentDate.getTime());
+	        // Đặt ngày cập nhật là ngày hôm nay
+	        LocalDateTime now = LocalDateTime.now();
+	        Date currentDate = Date.from(now.atZone(ZoneId.systemDefault()).toInstant());
+	        java.sql.Date sqlDate = new java.sql.Date(currentDate.getTime());
 	        existingProduct.setUpdateat(sqlDate);
 
 	        // Xử lý hình ảnh chính (mainImage)
@@ -470,5 +471,12 @@ public class ProductServiceImpl implements IProductService {
 
         return lowStockProducts;
     }
+
+
+	@Override
+	public Page<Product> findByStoreAndStatus(Store store, Boolean status, Pageable pageable) {
+		
+		return productRepository.findByStoreAndStatus(store, status, pageable);
+	}
    
 }

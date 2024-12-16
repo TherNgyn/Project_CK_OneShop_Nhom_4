@@ -97,13 +97,16 @@
                                                         </tr>
                                                         <tr>
                                                             <th>Thương hiệu:</th>
-                                                            <td><select class="form-control" name="category.id"
-                                                                required>
-                                                                    <c:forEach var="brands" items="${brands}">
-                                                                        <option value="${brands}">${brands}</option>
+                                                            <td>
+                                                                <select class="form-control" id="brandSelect" name="brandSelect" onchange="toggleBrandInput()">
+                                                                    <option value="">Chọn thương hiệu</option>
+                                                                    <c:forEach var="brand" items="${brands}">
+                                                                        <option value="${brand}" ${product.brand == brand ? 'selected' : ''}>${brand}</option>
                                                                     </c:forEach>
-                                                            </select> <input type="text" class="form-control" name="brand"
-                                                                value="${product.brand}" required></td>
+                                                                    <option value="other">Khác</option>
+                                                                </select>
+                                                                <input type="text" class="form-control mt-2" id="brandInput" name="brand" value="${product.brand}" placeholder="Nhập thương hiệu mới" style="display: none;">
+                                                            </td>
                                                         </tr>
                                                         <tr>
                                                             <th>Mô tả:</th>
@@ -158,6 +161,17 @@
         <!-- END CONTENT -->
     </div>
     <script>
+    function toggleBrandInput() {
+        var brandSelect = document.getElementById("brandSelect");
+        var brandInput = document.getElementById("brandInput");
+        if (brandSelect.value === "other") {
+            brandInput.style.display = "block";
+            brandInput.value = ""; // Clear the input field
+        } else {
+            brandInput.style.display = "none";
+            brandInput.value = brandSelect.value; // Set the input field value to the selected brand
+        }
+    }
         function previewImage(event, previewId) {
             var reader = new FileReader();
             reader.onload = function() {

@@ -37,7 +37,7 @@ public interface IProductService {
 	Float totalPrice(List<Product> products);
 	Page<Product> findByCategory(Category category, Pageable pageable);
 	Page<Product> findBynameContaining(String name, Pageable pageable);
-	Page<Product> findByStore(Store store, Pageable pageable);
+
 	Page<Product> findByStoreAndNameContaining(Store store, String name, Pageable pageable);
 	Page<Product> findByCategoryAndNameContaining(Category category, String name, Pageable pageable);
 	List<Product> findByStoreAndCategory(Store store, Category category);
@@ -74,6 +74,8 @@ public interface IProductService {
 	String updateProductWithImages(Product product, Integer quantity, MultipartFile mainImage,
 			MultipartFile[] additionalImages, Integer productId, String removedImages);
 	public List<Product> getLowStockProducts(Store vendorStore, int threshold);
+	Page<Product> findByStore(Store store, Pageable pageable);
+	Page<Product> findByStoreAndStatus(Store store, Boolean status, Pageable pageable);
 
 	
 }

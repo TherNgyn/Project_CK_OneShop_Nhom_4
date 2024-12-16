@@ -72,10 +72,19 @@ public class ProductVendorController {
 
 	@GetMapping("")
 	public String allProduct(ModelMap model, Pageable pageable) {
+		
+		// Lấy thông tin user từ session
+        User loggedInUser = (User) session.getAttribute("user");
+		
+        if (loggedInUser == null) {
+            return "redirect:/login";
+        }
+
+        Store store = storeService.findByOwner(loggedInUser);
+        
 		int currentPage = (pageable.getPageNumber() > 0) ? pageable.getPageNumber() - 1 : 0;
 
-		Page<Product> productPage = productService
-				.findAll(PageRequest.of(currentPage, pageable.getPageSize(), Sort.by("name")));
+		Page<Product> productPage = productService.findByStore(store, PageRequest.of(currentPage, pageable.getPageSize(), Sort.by("name")));
 		
 		productPage.forEach(product -> {
 			List<String> imageUrls = cloudinaryService.generateImageUrls(product.getImages());
@@ -97,15 +106,26 @@ public class ProductVendorController {
 	@GetMapping("/paginated")
 	public String manageProducts(Pageable pageable, @RequestParam(value = "status", required = false) Boolean status,
 			ModelMap model) {
+		
+		// Lấy thông tin user từ session
+        User loggedInUser = (User) session.getAttribute("user");
+		
+        if (loggedInUser == null) {
+            return "redirect:/login";
+        }
+
+        Store store = storeService.findByOwner(loggedInUser);
+        
+		
 		int currentPage = (pageable.getPageNumber() > 0) ? pageable.getPageNumber() - 1 : 0;
 
 		pageable = PageRequest.of(currentPage, pageable.getPageSize(), Sort.by("name"));
 
 		Page<Product> productPage;
 		if (status == null) {
-			productPage = productService.findAll(pageable);
+			productPage = productService.findByStore(store, pageable);
 		} else {
-			productPage = productService.findByStatus(status, pageable);
+			productPage = productService.findByStoreAndStatus(store, status, pageable);
 		}
 
 		productPage.forEach(product -> {
@@ -133,14 +153,18 @@ public class ProductVendorController {
 		
 		List<String> imageUrls = cloudinaryService.generateImageUrls(product.getImages());
 		product.setImageUrls(imageUrls);
-
+		
+		List<String> brands = getUniqueBrands();
+		
 		Inventory inventory = inventoryService.getQuantityByProductId(id);
 		if (inventory != null) {
 			product.setQuantity(inventory.getQuantity());
 		} else {
 			product.setQuantity(0);
 		}
+		
 		model.addAttribute("product", product);
+		model.addAttribute("brands", brands);
 		model.addAttribute("categories", category);
 		return "vendor/product/product-update";
 	}

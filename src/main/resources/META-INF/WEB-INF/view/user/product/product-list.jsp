@@ -185,19 +185,15 @@
 														<span>(${product.reviews.size()} reviews)</span>
 													</p>
 													<p class="wsus__price">
-														$${product.promotionalPrice}
+														${product.promotionalPrice}
 														<del>
 															<c:if test="${product.promotionalPrice < product.price}">${product.price}</c:if>
 														</del>
 													</p>
-													<p class="list_description">Ultrices eros in cursus
-														turpis massa cursus mattis...</p>
+													<p class="list_description">${product.description }</p>
 													<ul class="wsus__single_pro_icon d-flex mt-2">
-														<li class="me-2"><a class="add_cart" href="#">Add
-																to cart</a></li>
-														<li class="me-2"><a href="#"><i
-																class="far fa-heart"></i></a></li>
-														<li><a href="#"><i class="far fa-random"></i></a></li>
+													
+														
 													</ul>
 												</div>
 											</div>

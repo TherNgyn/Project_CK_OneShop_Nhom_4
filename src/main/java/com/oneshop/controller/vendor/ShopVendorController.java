@@ -37,6 +37,7 @@ public class ShopVendorController {
     @PostMapping("/savedecoration")
     public String saveShop(@RequestParam("storeId") Integer storeId,
                            @RequestParam("storeName") String storeName,
+                           @RequestParam("storeAvatar") MultipartFile avatar,
                            @RequestParam("storeDescription") String storeDescription,
                            @RequestParam("storeStatus") String storeStatus,
                            @RequestParam("storeImage") MultipartFile storeImage,
@@ -47,7 +48,7 @@ public class ShopVendorController {
             redirectAttributes.addFlashAttribute("error", "Không tìm thấy thông tin cửa hàng.");
             return "redirect:/user/storedetail/" + storeId;
         }
-
+        
         store.setName(storeName);
         store.setBio(storeDescription);
         store.setIsactive("active".equalsIgnoreCase(storeStatus));
@@ -58,6 +59,16 @@ public class ShopVendorController {
                 store.setFeaturedimages(imageUrl);
             } catch (Exception e) {
                 redirectAttributes.addFlashAttribute("error", "Không thể upload ảnh: " + e.getMessage());
+                return "redirect:/user/storedetail/" + storeId;
+            }
+        }
+
+        if (avatar != null && !avatar.isEmpty()) {
+            try {
+                String avatarUrl = cloudinaryService.uploadFile(avatar);
+                store.setAvatar(avatarUrl);
+            } catch (Exception e) {
+                redirectAttributes.addFlashAttribute("error", "Không thể upload ảnh đại diện: " + e.getMessage());
                 return "redirect:/user/storedetail/" + storeId;
             }
         }
