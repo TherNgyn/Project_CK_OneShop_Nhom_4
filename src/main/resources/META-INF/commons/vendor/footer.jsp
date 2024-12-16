@@ -13,7 +13,7 @@
 	                            0942782355</a>
 	                        <a class="action" href="mailto:example@gmail.com"><i class="far fa-envelope"></i>
 	                           oneshop@gmail.com</a>
-	                        <p><i class="fal fa-map-marker-alt"></i> San Francisco City Hall, San Francisco, CA</p>
+	                        <p><i class="fal fa-map-marker-alt"></i>Số 1 Võ Văn Ngân, Thủ Đức, TP.HCM</p>
 	                        <ul class="wsus__footer_social">
 	                            <li><a class="facebook" href="#"><i class="fab fa-facebook-f"></i></a></li>
 	                            <li><a class="twitter" href="#"><i class="fab fa-twitter"></i></a></li>

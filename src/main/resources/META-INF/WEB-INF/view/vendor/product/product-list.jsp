@@ -133,25 +133,31 @@
                                                                 <c:if test="${!product.isSelling}">Ngừng bán</c:if>
                                                             </td>
                                                             <td>${product.description}</td>
-                                                            <td><img src="${product.imageUrls[0]}" alt="${product.name}" class="img-fluid w-100 img_1" /></td>
-                                                            <td>
-                                                                <c:if test="${product.imageUrls.size() > 1}">
-                                                                    <img src="${product.imageUrls[1]}" alt="${product.name}" class="img-fluid w-100 img_2" />
-                                                                </c:if>
-                                                            </td>
-                                                            <td>
-                                                                <div class="margin-bottom-5">
-                                                                    <a href="/vendor/manageproduct/update/${product.id}" class="btn btn-sm yellow filter-submit margin-bottom">
-                                                                        <i class="fa fa-search"></i> Cập nhật
-                                                                    </a>
-                                                                    <a href="/vendor/manageproduct/delete/${product.id}">
-                                                                        <button class="btn btn-sm red filter-cancel">
-                                                                            <i class="fa fa-times"></i> Xóa
-                                                                        </button>
-                                                                    </a>
-                                                                </div>
-                                                            </td>
-                                                        </tr>
+															<td><c:forEach var="image" items="${product.images}">
+																	<c:if test="${image.isMain}">
+																		<img src="${image.imageUrl}" alt="${product.name}"
+																			class="img-fluid w-100 img_1" />
+																	</c:if>
+																</c:forEach></td>
+															<td><c:forEach var="image" items="${product.images}">
+																	<c:if test="${!image.isMain}">
+																		<img src="${image.imageUrl}" alt="${product.name}"
+																			class="img-fluid w-100 img_2" />
+																	</c:if>
+																</c:forEach></td>
+															<td>
+																<div class="margin-bottom-5">
+																	<a href="/vendor/manageproduct/update/${product.id}"
+																		class="btn btn-sm yellow filter-submit margin-bottom">
+																		<i class="fa fa-search"></i> Cập nhật
+																	</a> <a href="/vendor/manageproduct/delete/${product.id}">
+																		<button class="btn btn-sm red filter-cancel">
+																			<i class="fa fa-times"></i> Xóa
+																		</button>
+																	</a>
+																</div>
+															</td>
+														</tr>
                                                     </c:forEach>
                                                 </tbody>
                                             </table>
