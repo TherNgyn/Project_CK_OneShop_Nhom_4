@@ -476,7 +476,7 @@ public class ProductServiceImpl implements IProductService {
 	@Override
 	public Page<Product> findByStoreAndStatus(Store store, Boolean status, Pageable pageable) {
 		
-		return productRepository.findByStoreAndStatus(store, status, pageable);
+		return productRepository.findByStoreAndIsSelling(store, status, pageable);
 	}
    
 }
